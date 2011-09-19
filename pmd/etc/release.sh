@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage() {
-    echo "$(basename ${0}) [-v version-number] [-d] [-s]"
+    echo "$(basename ${0}) [-v version-number] [-d] [-s] [-S]"
     echo ""
     echo "-v override the release's version number provided in pom.xml"
     echo "-d no docs generation"
