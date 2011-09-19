@@ -26,8 +26,8 @@ make_tree_structure() {
     local root_dir="${1}"
 
     mkdir -p "${root_dir}/etc"
-    mkdir "${root_dir}/bin"
-    mkdir "${root_dir}/lib"
+    mkdir -p "${root_dir}/bin"
+    mkdir -p "${root_dir}/lib"
 }
 
 while getopts v:dsh OPT; do
