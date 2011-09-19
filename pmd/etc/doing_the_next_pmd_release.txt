@@ -37,7 +37,8 @@ TESTS: Can you
 2) run the Ant 'pmd' task and get a report
 ant -f bin/build.xml pmd
 
-run "./release.sh <version>" in etc
+cd into etc/ and run the release script:
+$ ./release.sh
 
 It will run:
 
@@ -46,16 +47,12 @@ It will run:
 
 	generate the binary zip file
 
-	svn tag if "yes" is pressed
+	tag svn (unless -s if used)
 
 	generate the source zip file
 
-if you see a bug and fix it, you can delete the release using:
-
+Note: if you see a bug and fix it, you can delete the release using (and the retag it):
 $ svn delete https://pmd.svn.sourceforge.net/svnroot/pmd/tags/pmd/pmd_release_<version>
-
-and then retag it
-
 
 Go to Admin, File Releases, Add release
 Paste stuff into the changelog/readme boxes
