@@ -30,7 +30,7 @@ make_tree_structure() {
     mkdir -p "${root_dir}/lib"
 }
 
-while getopts v:dsh OPT; do
+while getopts v:dSsh OPT; do
     case "$OPT" in
 	    h)
             usage
