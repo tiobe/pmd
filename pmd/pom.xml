@@ -4,7 +4,7 @@
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd</artifactId>
     <name>PMD</name>
-    <version>5.0-alpha</version>
+    <version>5.0-alpha-1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -220,9 +220,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:svn:https://pmd.svn.sourceforge.net/svnroot/pmd/tags/pmd/pmd_release_5_0_alpha</connection>
-        <developerConnection>scm:svn:https://pmd.svn.sourceforge.net/svnroot/pmd/tags/pmd/pmd_release_5_0_alpha</developerConnection>
-        <url>https://pmd.svn.sourceforge.net/svnroot/pmd/tags/pmd/pmd_release_5_0_alpha</url>
+        <connection>scm:svn:https://pmd.svn.sourceforge.net/svnroot/pmd/branches/pmd/5.0-alpha</connection>
+        <developerConnection>scm:svn:https://pmd.svn.sourceforge.net/svnroot/pmd/branches/pmd/5.0-alpha</developerConnection>
+        <url>https://pmd.svn.sourceforge.net/svnroot/pmd/branches/pmd/5.0-alpha</url>
     </scm>
     <organization>
         <name>InfoEther</name>
