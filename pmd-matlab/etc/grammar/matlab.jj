@@ -40,6 +40,8 @@ PARSER_END(MatlabParser)
 |
   "\n" : DEFAULT
 |
+  "\f" : DEFAULT
+|
   "%{"  : IN_COMMENT
 |
   "%" : IN_LINE_COMMENT
