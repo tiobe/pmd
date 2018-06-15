@@ -158,4 +158,21 @@ public class EcmascriptTokenizerTest {
                 + "      </g>`";
         assertEquals(templateString, tokens.getTokens().get(24).toString());
     }
+
+    @Test
+    public void testDecorators() throws IOException {
+        Tokenizer t = new EcmascriptTokenizer();
+        SourceCode sourceCode = new SourceCode(new SourceCode.StringCodeLoader("// A simple decorator" + PMD.EOL
+                + "@annotation" + PMD.EOL
+                + "class MyClass { }" + PMD.EOL
+                + "" + PMD.EOL
+                + "function annotation(target) {" + PMD.EOL
+                + "   // Add a property on target" + PMD.EOL
+                + "   target.annotated = true;" + PMD.EOL
+                + "}" + PMD.EOL
+        ));
+        final Tokens tokens = new Tokens();
+        t.tokenize(sourceCode, tokens);
+        assertEquals("@annotation", tokens.getTokens().get(0).toString());
+    }
 }
