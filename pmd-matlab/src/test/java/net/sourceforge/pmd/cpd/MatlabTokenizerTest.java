@@ -53,4 +53,15 @@ public class MatlabTokenizerTest extends AbstractTokenizerTest {
         TokenEntry.getEOF();
         assertEquals(2, tokens.size()); // 2 tokens: "end" + EOF
     }
+
+    @Test
+    public void testFormfeed() throws IOException {
+        SourceCode sourceCode = new SourceCode(new SourceCode.StringCodeLoader("\f" + PMD.EOL
+                + "test = 3;" + PMD.EOL
+        ));
+        Tokens tokens = new Tokens();
+        tokenizer.tokenize(sourceCode, tokens); // should not result in parse error
+        TokenEntry.getEOF();
+        assertEquals(5, tokens.size()); // 5 tokens: "test", "=", "3", ";", "EOF"
+    }
 }
