@@ -39,6 +39,8 @@ PARSER_END(MatlabParser)
   "\r\n" : DEFAULT
 |
   "\n" : DEFAULT
+|
+  "\f" : DEFAULT
 }
 
 MORE:
