@@ -19,12 +19,16 @@ import net.sourceforge.pmd.lang.java.ast.ASTThrowStatement;
 import net.sourceforge.pmd.lang.java.ast.ASTWhileStatement;
 import net.sourceforge.pmd.lang.java.ast.JavaParserControllessVisitorAdapter;
 
+
 /**
  * Visitor calculating cyclo without counting boolean operators.
+ *
+ * @deprecated Visitor decorators are deprecated because they lead to fragile code.
  *
  * @author Clément Fournier
  * @see net.sourceforge.pmd.lang.java.metrics.impl.CycloMetric
  */
+@Deprecated
 public class CycloBaseVisitor extends JavaParserControllessVisitorAdapter {
 
     /** Instance. */
@@ -55,10 +59,8 @@ public class CycloBaseVisitor extends JavaParserControllessVisitorAdapter {
 
     @Override
     public Object visit(ASTConditionalExpression node, Object data) {
-        if (node.isTernary()) {
-            ((MutableInt) data).increment();
-            super.visit(node, data);
-        }
+        ((MutableInt) data).increment();
+        super.visit(node, data);
         return data;
     }
 

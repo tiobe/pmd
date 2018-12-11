@@ -7,17 +7,17 @@ package net.sourceforge.pmd.lang.java.typeresolution.typedefinition;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.ArrayUtils;
 
 
 public abstract class JavaTypeDefinition implements TypeDefinition {
     // contains non-generic and raw EXACT types
-    private static final Map<Class<?>, JavaTypeDefinition> CLASS_EXACT_TYPE_DEF_CACHE = new HashMap<>();
+    private static final Map<Class<?>, JavaTypeDefinition> CLASS_EXACT_TYPE_DEF_CACHE = new ConcurrentHashMap<>();
 
     private final TypeDefinitionType definitionType;
 
@@ -167,8 +167,8 @@ public abstract class JavaTypeDefinition implements TypeDefinition {
      * @param numDimensions Number of dimensions added to this type in
      *                      the resulting array type
      *
-     * @throws IllegalArgumentException if numDimensions < 0
      * @return A new type definition, or this if numDimensions == 0
+     * @throws IllegalArgumentException if numDimensions &lt; 0
      */
     // @formatter:on
     public abstract JavaTypeDefinition withDimensions(int numDimensions);

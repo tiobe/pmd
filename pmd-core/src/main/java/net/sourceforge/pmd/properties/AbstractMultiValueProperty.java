@@ -23,6 +23,7 @@ import net.sourceforge.pmd.Rule;
  * @author Clément Fournier
  * @version 6.0.0
  */
+@Deprecated
 /* default */ abstract class AbstractMultiValueProperty<V> extends AbstractProperty<List<V>>
         implements MultiValuePropertyDescriptor<V> {
 
@@ -119,6 +120,7 @@ import net.sourceforge.pmd.Rule;
      *
      * @return A string representation of the default value.
      */
+    @Override
     protected String defaultAsString() {
         return asDelimitedString(defaultValue(), multiValueDelimiter());
     }

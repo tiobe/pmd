@@ -4,6 +4,8 @@
 
 package net.sourceforge.pmd.lang.java.rule.codestyle;
 
+import static net.sourceforge.pmd.properties.PropertyFactory.booleanProperty;
+
 import net.sourceforge.pmd.lang.ast.Node;
 import net.sourceforge.pmd.lang.java.ast.ASTConditionalAndExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTConditionalExpression;
@@ -15,14 +17,15 @@ import net.sourceforge.pmd.lang.java.ast.ASTPrimaryExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTPrimaryPrefix;
 import net.sourceforge.pmd.lang.java.ast.ASTUnaryExpressionNotPlusMinus;
 import net.sourceforge.pmd.lang.java.rule.AbstractJavaRule;
-import net.sourceforge.pmd.properties.BooleanProperty;
+import net.sourceforge.pmd.properties.PropertyDescriptor;
+
 
 /**
  * <code>if (x != y) { diff(); } else { same(); }</code> and<br>
  * <code>(!x ? diff() : same());</code>
- * 
+ *
  * <p>XPath can handle the easy cases, e.g.:</p>
- * 
+ *
  * <pre>
  *    //IfStatement[
  *      Statement[2]
@@ -30,18 +33,18 @@ import net.sourceforge.pmd.properties.BooleanProperty;
  *        EqualityExpression[@Image="!="] or
  *        UnaryExpressionNotPlusMinus[@Image="!"]]]
  * </pre>
- * 
+ *
  * <p>But "&amp;&amp;" and "||" are difficult, since we need a match for <i>all</i>
  * children instead of just one. This can be done by using a double-negative,
  * e.g.:</p>
- * 
+ *
  * <pre>
  *    not(*[not(<i>matchme</i>)])
  * </pre>
- * 
+ *
  * <p>Still, XPath is unable to handle arbitrarily nested cases, since it lacks
  * recursion, e.g.:</p>
- * 
+ *
  * <pre>
  * if (((x != !y)) || !(x)) {
  *     diff();
@@ -51,14 +54,14 @@ import net.sourceforge.pmd.properties.BooleanProperty;
  * </pre>
  */
 public class ConfusingTernaryRule extends AbstractJavaRule {
-    private static BooleanProperty ignoreElseIfProperty = new BooleanProperty("ignoreElseIf",
-            "Ignore conditions with an else-if case", Boolean.FALSE, 0);
+    private static PropertyDescriptor<Boolean> ignoreElseIfProperty = booleanProperty("ignoreElseIf").desc("Ignore conditions with an else-if case").defaultValue(false).build();
 
     public ConfusingTernaryRule() {
         super();
         definePropertyDescriptor(ignoreElseIfProperty);
     }
 
+    @Override
     public Object visit(ASTIfStatement node, Object data) {
         // look for "if (match) ..; else .."
         if (node.jjtGetNumChildren() == 3) {
@@ -78,6 +81,7 @@ public class ConfusingTernaryRule extends AbstractJavaRule {
         return super.visit(node, data);
     }
 
+    @Override
     public Object visit(ASTConditionalExpression node, Object data) {
         // look for "match ? .. : .."
         if (node.jjtGetNumChildren() > 0) {

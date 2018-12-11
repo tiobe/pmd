@@ -4,8 +4,10 @@
 
 package net.sourceforge.pmd.lang.java.rule.design;
 
-import java.util.Collections;
+import static net.sourceforge.pmd.properties.constraints.NumericConstraints.positive;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -20,8 +22,9 @@ import net.sourceforge.pmd.lang.java.metrics.impl.NcssMetric.NcssOption;
 import net.sourceforge.pmd.lang.java.rule.AbstractJavaMetricsRule;
 import net.sourceforge.pmd.lang.metrics.MetricOptions;
 import net.sourceforge.pmd.lang.metrics.ResultOption;
-import net.sourceforge.pmd.properties.EnumeratedMultiProperty;
-import net.sourceforge.pmd.properties.IntegerProperty;
+import net.sourceforge.pmd.properties.PropertyDescriptor;
+import net.sourceforge.pmd.properties.PropertyFactory;
+
 
 /**
  * Simple rule for Ncss. Maybe to be enriched with type specific thresholds.
@@ -31,11 +34,19 @@ import net.sourceforge.pmd.properties.IntegerProperty;
 public final class NcssCountRule extends AbstractJavaMetricsRule {
 
 
-    private static final IntegerProperty METHOD_REPORT_LEVEL_DESCRIPTOR = new IntegerProperty(
-        "methodReportLevel", "Metric reporting threshold for methods", 1, 60, 12, 1.0f);
+    private static final PropertyDescriptor<Integer> METHOD_REPORT_LEVEL_DESCRIPTOR =
+            PropertyFactory.intProperty("methodReportLevel")
+                           .desc("NCSS reporting threshold for methods")
+                           .require(positive())
+                           .defaultValue(60)
+                           .build();
 
-    private static final IntegerProperty CLASS_REPORT_LEVEL_DESCRIPTOR = new IntegerProperty(
-        "classReportLevel", "Metric reporting threshold for classes", 1, 1000, 250, 1.0f);
+    private static final PropertyDescriptor<Integer> CLASS_REPORT_LEVEL_DESCRIPTOR =
+            PropertyFactory.intProperty("classReportLevel")
+                           .desc("NCSS reporting threshold for classes")
+                           .require(positive())
+                           .defaultValue(1500)
+                           .build();
 
     private static final Map<String, NcssOption> OPTION_MAP;
 
@@ -46,9 +57,11 @@ public final class NcssCountRule extends AbstractJavaMetricsRule {
     }
 
 
-    private static final EnumeratedMultiProperty<NcssOption> NCSS_OPTIONS_DESCRIPTOR = new EnumeratedMultiProperty<>(
-        "ncssOptions", "Choose options for the calculation of Ncss",
-        OPTION_MAP, Collections.<NcssOption>emptyList(), NcssOption.class, 3.0f);
+    private static final PropertyDescriptor<List<NcssOption>> NCSS_OPTIONS_DESCRIPTOR =
+            PropertyFactory.enumListProperty("ncssOptions", OPTION_MAP)
+                           .desc("Choose options for the computation of Ncss")
+                           .emptyDefaultValue()
+                           .build();
 
 
     private int methodReportLevel;

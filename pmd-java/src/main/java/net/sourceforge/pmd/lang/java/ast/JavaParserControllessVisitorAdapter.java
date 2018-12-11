@@ -10,12 +10,15 @@ package net.sourceforge.pmd.lang.java.ast;
  *
  * @author Clément Fournier
  * @since 6.0.0
+ *
+ * @deprecated Visitor decorators are deprecated because they lead to fragile code.
  */
+@Deprecated
 public class JavaParserControllessVisitorAdapter extends JavaParserVisitorAdapter implements JavaParserControllessVisitor {
 
     @Override
     public Object visit(JavaNode node, Object data) {
         return data;
     }
-    
+
 }

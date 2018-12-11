@@ -4,6 +4,8 @@
 
 package net.sourceforge.pmd.lang.java.rule.codestyle;
 
+import static net.sourceforge.pmd.properties.PropertyFactory.booleanProperty;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -19,10 +21,10 @@ import net.sourceforge.pmd.lang.java.ast.ASTMethodDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclarator;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclaratorId;
 import net.sourceforge.pmd.lang.java.rule.AbstractJavaRule;
-import net.sourceforge.pmd.properties.BooleanProperty;
 import net.sourceforge.pmd.properties.PropertyDescriptor;
 import net.sourceforge.pmd.properties.StringMultiProperty;
 
+@Deprecated
 public class VariableNamingConventionsRule extends AbstractJavaRule {
 
     private boolean checkMembers;
@@ -38,18 +40,15 @@ public class VariableNamingConventionsRule extends AbstractJavaRule {
     private List<String> parameterPrefixes;
     private List<String> parameterSuffixes;
 
-    private static final BooleanProperty CHECK_MEMBERS_DESCRIPTOR = new BooleanProperty("checkMembers",
-            "Check member variables", true, 1.0f);
+    private static final PropertyDescriptor<Boolean> CHECK_MEMBERS_DESCRIPTOR = booleanProperty("checkMembers").defaultValue(true).desc("Check member variables").build();
 
-    private static final BooleanProperty CHECK_LOCALS_DESCRIPTOR = new BooleanProperty("checkLocals",
-            "Check local variables", true, 2.0f);
+    private static final PropertyDescriptor<Boolean> CHECK_LOCALS_DESCRIPTOR = booleanProperty("checkLocals").defaultValue(true).desc("Check local variables").build();
 
-    private static final BooleanProperty CHECK_PARAMETERS_DESCRIPTOR = new BooleanProperty("checkParameters",
-            "Check constructor and method parameter variables", true, 3.0f);
+    private static final PropertyDescriptor<Boolean> CHECK_PARAMETERS_DESCRIPTOR = booleanProperty("checkParameters").defaultValue(true).desc("Check constructor and method parameter variables").build();
 
-    private static final BooleanProperty CHECK_NATIVE_METHOD_PARAMETERS_DESCRIPTOR = new BooleanProperty(
-            "checkNativeMethodParameters", "Check method parameter of native methods", true, 3.5f);
+    private static final PropertyDescriptor<Boolean> CHECK_NATIVE_METHOD_PARAMETERS_DESCRIPTOR = booleanProperty("checkNativeMethodParameters").defaultValue(true).desc("Check method parameter of native methods").build();
 
+    // the rule is deprecated and will be removed so its properties won't be converted
     private static final StringMultiProperty STATIC_PREFIXES_DESCRIPTOR = new StringMultiProperty("staticPrefix",
             "Static variable prefixes", new String[] { "" }, 4.0f, ',');
 
@@ -89,6 +88,7 @@ public class VariableNamingConventionsRule extends AbstractJavaRule {
         definePropertyDescriptor(PARAMETER_SUFFIXES_DESCRIPTOR);
     }
 
+    @Override
     public Object visit(ASTCompilationUnit node, Object data) {
         init();
         return super.visit(node, data);
@@ -109,6 +109,7 @@ public class VariableNamingConventionsRule extends AbstractJavaRule {
         parameterSuffixes = getProperty(PARAMETER_SUFFIXES_DESCRIPTOR);
     }
 
+    @Override
     public Object visit(ASTFieldDeclaration node, Object data) {
         if (!checkMembers) {
             return data;
@@ -128,6 +129,7 @@ public class VariableNamingConventionsRule extends AbstractJavaRule {
                 isStatic ? staticSuffixes : memberSuffixes, node, isStatic, isFinal, data);
     }
 
+    @Override
     public Object visit(ASTLocalVariableDeclaration node, Object data) {
         if (!checkLocals) {
             return data;
@@ -135,6 +137,7 @@ public class VariableNamingConventionsRule extends AbstractJavaRule {
         return checkVariableDeclarators(localPrefixes, localSuffixes, node, false, node.isFinal(), data);
     }
 
+    @Override
     public Object visit(ASTFormalParameters node, Object data) {
         if (!checkParameters) {
             return data;
@@ -241,6 +244,7 @@ public class VariableNamingConventionsRule extends AbstractJavaRule {
         return false;
     }
 
+    @Override
     public String dysfunctionReason() {
         return hasPrefixesOrSuffixes() ? null : "No prefixes or suffixes specified";
     }

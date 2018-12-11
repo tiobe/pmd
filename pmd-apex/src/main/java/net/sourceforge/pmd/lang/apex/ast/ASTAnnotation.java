@@ -18,6 +18,7 @@ public class ASTAnnotation extends AbstractApexNode<Annotation> {
         super(annotation);
     }
 
+    @Override
     public Object jjtAccept(ApexParserVisitor visitor, Object data) {
         return visitor.visit(this, data);
     }
@@ -35,7 +36,7 @@ public class ASTAnnotation extends AbstractApexNode<Annotation> {
                 String image = param.getImage();
 
                 if (image != null) {
-                    Set<String> paramValues = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+                    Set<String> paramValues = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
                     paramValues.addAll(Arrays.asList(image.replaceAll("\\s+", "").split(",")));
                     if (paramValues.contains("PMD") || paramValues.contains(ruleAnno) || paramValues.contains("all")) {
                         return true;

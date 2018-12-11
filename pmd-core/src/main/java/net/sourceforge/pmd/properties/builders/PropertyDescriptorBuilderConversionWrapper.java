@@ -26,9 +26,11 @@ import net.sourceforge.pmd.properties.ValueParserConstants;
  * @param <E> Value type of the descriptor
  * @param <T> Concrete type of the underlying builder
  *
+ * @deprecated This was not public API and will be removed by 7.0.0
  * @author Clément Fournier
  * @since 6.0.0
  */
+@Deprecated
 public abstract class PropertyDescriptorBuilderConversionWrapper<E, T extends PropertyDescriptorBuilder<E, T>>
     implements PropertyDescriptorExternalBuilder<E> {
 
@@ -49,9 +51,11 @@ public abstract class PropertyDescriptorBuilderConversionWrapper<E, T extends Pr
     }
 
 
+    @Override
     public abstract boolean isMultiValue();
 
 
+    @Override
     public Class<?> valueType() {
         return valueType;
     }

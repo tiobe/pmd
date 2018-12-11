@@ -4,6 +4,7 @@
 
 package net.sourceforge.pmd.lang.ast.xpath.saxon;
 
+import net.sourceforge.pmd.annotation.InternalApi;
 import net.sourceforge.pmd.lang.ast.xpath.Attribute;
 import net.sourceforge.pmd.lang.rule.xpath.SaxonXPathRuleQuery;
 
@@ -15,12 +16,22 @@ import net.sf.saxon.value.Value;
 
 /**
  * A Saxon OM Attribute node for an AST Node Attribute.
+ * Belongs to an {@link ElementNode}, and wraps an
+ * {@link Attribute}.
  */
+@Deprecated
+@InternalApi
 public class AttributeNode extends AbstractNodeInfo {
     protected final Attribute attribute;
     protected final int id;
     protected Value value;
 
+
+    /**
+     * Creates a new AttributeNode from a PMD Attribute.
+     *
+     * @param id The index within the attribute order
+     */
     public AttributeNode(Attribute attribute, int id) {
         this.attribute = attribute;
         this.id = id;
