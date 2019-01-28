@@ -5,8 +5,10 @@
 package net.sourceforge.pmd.lang.plsql.ast;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 import net.sourceforge.pmd.lang.plsql.AbstractPLSQLParserTst;
@@ -18,6 +20,11 @@ public class WhereClauseTest extends AbstractPLSQLParserTst {
         String code = IOUtils.toString(this.getClass().getResourceAsStream("WhereClauseFunctionCall.pls"),
                 StandardCharsets.UTF_8);
         ASTInput input = parsePLSQL(code);
+        List<ASTSelectIntoStatement> selectStatements = input.findDescendantsOfType(ASTSelectIntoStatement.class);
+        Assert.assertEquals(3, selectStatements.size());
+
+        ASTFunctionCall functionCall = selectStatements.get(2).getFirstDescendantOfType(ASTFunctionCall.class);
+        Assert.assertEquals("utils.get_colname", functionCall.getImage());
     }
 
     @Test
@@ -51,6 +58,13 @@ public class WhereClauseTest extends AbstractPLSQLParserTst {
     @Test
     public void testIsOfTypeCondition() throws Exception {
         String code = IOUtils.toString(this.getClass().getResourceAsStream("WhereClauseIsOfType.pls"),
+                StandardCharsets.UTF_8);
+        ASTInput input = parsePLSQL(code);
+    }
+
+    @Test
+    public void testConcatenationOperator() throws Exception {
+        String code = IOUtils.toString(this.getClass().getResourceAsStream("WhereClauseConcatenation.pls"),
                 StandardCharsets.UTF_8);
         ASTInput input = parsePLSQL(code);
     }
