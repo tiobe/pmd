@@ -16,96 +16,142 @@ This is a {{ site.pmd.release_type }} release.
 
 #### Call For Logo
 
-PMD’s logo was great for a long time. But now we want to take the opportunity with the next major release to change
-our logo in order to use a more "politically correct" one.
+We are still searching for a new logo for PMD for the next major release.
 
 Learn more about how to participate on [github issue 1663](https://github.com/pmd/pmd/issues/1663).
 
-#### CPD Suppression for Antlr-based languages
+#### Java 12 Support
 
-[ITBA](https://www.itba.edu.ar/) students [Matías Fraga](https://github.com/matifraga),
-[Tomi De Lucca](https://github.com/tomidelucca) and [Lucas Soncini](https://github.com/lsoncini)
-keep working on bringing full Antlr support to PMD. For this release, they have implemented
-token filtering in an equivalent way as we did for JavaCC languages, adding support for CPD
-suppressions through `CPD-OFF` and `CPD-ON` comments for all Antlr-based languages.
+This release of PMD brings support for Java 12. PMD can parse the new [Switch Expressions](http://openjdk.java.net/jeps/325)
+and resolve the type of such an expression.
 
-This means, you can now ignore arbitrary blocks of code on:
-* Go
-* Kotlin
-* Swift
+Note: The Switch Expressions are a preview language feature of OpenJDK 12 and are not enabled by default. In order to
+analyze a project with PMD that uses these language features, you'll need to enable it via the new environment
+variable `PMD_JAVA_OPTS`:
 
-Simply start the suppression with any comment (single or multiline) containing `CPD-OFF`,
-and resume again with a comment containing `CPD-ON`.
+    export PMD_JAVA_OPTS=--enable-preview
+    ./run.sh pmd ...
 
-More information is available in [the user documentation](pmd_userdocs_cpd.html#suppression).
+#### Quickstart Ruleset for Apex
 
-#### PL/SQL Grammar improvements
+PMD provides now a quickstart ruleset for Salesforce.com Apex, which you can use as a base ruleset to
+get your custom ruleset started. You can reference it with `rulesets/apex/quickstart.xml`.
+You are strongly encouraged to [create your own ruleset](https://pmd.github.io/pmd-6.12.0/pmd_userdocs_making_rulesets.html)
+though.
 
-*   In this release, many more parser bugs in our PL/SQL support have been fixed. This adds more complete
-    support for UPDATE statements and subqueries and hierarchical queries in SELECT statements.
-*   Support for analytic functions such as LISTAGG has been added.
-*   Conditions in WHERE clauses support now REGEX_LIKE and multiset conditions.
+The quickstart ruleset has the intention, to be useful out-of-the-box for many projects. Therefore it
+references only rules, that are most likely to apply everywhere.
+
+Any feedback would be greatly appreciated.
+
+#### PMD Designer
+
+The rule designer's codebase has been moved out of the main repository and
+will be developed at [pmd/pmd-designer](https://github.com/pmd/pmd-designer)
+from now on. The maven coordinates will stay the same for the time being.
+The designer will still be shipped with PMD's binaries.
+
+#### Improved Apex Support
+
+*   Many AST nodes now expose more information which makes it easier to write XPath-based rules for Apex. Here are
+    some examples:
+    *   `Annotation[@Resolved = false()]` finds unsupported annotations.
+    *   `AnnotationParameter[@Name='RestResource'][@Value='/myurl']` gives access to
+        annotation parameters.
+    *   `CatchBlockStatement[@ExceptionType='Exception'][@VariableName='e']` finds catch
+        block for specific exception types.
+    *   `Field[@Type='String']` find all String fields, `Field[string-length(@Name) < 5]`
+        finds all fields with short names and `Field[@Value='a']` find alls fields, that are
+        initialized with a specific value.
+    *   `LiteralExpression[@String = true()]` finds all String literals. There are attributes
+        for each type: `@Boolean`, `@Integer`, `@Double`, `@Long`, `@Decimal`, `@Null`.
+    *   `Method[@Constructor = true()]` selects all constructors. `Method[@ReturnType = 'String']`
+        selects all methods that return a String.
+    *   The `ModifierNode` node has a couple of attributes to check for the existence of specific
+        modifiers: `@Test`, `@TestOrTestSetup`, `@WithSharing`, `@WithoutSharing`, `@InheritedSharing`,
+        `@WebService`, `@Global`, `@Override`.
+    *   Many nodes now expose their type. E.g. with `Parameter[@Type='Integer']` you can find all
+        method parameters of type Integer. The same attribute `Type` exists as well for:
+        `NewObjectExpression`, `Property`, `VariableDeclaration`.
+    *   `VariableExpression[@Image='i']` finds all variable usages of the variable "i".
 
 #### New Rules
 
-*   The new Java rule {% rule "java/bestpractices/UseTryWithResources" %) (`java-bestpractices`) searches
-    for try-blocks, that could be changed to a try-with-resources statement. This statement ensures that
-    each resource is closed at the end of the statement and is available since Java 7.
+*   The new Java rule {% rule "java/design/AvoidUncheckedExceptionsInSignatures" %} (`java-design`) finds methods or constructors
+    that declare unchecked exceptions in their `throws` clause. This forces the caller to handle the exception,
+    even though it is a runtime exception.
 
-#### Modified Rules
+*   The new Java rule {% rule "java/errorprone/DetachedTestCase" %} (`java-errorprone`) searches for public
+    methods in test classes, which are not annotated with `@Test`. These methods might be test cases where
+    the annotation has been forgotten. Because of that those test cases are never executed.
 
-*   The Apex rule {% rule "apex/codestyle/MethodNamingConventions" %} (apex-codestyle) has a new
-    property `skipTestMethodUnderscores`, which is by default disabled. The new property allows for ignoring
-    all test methods, either using the `testMethod` modifier or simply annotating them `@isTest`.
+*   The new Java rule {% rule "java/bestpractices/WhileLoopWithLiteralBoolean" %} (`java-bestpractices`) finds
+    Do-While-Loops and While-Loops that can be simplified since they use simply `true` or `false` as their
+    loop condition.
+
+*   The new Apex rule {% rule "apex/bestpractices/ApexAssertionsShouldIncludeMessage" %} (`apex-bestpractices`)
+    searches for assertions in unit tests and checks, whether they use a message argument.
+
+*   The new Apex rule {% rule "apex/bestpractices/ApexUnitTestMethodShouldHaveIsTestAnnotation" %} (`apex-bestpractices`)
+    searches for methods in test classes, which are missing the `@IsTest` annotation.
+
+*   The new PLSQL rule {% rule "plsql/codestyle/AvoidTabCharacter" %} (`plsql-codestyle`) checks, that there are
+    no tab characters ("\t") in the source file.
+
+*   The new PLSQL rule {% rule "plsql/codestyle/LineLength" %} (`plsql-codestyle`) helps to enforce a maximum
+    line length.
 
 ### Fixed Issues
 
-*   all
-    *   [#1462](https://github.com/pmd/pmd/issues/1462): \[core] Failed build on Windows with source zip archive
-    *   [#1559](https://github.com/pmd/pmd/issues/1559): \[core] CPD: Lexical error in file (no file name provided)
-    *   [#1671](https://github.com/pmd/pmd/issues/1671): \[doc] Wrong escaping in suppressing warnings for nopmd-comment
-    *   [#1693](https://github.com/pmd/pmd/pull/1693): \[ui] Improved error reporting for the designer
+*   doc
+    *   [#1721](https://github.com/pmd/pmd/issues/1721): \[doc] Documentation provides an invalid property configuration example
+*   java
+    *   [#1537](https://github.com/pmd/pmd/issues/1537): \[java] Java 12 support
 *   java-bestpractices
-    *   [#808](https://github.com/pmd/pmd/issues/808): \[java] AccessorMethodGeneration false positives with compile time constants
-    *   [#1405](https://github.com/pmd/pmd/issues/1405): \[java] New Rule: UseTryWithResources - Replace close and IOUtils.closeQuietly with try-with-resources
-    *   [#1555](https://github.com/pmd/pmd/issues/1555): \[java] UnusedImports false positive for method parameter type in @see Javadoc
+    *   [#1701](https://github.com/pmd/pmd/issues/1701): \[java] UseTryWithResources does not handle multiple argument close methods
 *   java-codestyle
-    *   [#1543](https://github.com/pmd/pmd/issues/1543): \[java] LinguisticNaming should ignore overriden methods
-    *   [#1547](https://github.com/pmd/pmd/issues/1547): \[java] AtLeastOneConstructorRule: false-positive with lombok.AllArgsConstructor
-    *   [#1624](https://github.com/pmd/pmd/issues/1624): \[java] UseDiamondOperator false positive with var initializer
-*   java-design
-    *   [#1641](https://github.com/pmd/pmd/issues/1641): \[java] False-positive with Lombok and inner classes
+    *   [#1527](https://github.com/pmd/pmd/issues/1527): \[java] UseUnderscoresInNumericLiterals false positive on floating point numbers
+    *   [#1674](https://github.com/pmd/pmd/issues/1674): \[java] documentation of CommentDefaultAccessModifier is wrong
 *   java-errorprone
-    *   [#780](https://github.com/pmd/pmd/issues/780): \[java] BeanMembersShouldSerializeRule does not recognize lombok accessors
-*   java-multithreading
-    *   [#1633](https://github.com/pmd/pmd/issues/1633): \[java] UnsynchronizedStaticFormatter reports commons lang FastDateFormat
-*   java-performance
-    *   [#1632](https://github.com/pmd/pmd/issues/1632): \[java] ConsecutiveLiteralAppends false positive over catch
+    *   [#1570](https://github.com/pmd/pmd/issues/1570): \[java] AvoidDuplicateLiterals warning about deprecated separator property when not used
 *   plsql
-    *   [#1587](https://github.com/pmd/pmd/issues/1587): \[plsql] ParseException with EXISTS
-    *   [#1589](https://github.com/pmd/pmd/issues/1589): \[plsql] ParseException with subqueries in WHERE clause
-    *   [#1590](https://github.com/pmd/pmd/issues/1590): \[plsql] ParseException when using hierarchical query clause
-    *   [#1656](https://github.com/pmd/pmd/issues/1656): \[plsql] ParseException with analytic functions, trim and subqueries
-*   designer
-    *   [#1679](https://github.com/pmd/pmd/issues/1679): \[ui] No default language version selected
+    *   [#1510](https://github.com/pmd/pmd/issues/1510): \[plsql] Support XMLTABLE functions
+    *   [#1716](https://github.com/pmd/pmd/issues/1716): \[plsql] Support access to whole plsql code
+    *   [#1731](https://github.com/pmd/pmd/issues/1731): \[pslql] ParseException when parsing ELSIF
+    *   [#1733](https://github.com/pmd/pmd/issues/1733): \[plsql] % not supported in "TestSearch%notfound"
+    *   [#1734](https://github.com/pmd/pmd/issues/1734): \[plsql] TooManyMethods false-negative
+    *   [#1735](https://github.com/pmd/pmd/issues/1735): \[plsql] False-negatives for TO_DATE_TO_CHAR, TO_DATEWithoutDateFormat, TO_TIMESTAMPWithoutDateFormat
 
 ### API Changes
 
+#### Command Line Interface
+
+The start scripts `run.sh`, `pmd.bat` and `cpd.bat` support the new environment variable `PMD_JAVA_OPTS`.
+This can be used to set arbitrary JVM options for running PMD, such as memory settings (e.g. `PMD_JAVA_OPTS=-Xmx512m`)
+or enable preview language features (e.g. `PMD_JAVA_OPTS=--enable-preview`).
+
+The previously available variables such as `OPTS` or `HEAPSIZE` are deprecated and will be removed with PMD 7.0.0.
+
+#### Deprecated API
+
+*   {% jdoc core::renderers.CodeClimateRule %} is deprecated in 7.0.0 because it was unused for 2 years and
+    created an unwanted dependency.
+    Properties "cc_categories", "cc_remediation_points_multiplier", "cc_block_highlighting" will also be removed.
+    See [#1702](https://github.com/pmd/pmd/pull/1702) for more.
+
+*   The Apex ruleset `rulesets/apex/ruleset.xml` has been deprecated and will be removed in 7.0.0. Please use the new
+    quickstart ruleset `rulesets/apex/quickstart.xml` instead.
+
 ### External Contributions
 
-*   [#1623](https://github.com/pmd/pmd/pull/1623): \[java] Fix lombok.AllArgsConstructor support - [Bobby Wertman](https://github.com/CasualSuperman)
-*   [#1625](https://github.com/pmd/pmd/pull/1625): \[java] UnusedImports false positive for method parameter type in @see Javadoc - [Shubham](https://github.com/Shubham-2k17)
-*   [#1628](https://github.com/pmd/pmd/pull/1628): \[java] LinguisticNaming should ignore overriden methods - [Shubham](https://github.com/Shubham-2k17)
-*   [#1634](https://github.com/pmd/pmd/pull/1634): \[java] BeanMembersShouldSerializeRule does not recognize lombok accessors - [Shubham](https://github.com/Shubham-2k17)
-*   [#1635](https://github.com/pmd/pmd/pull/1635): \[java] UnsynchronizedStaticFormatter reports commons lang FastDateFormat - [Shubham](https://github.com/Shubham-2k17)
-*   [#1637](https://github.com/pmd/pmd/pull/1637): \[java] Compile time constants initialized by literals avoided by AccessorMethodGenerationRule - [Shubham](https://github.com/Shubham-2k17)
-*   [#1640](https://github.com/pmd/pmd/pull/1640): \[java] Update instead of override classHasLombokAnnotation flag - [Phokham Nonava](https://github.com/fluxroot)
-*   [#1644](https://github.com/pmd/pmd/pull/1644): \[apex] Add property to allow apex test methods to contain underscores - [Tom](https://github.com/tomdaly)
-*   [#1645](https://github.com/pmd/pmd/pull/1645): \[java] ConsecutiveLiteralAppends false positive - [Shubham](https://github.com/Shubham-2k17)
-*   [#1646](https://github.com/pmd/pmd/pull/1646): \[java] UseDiamondOperator doesn't work with var - [Shubham](https://github.com/Shubham-2k17)
-*   [#1654](https://github.com/pmd/pmd/pull/1654): \[core] Antlr token filter - [Tomi De Lucca](https://github.com/tomidelucca)
-*   [#1655](https://github.com/pmd/pmd/pull/1655): \[kotlin] Kotlin tokenizer refactor - [Lucas Soncini](https://github.com/lsoncini)
-*   [#1686](https://github.com/pmd/pmd/pull/1686): \[doc] Replaced wrong escaping with ">" - [Himanshu Pandey](https://github.com/hpandeycodeit)
+*   [#1694](https://github.com/pmd/pmd/pull/1694): \[apex] New rules for test method and assert statements - [triandicAnt](https://github.com/triandicAnt)
+*   [#1697](https://github.com/pmd/pmd/pull/1697): \[doc] Update CPD documentation - [Matías Fraga](https://github.com/matifraga)
+*   [#1704](https://github.com/pmd/pmd/pull/1704): \[java] Added AvoidUncheckedExceptionsInSignatures Rule - [Bhanu Prakash Pamidi](https://github.com/pamidi99)
+*   [#1706](https://github.com/pmd/pmd/pull/1706): \[java] Add DetachedTestCase rule - [David Burström](https://github.com/davidburstromspotify)
+*   [#1709](https://github.com/pmd/pmd/pull/1709): \[java] Detect while loops with literal booleans conditions - [David Burström](https://github.com/davidburstromspotify)
+*   [#1717](https://github.com/pmd/pmd/pull/1717): \[java] Fix false positive in useTryWithResources when using a custom close method with multiple arguments - [Rishabh Jain](https://github.com/jainrish)
+*   [#1724](https://github.com/pmd/pmd/pull/1724): \[doc] Correct property override example - [Felix W. Dekker](https://github.com/FWDekker)
+*   [#1737](https://github.com/pmd/pmd/pull/1737): \[java] fix escaping of CommentDefaultAccessModifier documentation - [itaigilo](https://github.com/itaigilo)
 
 {% endtocmaker %}
 
