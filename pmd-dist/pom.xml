@@ -8,7 +8,7 @@
     <parent>
         <groupId>net.sourceforge.pmd</groupId>
         <artifactId>pmd</artifactId>
-        <version>6.13.0</version>
+        <version>6.14.0</version>
     </parent>
 
     <properties>
@@ -105,6 +105,11 @@
         <dependency>
             <groupId>net.sourceforge.pmd</groupId>
             <artifactId>pmd-cs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd-dart</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

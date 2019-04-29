@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd</artifactId>
-    <version>6.13.0</version>
+    <version>6.14.0</version>
     <packaging>pom</packaging>
     <name>PMD</name>
 
@@ -234,7 +234,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
         <connection>scm:git:git://github.com/pmd/pmd.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/pmd/pmd.git</developerConnection>
         <url>https://github.com/pmd/pmd</url>
-        <tag>pmd_releases/6.13.0</tag>
+        <tag>pmd_releases/6.14.0</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
@@ -266,12 +266,13 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
 
         <kotlin.compiler.jvmTarget>${maven.compiler.test.target}</kotlin.compiler.jvmTarget>
         <kotlin.version>1.2.61</kotlin.version>
+        <dokka.version>0.9.18</dokka.version>
 
 
         <javacc.version>5.0</javacc.version>
         <surefire.version>2.22.1</surefire.version>
         <checkstyle.version>3.0.0</checkstyle.version>
-        <pmd.plugin.version>3.11.0</pmd.plugin.version>
+        <pmd.plugin.version>3.12.0</pmd.plugin.version>
         <ant.version>1.10.1</ant.version>
         <javadoc.plugin.version>3.0.1</javadoc.plugin.version>
         <antlr.version>4.7</antlr.version>
@@ -284,7 +285,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
 
         <pmd.build-tools.version>2</pmd.build-tools.version>
 
-        <pmd-designer.version>6.12.0</pmd-designer.version>
+        <pmd-designer.version>6.14.0</pmd-designer.version>
     </properties>
 
     <build>
@@ -542,12 +543,12 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-core</artifactId>
-                            <version>6.12.0</version>
+                            <version>6.13.0</version>
                         </dependency>
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-java</artifactId>
-                            <version>6.12.0</version>
+                            <version>6.13.0</version>
                         </dependency>
                         <!-- This contains the dogfood ruleset -->
                         <dependency>
@@ -1009,6 +1010,11 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        <pluginRepository>
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </pluginRepository>
     </pluginRepositories>
 
     <profiles>
@@ -1130,6 +1136,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
         <module>pmd-core</module>
         <module>pmd-cpp</module>
         <module>pmd-cs</module>
+        <module>pmd-dart</module>
         <module>pmd-dist</module>
         <module>pmd-fortran</module>
         <module>pmd-go</module>
