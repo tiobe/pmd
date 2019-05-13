@@ -7,7 +7,10 @@ package net.sourceforge.pmd.cpd;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.junit.Test;
@@ -157,5 +160,14 @@ public class EcmascriptTokenizerTest {
                 + PMD.EOL
                 + "      </g>`";
         assertEquals(templateString, tokens.getTokens().get(24).toString());
+    }
+
+    @Test
+    public void testUnicodeJSX() throws IOException {
+        final Tokenizer t = new EcmascriptTokenizer();
+        final InputStream resourceAsStream = EcmascriptTokenizer.class.getResourceAsStream("/net/sourceforge/pmd/cpd/js/Login.js");
+        final SourceCode sourceCode = new SourceCode(new SourceCode.ReaderCodeLoader(new InputStreamReader(resourceAsStream), "UTF-8"));
+        final Tokens tokens = new Tokens();
+        t.tokenize(sourceCode, tokens); // should not result in error
     }
 }
