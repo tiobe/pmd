@@ -302,7 +302,7 @@ TOKEN :
         <ZWJ> 
   >
 |   
-  < #UNICODE_LETTER: /* Unicode categories: Lu, Ll, Lt, Lm, Lo, Ni */
+  < UNICODE_LETTER: /* Unicode categories: Lu, Ll, Lt, Lm, Lo, Ni */
         [
           "\u0041"-"\u005A",
           "\u0061"-"\u007A",
@@ -570,7 +570,7 @@ TOKEN :
 |
   < #UNICODE_ESCAPE_SEQUENCE: "\\" "u" <HEX_DIGIT> <HEX_DIGIT> <HEX_DIGIT> <HEX_DIGIT> >
 |   
-  < #UNICODE_COMBINING_MARK: /* Unicode categories: Mn, Mc */
+  < UNICODE_COMBINING_MARK: /* Unicode categories: Mn, Mc */
         [
           "\u0300"-"\u034E",
           "\u0360"-"\u0362",
@@ -675,7 +675,7 @@ TOKEN :
         ] 
   >
 |    
-  < #UNICODE_DIGIT: /* Unicode categories: Nd */
+  < UNICODE_DIGIT: /* Unicode categories: Nd */
         [
           "\u0030"-"\u0039",
           "\u0660"-"\u0669",
@@ -700,7 +700,7 @@ TOKEN :
         ] 
   >
 |
-  < #UNICODE_CONNECTOR_PUNCTUATION: /* Unicode categories: Pc */
+  < UNICODE_CONNECTOR_PUNCTUATION: /* Unicode categories: Pc */
         [
           "\u005F",
           "\u203F"-"\u2040",
