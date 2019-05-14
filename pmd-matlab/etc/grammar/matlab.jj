@@ -67,6 +67,7 @@ PARSER_END(MatlabParser)
 |   < AT: "@" > : DEFAULT
 |   < DOT: "." > : TRANSPOSE
 |   < COMMA: "," > : DEFAULT
+|   < QUESTIONMARK: "?" > : DEFAULT
 }
 
 <DEFAULT, TRANSPOSE> TOKEN : /* OPERATORS AND ASSIGNMENTS */
