@@ -142,6 +142,7 @@ PARSER_END(MatlabParser)
 <DEFAULT> TOKEN :
 {
     < STRING: "'" ( "\\" | "'" "'" | ~["\\","'","\n"] )* "'" >
+|   < DSTRING: "\"" ( "\\" | "\"" "\"" | ~["\\","\"","\n"] )* "\"" >
 }
 
 <DEFAULT, TRANSPOSE> TOKEN :
