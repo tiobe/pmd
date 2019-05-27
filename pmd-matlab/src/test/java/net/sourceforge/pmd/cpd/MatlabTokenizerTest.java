@@ -51,7 +51,6 @@ public class MatlabTokenizerTest extends AbstractTokenizerTest {
         ));
         Tokens tokens = new Tokens();
         tokenizer.tokenize(sourceCode, tokens);
-        TokenEntry.getEOF();
         assertEquals(2, tokens.size()); // 2 tokens: "end" + EOF
     }
 
@@ -121,7 +120,6 @@ public class MatlabTokenizerTest extends AbstractTokenizerTest {
                 + "end"));
         Tokens tokens = new Tokens();
         tokenizer.tokenize(sourceCode, tokens); // should not result in parse error
-        TokenEntry.getEOF();
         assertEquals(28, tokens.size());
     }
 
@@ -139,7 +137,6 @@ public class MatlabTokenizerTest extends AbstractTokenizerTest {
                 + "msgbox('Hello World!','Hello World!');"));
         Tokens tokens = new Tokens();
         tokenizer.tokenize(sourceCode, tokens); // should not result in parse error
-        TokenEntry.getEOF();
         assertEquals(13, tokens.size());
     }
 
@@ -149,7 +146,6 @@ public class MatlabTokenizerTest extends AbstractTokenizerTest {
                 + "properties (SetAccess = ?Class2)"));
         Tokens tokens = new Tokens();
         tokenizer.tokenize(sourceCode, tokens);
-        TokenEntry.getEOF();
         assertEquals(10, tokens.size());
     }
 
@@ -159,7 +155,7 @@ public class MatlabTokenizerTest extends AbstractTokenizerTest {
                 "error(\"This is a double-quoted string\");"));
         Tokens tokens = new Tokens();
         tokenizer.tokenize(sourceCode, tokens);
-        TokenEntry.getEOF();
+        assertEquals("\"This is a double-quoted string\"", tokens.getTokens().get(2).toString());
         assertEquals(6, tokens.size());
     }
 }

@@ -41,7 +41,7 @@ public class CPPTokenizerTest {
         assertNotSame(TokenEntry.getEOF(), tokens.getTokens().get(0));
         assertEquals(24, tokens.size());
     }
-    
+
     @Test
     public void testIgnoreBetweenSpecialComments() {
         String code = "#include <iostream>\n" + "#include <string>\n" + "\n" + "// CPD-OFF\n"
@@ -234,8 +234,8 @@ public class CPPTokenizerTest {
                 + "auto hex_literal = 0x0F00'abcd'6f3d;" + PMD.EOL
                 + "auto silly_example = 1'0'0'000'00;";
         Tokens tokens = parse(code);
-        System.out.println(tokens.getTokens());
         assertTrue(TokenEntry.getEOF() != tokens.getTokens().get(0));
+        assertEquals("1'000'000", tokens.getTokens().get(3).toString());
         assertEquals(21, tokens.size());
     }
 
