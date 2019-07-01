@@ -14,156 +14,152 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### Enhanced Matlab support
+#### Updated PMD Designer
 
-Thanks to the contributions from [Maikel Steneker](https://github.com/maikelsteneker) CPD for Matlab can
-now parse Matlab programs which use the question mark operator to specify access to
-class members:
+This PMD release ships a new version of the pmd-designer.
+For the changes, see [PMD Designer Changelog](https://github.com/pmd/pmd-designer/releases/tag/6.16.0).
 
-```
-classdef Class1
-properties (SetAccess = ?Class2)
-```
+#### PLSQL Grammar Updates
 
-CPD also understands now double quoted strings, which are supported since version R2017a of Matlab:
+The grammar has been updated to support inline constraints in CREATE TABLE statements. Additionally, the
+CREATE TABLE statement may now be followed by physical properties and table properties. However, these
+properties are skipped over during parsing.
 
-```
-str = "This is a string"
-```
+The CREATE VIEW statement now supports subquery views.
 
-#### Enhanced C++ support
+The EXTRACT function can now be parsed correctly. It is used to extract values from a specified
+datetime field. Also date time literals are parsed now correctly.
 
-CPD now supports digit separators in C++ (language module "cpp"). This is a C++14 feature.
+The CASE expression can now be properly used within SELECT statements.
 
-Example: `auto integer_literal = 1'000'000;`
-
-The single quotes can be used to add some structure to large numbers.
-
-CPD also parses raw string literals now correctly (see [#1784](https://github.com/pmd/pmd/issues/1784)).
+Table aliases are now supported when specifying columns in INSERT INTO clauses.
 
 #### New Rules
 
-*   The new Apex rule {% rule "apex/codestyle/FieldNamingConventions" %} (`apex-codestyle`) checks the naming
-    conventions for field declarations. By default this rule uses the standard Apex naming convention (Camel case),
-    but it can be configured through properties.
-
-*   The new Apex rule {% rule "apex/codestyle/FormalParameterNamingConventions" %} (`apex-codestyle`) checks the
-    naming conventions for formal parameters of methods. By default this rule uses the standard Apex naming
-    convention (Camel case), but it can be configured through properties.
-
-*   The new Apex rule {% rule "apex/codestyle/LocalVariableNamingConventions" %} (`apex-codestyle`) checks the
-    naming conventions for local variable declarations. By default this rule uses the standard Apex naming
-    convention (Camel case), but it can be configured through properties.
-
-*   The new Apex rule {% rule "apex/codestyle/PropertyNamingConventions" %} (`apex-codestyle`) checks the naming
-    conventions for property declarations. By default this rule uses the standard Apex naming convention (Camel case),
-    but it can be configured through properties.
-
-*   The new Java rule {% rule "java/codestyle/UseShortArrayInitializer" %} (`java-codestyle`) searches for
-    array initialization expressions, which can be written shorter.
+*   The Java rule {% rule "java/bestpractices/DoubleBraceInitialization" %} (`java-bestpractices`)
+    detects non static initializers in anonymous classes also known as "double brace initialization".
+    This can be problematic, since a new class file is generated and object holds a strong reference
+    to the surrounding class.
+    
+    Note: This rule is also part of the Java quickstart ruleset (`rulesets/java/quickstart.xml`).
 
 #### Modified Rules
 
-*   The Apex rule {% rule "apex/codestyle/ClassNamingConventions" %} (`apex-codestyle`) can now be configured
-    using various properties for the specific kind of type declarations (e.g. class, interface, enum).
-    As before, this rule uses by default the standard Apex naming convention (Pascal case).
+*   The Java rule {% rule "java/bestpractices/UnusedPrivateField" %} (`java-bestpractices`) now ignores by
+    default fields, that are annotated with the Lombok experimental annotation `@Delegate`. This can be
+    customized with the property `ignoredAnnotations`.
 
-*   The Apex rule {% rule "apex/codestyle/MethodNamingConventions" %} (`apex-codestyle`) can now be configured
-    using various properties to differenciate e.g. static methods and test methods.
-    As before, this rule uses by default the standard Apex naming convention (Camel case).
+*   The Java rule {% rule "java/design/SingularField" %} (`java-design`) now ignores by
+    default fields, that are annotated with the Lombok experimental annotation `@Delegate`. This can be
+    customized with the property `ignoredAnnotations`.
 
-*   The Java rule {% rule "java/codestyle/FieldNamingConventions" %} (`java-codestyle`) now by default ignores
-    the field `serialPersistentFields`. Since this is a field which needs to have this special name, no
-    field naming conventions can be applied here. It is excluded the same way like `serialVersionUID` via the
-    property `exclusions`.
+*   The Java rules {% rule "java/multithreading/UnsynchronizedStaticFormatter" %} and
+    {% rule "java/multithreading/UnsynchronizedStaticDateFormatter" %} (`java-multithreading`)
+    now prefer synchronized blocks by default. They will raise a violation, if the synchronization is implemented
+    on the method level. To allow the old behavior, the new property `allowMethodLevelSynchronization` can
+    be enabled.
 
-*   The Java rule {% rule "java/documentation/CommentRequired" %} (`java-documentation`) has a new property
-    `serialPersistentFieldsCommentRequired` with the default value "Ignored". This means that from now
-    on comments for the field `serialPersistentFields` are not required anymore. You can change the property
-    to restore the old behavior.
+*   The Java rule {% rule "java/design/UseUtilityClass" %} (`java-design`) has a new property `ignoredAnnotations`.
+    By default, classes that are annotated with Lombok's `@UtilityClass` are ignored now.
 
-*   The Java rule {% rule "java/errorprone/ProperLogger" %} (`java-errorprone`) has two new properties
-    to configure the logger class (e.g. "org.slf4j.Logger") and the logger name of the special case,
-    when the logger is not static. The name of the static logger variable was already configurable.
-    The new property "loggerClass" allows to use this rule for different logging frameworks.
-    This rule covers all the cases of the now deprecated rule {% rule "java/errorprone/LoggerIsNotStaticFinal" %}.
+*   The Java rule {% rule "java/errorprone/NonStaticInitializer" %} (`java-errorprone`) does not report
+    non static initializers in anonymous classes anymore. For this use case, there is a new rule now:
+    {% rule "java/bestpractices/DoubleBraceInitialization" %} (`java-bestpractices`).
 
-*   The Java rule {% rule "java/codestyle/CommentDefaultAccessModifier" %} (`java-codestyle`) now reports also
-    missing comments for top-level classes and annotations, that are package-private.
+*   The Java rule {% rule "java/codestyle/CommentDefaultAccessModifier" %) (`java-codestyle`) was enhanced
+    in the last version 6.15.0 to check also top-level types by default. This created many new violations.
+    Missing the access modifier for top-level types is not so critical, since it only decreases the visibility
+    of the type.
+    
+    The default behaviour has been restored. If you want to enable the check for top-level types, you can
+    use the new property `checkTopLevelTypes`.
+
+*   The Java rule {% rule "java/errorprone/CloseResource" %} (`java-errorprone`) now by default searches
+    for any unclosed `java.lang.AutoCloseable` resource. This includes now the standard `java.io.*Stream` classes.
+    Previously only SQL-related resources were considered by this rule. The types can still be configured
+    via the `types` property. Some resources do not need to be closed (e.g. `ByteArrayOutputStream`). These
+    exceptions can be configured via the new property `allowedResourceTypes`.
+    In order to restore the old behaviour, just remove the type `java.lang.AutoCloseable` from the `types`
+    property and keep the remaining SQL-related classes.
 
 #### Deprecated Rules
 
-*   The Apex rule {% rule "apex/codestyle/VariableNamingConventions" %} (`apex-codestyle`) has been deprecated and
-    will be removed with PMD 7.0.0. The rule is replaced by the more general rules
-    {% rule "apex/codestyle/FieldNamingConventions" %},
-    {% rule "apex/codestyle/FormalParameterNamingConventions" %},
-    {% rule "apex/codestyle/LocalVariableNamingConventions" %}, and
-    {% rule "apex/codestyle/PropertyNamingConventions" %}.
-
-*   The Java rule {%rule "java/errorprone/LoggerIsNotStaticFinal" %} (`java-errorprone`) has been deprecated
-    and will be removed with PMD 7.0.0. The rule is replaced by {% rule "java/errorprone/ProperLogger" %}.
+*   The Java rule {% rule "java/codestyle/AvoidFinalLocalVariable" %} (`java-codestyle`) has been deprecated
+    and will be removed with PMD 7.0.0. The rule is controversial and also contradicts other existing
+    rules such as {% rule "java/codestyle/LocalVariableCouldBeFinal" %}. If the goal is to avoid defining
+    constants in a scope smaller than the class, then the rule {% rule "java/errorprone/AvoidDuplicateLiterals" %}
+    should be used instead.
 
 ### Fixed Issues
 
 *   apex
-    *   [#1321](https://github.com/pmd/pmd/issues/1321): \[apex] Should VariableNamingConventions require properties to start with a lowercase letter?
-    *   [#1783](https://github.com/pmd/pmd/issues/1783): \[apex] comments on constructor not recognized when the Class has inner class
-*   cpp
-    *   [#1784](https://github.com/pmd/pmd/issues/1784): \[cpp] Improve support for raw string literals
-*   dart
-    *   [#1809](https://github.com/pmd/pmd/issues/1809): \[dart] \[cpd] Parse error with escape sequences
+    *   [#1664](https://github.com/pmd/pmd/issues/1664): \[apex] False positive ApexSharingViolationsRule, unsupported Apex feature
 *   java
-    *   [#1842](https://github.com/pmd/pmd/issues/1842): \[java] Annotated module declarations cause parse error
+    *   [#1848](https://github.com/pmd/pmd/issues/1848): \[java] Local classes should preserve their modifiers
 *   java-bestpractices
-    *   [#1738](https://github.com/pmd/pmd/issues/1738): \[java] MethodReturnsInternalArray does not work in inner classes
+    *   [#1703](https://github.com/pmd/pmd/issues/1703): \[java] UnusedPrivateField on member annotated with lombok @Delegate
+    *   [#1845](https://github.com/pmd/pmd/issues/1845): \[java] Regression in MethodReturnsInternalArray not handling enums
+    *   [#1854](https://github.com/pmd/pmd/issues/1854): \[java] Rule to check for double brace initialisation
 *   java-codestyle
-    *   [#1495](https://github.com/pmd/pmd/issues/1495): \[java] Rule to detect overly verbose array initializiation
-    *   [#1684](https://github.com/pmd/pmd/issues/1684): \[java] Properly whitelist serialPersistentFields
-    *   [#1804](https://github.com/pmd/pmd/issues/1804): \[java] NPE in UnnecessaryLocalBeforeReturnRule
-*   python
-    *   [#1810](https://github.com/pmd/pmd/issues/1810): \[python] \[cpd] Parse error when using Python 2 backticks
-*   matlab
-    *   [#1830](https://github.com/pmd/pmd/issues/1830): \[matlab] \[cpd] Parse error with comments
-    *   [#1793](https://github.com/pmd/pmd/issues/1793): \[java] CommentDefaultAccessModifier not working for classes
+    *   [#1612](https://github.com/pmd/pmd/issues/1612): \[java] Deprecate AvoidFinalLocalVariable
+    *   [#1880](https://github.com/pmd/pmd/issues/1880): \[java] CommentDefaultAccessModifier should be configurable for top-level classes
+*   java-design
+    *   [#1094](https://github.com/pmd/pmd/issues/1094): \[java] UseUtilityClass should be LombokAware
+*   java-errorprone
+    *   [#1000](https://github.com/pmd/pmd/issues/1000): \[java] The rule CloseResource should deal with IO stream as default
+    *   [#1853](https://github.com/pmd/pmd/issues/1853): \[java] False positive for NonStaticInitializer in anonymous class
+*   java-multithreading
+    *   [#1814](https://github.com/pmd/pmd/issues/1814): \[java] UnsynchronizedStaticFormatter documentation and implementation wrong
+    *   [#1815](https://github.com/pmd/pmd/issues/1815): \[java] False negative in UnsynchronizedStaticFormatter
+*   plsql
+    *   [#1828](https://github.com/pmd/pmd/issues/1828): \[plsql] Parentheses stopped working
+    *   [#1850](https://github.com/pmd/pmd/issues/1850): \[plsql] Parsing errors with INSERT using returning or records and TRIM expression
+    *   [#1873](https://github.com/pmd/pmd/issues/1873): \[plsql] Expression list not working
+    *   [#1878](https://github.com/pmd/pmd/issues/1878): \[pslql] ParseException when parsing USING
+    *   [#1879](https://github.com/pmd/pmd/issues/1879): \[pslql] ParseException when parsing LEFT JOIN
 
 ### API Changes
 
 #### Deprecated APIs
 
-##### For removal
+> Reminder: Please don't use members marked with the annotation {% jdoc core::annotation.InternalApi %}, as they will likely be removed, hidden, or otherwise intentionally broken with 7.0.0.
 
-*   The `DumpFacades` in all languages, that could be used to transform a AST into a textual representation,
-    will be removed with PMD 7. The rule designer is a better way to inspect nodes.
-    *   {% jdoc !q!apex::lang.apex.ast.DumpFacade %}
-    *   {% jdoc !q!java::lang.java.ast.DumpFacade %}
-    *   {% jdoc !q!javascript::lang.ecmascript.ast.DumpFacade %}
-    *   {% jdoc !q!jsp::lang.jsp.ast.DumpFacade %}
-    *   {% jdoc !q!plsql::lang.plsql.ast.DumpFacade %}
-    *   {% jdoc !q!visualforce::lang.vf.ast.DumpFacade %}
-    *   {% jdoc !q!vm::lang.vm.ast.AbstractVmNode#dump(String, boolean, Writer) %}
-    *   {% jdoc !q!xml::lang.xml.ast.DumpFacade %}
-*   The method {% jdoc !c!core::lang.LanguageVersionHandler#getDumpFacade(Writer, String, boolean) %} will be
-    removed as well. It is deprecated, along with all its implementations in the subclasses of {% jdoc core::lang.LanguageVersionHandler %}.
+
+##### In ASTs
+
+As part of the changes we'd like to do to AST classes for 7.0.0, we would like to
+hide some methods and constructors that rule writers should not have access to.
+The following usages are now deprecated **in the Java AST** (with other languages to come):
+
+* Manual instantiation of nodes. **Constructors of node classes are deprecated** and marked {% jdoc core::annotation.InternalApi %}. Nodes should only be obtained from the parser, which for rules, means that never need to instantiate node themselves. Those constructors will be made package private with 7.0.0.
+* **Subclassing of abstract node classes, or usage of their type**. Version 7.0.0 will bring a new set of abstractions that will be public API, but the base classes are and will stay internal. You should not couple your code to them.
+  * In the meantime you should use interfaces like {% jdoc java::lang.java.ast.JavaNode %} or  {% jdoc core::lang.ast.Node %}, or the other published interfaces in this package, to refer to nodes generically.
+  * Concrete node classes will **be made final** with 7.0.0.
+* Setters found in any node class or interface. **Rules should consider the AST immutable**. We will make those setters package private with 7.0.0.
+
+Please look at {% jdoc_package java::lang.java.ast %} to find out the full list
+of deprecations.
+
+
+
+
 
 ### External Contributions
 
-*   [#1647](https://github.com/pmd/pmd/pull/1647): \[java] Rule to detect overly verbose array initialization - [Victor](https://github.com/IDoCodingStuffs)
-*   [#1762](https://github.com/pmd/pmd/pull/1762): \[java] LoggerIsNotStaticFinal and ProperLogger - make class-name configurable - [Ivo Šmíd](https://github.com/bedla)
-*   [#1798](https://github.com/pmd/pmd/pull/1798): \[java] Make CommentDefaultAccessModifier work for top-level classes - [Boris Petrov](https://github.com/boris-petrov)
-*   [#1799](https://github.com/pmd/pmd/pull/1799): \[java] MethodReturnsInternalArray does not work in inner classes - Fixed #1738 - [Srinivasan Venkatachalam](https://github.com/Srini1993)
-*   [#1802](https://github.com/pmd/pmd/pull/1802): \[python] \[cpd] Add support for Python 2 backticks - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#1803](https://github.com/pmd/pmd/pull/1803): \[dart] \[cpd] Dart escape sequences - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#1807](https://github.com/pmd/pmd/pull/1807): \[ci] Fix missing local branch issues when executing pmd-regression-tester - [BBG](https://github.com/djydewang)
-*   [#1813](https://github.com/pmd/pmd/pull/1813): \[matlab] \[cpd] Matlab comments - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#1816](https://github.com/pmd/pmd/pull/1816): \[apex] Fix ApexDoc handling with inner classes - [Jeff Hube](https://github.com/jeffhube)
-*   [#1817](https://github.com/pmd/pmd/pull/1817): \[apex] Add configurable naming convention rules - [Jeff Hube](https://github.com/jeffhube)
-*   [#1819](https://github.com/pmd/pmd/pull/1819): \[cpp] \[cpd] Add support for digit separators - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#1820](https://github.com/pmd/pmd/pull/1820): \[cpp] \[cpd] Improve support for raw string literals - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#1821](https://github.com/pmd/pmd/pull/1821): \[matlab] \[cpd] Matlab question mark token - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#1822](https://github.com/pmd/pmd/pull/1822): \[matlab] \[cpd] Double quoted string - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#1837](https://github.com/pmd/pmd/pull/1837): \[core] Minor performance improvements - [Michael Hausegger](https://github.com/TheRealHaui)
-*   [#1838](https://github.com/pmd/pmd/pull/1838): \[dart] [cpd] Improved string tokenization - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#1840](https://github.com/pmd/pmd/pull/1840): \[java] Whitelist serialPersistentFields - [Marcel Härle](https://github.com/marcelhaerle)
+*   [#1482](https://github.com/pmd/pmd/pull/1482): \[java] Explain the existence of AvoidFinalLocalVariable in it's description - [Karl-Philipp Richter](https://github.com/krichter722)
+*   [#1792](https://github.com/pmd/pmd/pull/1792): \[java] Added lombok.experimental to AbstractLombokAwareRule - [jakivey32](https://github.com/jakivey32)
+*   [#1808](https://github.com/pmd/pmd/pull/1808): \[plsql] Fix PL/SQL Syntax errors - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1829](https://github.com/pmd/pmd/pull/1829): \[java] Fix false negative in UnsynchronizedStaticFormatter - [Srinivasan Venkatachalam](https://github.com/Srini1993)
+*   [#1847](https://github.com/pmd/pmd/pull/1847): \[java] Regression in MethodReturnsInternalArray not handling enums - [Artem](https://github.com/KroArtem)
+*   [#1863](https://github.com/pmd/pmd/pull/1863): \[plsql] Add Table InlineConstraint - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1864](https://github.com/pmd/pmd/pull/1864): \[plsql] Add support for Subquery Views - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1865](https://github.com/pmd/pmd/pull/1865): \[plsql] Add Support for Extract Expression - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1874](https://github.com/pmd/pmd/pull/1874): \[plsql] Add parenthesis equation support for Update - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1876](https://github.com/pmd/pmd/pull/1876): \[plsql] Datetime support for queries - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1883](https://github.com/pmd/pmd/pull/1883): \[plsql] Fix #1873 Expression list not working - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1884](https://github.com/pmd/pmd/pull/1884): \[plsql] fix #1878 Support explicit INNER word for INNER JOIN - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1885](https://github.com/pmd/pmd/pull/1885): \[plsql] Correct case expression - [Hugo Araya Nash](https://github.com/kabroxiko)
+*   [#1886](https://github.com/pmd/pmd/pull/1886): \[plsql] Support table alias for Insert Clause - [Hugo Araya Nash](https://github.com/kabroxiko)
 
 {% endtocmaker %}
 
