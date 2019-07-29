@@ -8,7 +8,7 @@
     <parent>
         <groupId>net.sourceforge.pmd</groupId>
         <artifactId>pmd</artifactId>
-        <version>6.16.0</version>
+        <version>6.17.0</version>
     </parent>
 
     <properties>
@@ -46,6 +46,19 @@
                         <phase>verify</phase>
                         <configuration>
                             <mainClass>net.sourceforge.pmd.docs.DeadLinksChecker</mainClass>
+                            <arguments>
+                                <argument>${project.basedir}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>check-rule-tags</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <mainClass>net.sourceforge.pmd.docs.RuleTagChecker</mainClass>
                             <arguments>
                                 <argument>${project.basedir}</argument>
                             </arguments>
