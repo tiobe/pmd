@@ -47,7 +47,13 @@ public abstract class AbstractJavaRule extends AbstractRule implements JavaParse
      *
      * @param node
      *            the node which will be searched
+     *
+     * @deprecated This method just returns the type name as a string
+     *     which doesn't leverage any type resolution. Use {@link Node#getFirstParentOfType(Class)}
+     *     directly to find the node of type {@link ASTClassOrInterfaceBodyDeclaration} via the
+     *     {@code getType} method.
      */
+    @Deprecated
     protected final String getDeclaringType(Node node) {
         ASTClassOrInterfaceDeclaration c = node.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class);
         if (c != null) {
@@ -70,6 +76,11 @@ public abstract class AbstractJavaRule extends AbstractRule implements JavaParse
         return false;
     }
 
+    /**
+     * @deprecated Not useful, and suppression should happen transparently to rule implementations.
+     *             This will be removed with 7.0.0
+     */
+    @Deprecated
     protected boolean isSuppressed(Node node) {
         return JavaRuleViolation.isSupressed(node, this);
     }

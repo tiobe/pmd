@@ -6,12 +6,15 @@ package net.sourceforge.pmd.lang.ast.xpath;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.sourceforge.pmd.annotation.Experimental;
 import net.sourceforge.pmd.lang.ast.Node;
 
 /**
@@ -35,7 +38,7 @@ public class Attribute {
     private final Node parent;
     private final String name;
     private Method method;
-    private Object value;
+    private List<?> value;
     private String stringValue;
 
     /** Creates a new attribute belonging to the given node using its accessor. */
@@ -49,7 +52,7 @@ public class Attribute {
     public Attribute(Node parent, String name, String value) {
         this.parent = parent;
         this.name = name;
-        this.value = value;
+        this.value = Collections.singletonList(value);
         this.stringValue = value;
     }
 
@@ -63,21 +66,27 @@ public class Attribute {
         return parent;
     }
 
+    /** Returns the most general type that the value may be. */
+    @Experimental
+    public Class<?> getType() {
+        return method == null ? String.class : method.getReturnType();
+    }
+
     public Object getValue() {
         if (value != null) {
-            return value;
+            return value.get(0);
         }
 
         if (method.isAnnotationPresent(Deprecated.class) && LOG.isLoggable(Level.WARNING)
                 && DETECTED_DEPRECATED_ATTRIBUTES.putIfAbsent(getLoggableAttributeName(), Boolean.TRUE) == null) {
-            // this message needs to be kept in sync with PMDCoverageTest
+            // this message needs to be kept in sync with PMDCoverageTest / BinaryDistributionIT
             LOG.warning("Use of deprecated attribute '" + getLoggableAttributeName() + "' in XPath query");
         }
 
         // this lazy loading reduces calls to Method.invoke() by about 90%
         try {
-            value = method.invoke(parent, EMPTY_OBJ_ARRAY);
-            return value;
+            value = Collections.singletonList(method.invoke(parent, EMPTY_OBJ_ARRAY));
+            return value.get(0);
         } catch (IllegalAccessException | InvocationTargetException iae) {
             iae.printStackTrace();
         }
@@ -88,10 +97,8 @@ public class Attribute {
         if (stringValue != null) {
             return stringValue;
         }
-        Object v = this.value;
-        if (this.value == null) {
-            v = getValue();
-        }
+        Object v = getValue();
+
         stringValue = v == null ? "" : String.valueOf(v);
         return stringValue;
     }
