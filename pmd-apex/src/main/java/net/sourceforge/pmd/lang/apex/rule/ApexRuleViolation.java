@@ -6,6 +6,8 @@ package net.sourceforge.pmd.lang.apex.rule;
 
 import net.sourceforge.pmd.Rule;
 import net.sourceforge.pmd.RuleContext;
+import net.sourceforge.pmd.RuleViolation;
+import net.sourceforge.pmd.annotation.InternalApi;
 import net.sourceforge.pmd.lang.apex.ast.CanSuppressWarnings;
 import net.sourceforge.pmd.lang.ast.Node;
 import net.sourceforge.pmd.lang.rule.ParametricRuleViolation;
@@ -21,8 +23,12 @@ import net.sourceforge.pmd.lang.rule.ParametricRuleViolation;
  * <li>Suppression indicator</li>
  * </ul>
  * @param <T>
+ *
+ * @deprecated See {@link RuleViolation}
  */
 @SuppressWarnings("PMD.UseUtilityClass") // we inherit non-static methods...
+@Deprecated
+@InternalApi
 public class ApexRuleViolation<T> extends ParametricRuleViolation<Node> {
 
     public ApexRuleViolation(Rule rule, RuleContext ctx, Node node, String message, int beginLine, int endLine) {
@@ -52,10 +58,10 @@ public class ApexRuleViolation<T> extends ParametricRuleViolation<Node> {
         boolean result = suppresses(node, rule);
 
         if (!result) {
-            Node parent = node.jjtGetParent();
+            Node parent = node.getParent();
             while (!result && parent != null) {
                 result = suppresses(parent, rule);
-                parent = parent.jjtGetParent();
+                parent = parent.getParent();
             }
         }
 

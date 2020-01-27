@@ -20,10 +20,11 @@ import net.sourceforge.pmd.lang.apex.ast.ASTVariableExpression;
 import net.sourceforge.pmd.lang.apex.ast.AbstractApexNode;
 import net.sourceforge.pmd.lang.apex.ast.ApexNode;
 import net.sourceforge.pmd.lang.apex.rule.AbstractApexRule;
+import net.sourceforge.pmd.lang.apex.rule.internal.Helper;
 
 /**
  * Looking for potential Open redirect via PageReference variable input
- * 
+ *
  * @author sergey.gorbaty
  */
 public class ApexOpenRedirectRule extends AbstractApexRule {
@@ -76,7 +77,7 @@ public class ApexOpenRedirectRule extends AbstractApexRule {
 
         ASTLiteralExpression literal = node.getFirstChildOfType(ASTLiteralExpression.class);
         if (literal != null) {
-            int index = literal.jjtGetChildIndex();
+            int index = literal.getIndexInParent();
             if (index == 0) {
                 if (node instanceof ASTVariableDeclaration) {
                     addVariable((ASTVariableDeclaration) node);
@@ -121,7 +122,7 @@ public class ApexOpenRedirectRule extends AbstractApexRule {
 
     /**
      * Traverses all new declarations to find PageReferences
-     * 
+     *
      * @param node
      * @param data
      */
@@ -139,17 +140,17 @@ public class ApexOpenRedirectRule extends AbstractApexRule {
 
     /**
      * Finds any variables being present in PageReference constructor
-     * 
+     *
      * @param node
      *            - PageReference
      * @param data
-     * 
+     *
      */
     private void getObjectValue(ApexNode<?> node, Object data) {
         // PageReference(foo);
         final List<ASTVariableExpression> variableExpressions = node.findChildrenOfType(ASTVariableExpression.class);
         for (ASTVariableExpression variable : variableExpressions) {
-            if (variable.jjtGetChildIndex() == 0
+            if (variable.getIndexInParent() == 0
                     && !listOfStringLiteralVariables.contains(Helper.getFQVariableName(variable))) {
                 addViolation(data, variable);
             }

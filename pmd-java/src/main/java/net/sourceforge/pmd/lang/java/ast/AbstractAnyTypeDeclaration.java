@@ -32,10 +32,25 @@ public abstract class AbstractAnyTypeDeclaration extends AbstractJavaAccessTypeN
 
     @Override
     public final boolean isNested() {
-        return jjtGetParent() instanceof ASTClassOrInterfaceBodyDeclaration
-            || jjtGetParent() instanceof ASTAnnotationTypeMemberDeclaration;
+        return getParent() instanceof ASTClassOrInterfaceBodyDeclaration
+            || getParent() instanceof ASTAnnotationTypeMemberDeclaration;
     }
 
+    @Override
+    @Deprecated
+    public String getImage() {
+        return super.getImage();
+    }
+
+    @Override
+    public String getBinaryName() {
+        return getQualifiedName().getBinaryName();
+    }
+
+    @Override
+    public String getSimpleName() {
+        return getImage();
+    }
 
     /**
      * Returns true if the enclosing type of this type declaration
