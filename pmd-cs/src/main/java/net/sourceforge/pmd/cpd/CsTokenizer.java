@@ -58,6 +58,7 @@ public class CsTokenizer extends AntlrTokenizer {
         private final boolean ignoreUsings;
         private boolean discardingUsings = false;
         private boolean discardingNL = false;
+        private boolean discardingLiterals = false;
         private boolean discardCurrent = false;
 
         CsTokenFilter(final AntlrTokenManager tokenManager, boolean ignoreUsings) {
@@ -74,6 +75,7 @@ public class CsTokenizer extends AntlrTokenizer {
         protected void analyzeTokens(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
             discardCurrent = false;
             skipUsingDirectives(currentToken, remainingTokens);
+            skipLiterals(currentToken, remainingTokens);
         }
 
         private void skipUsingDirectives(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
@@ -148,9 +150,39 @@ public class CsTokenizer extends AntlrTokenizer {
             discardingNL = currentToken.getType() == CSharpLexer.NL;
         }
 
+        private void skipLiterals(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
+            final int type = currentToken.getType();
+            if (type == CSharpLexer.OPEN_BRACE && isListOfLiterals(remainingTokens)) {
+                discardingLiterals = true;
+            } else if (type == CSharpLexer.CLOSE_BRACE && discardingLiterals) {
+                discardingLiterals = false;
+                discardCurrent = true;
+            }
+        }
+
+        private boolean isListOfLiterals(final Iterable<AntlrToken> remainingTokens) {
+            boolean seenLiteral = false;
+            for (final AntlrToken token : remainingTokens) {
+                switch (token.getType()) {
+                case CSharpLexer.INTEGER_LITERAL:
+                    seenLiteral = true;
+                    break; // can be skipped; continue to the next token
+                case CSharpLexer.COMMA:
+                    break; // can be skipped; continue to the next token
+                case CSharpLexer.CLOSE_BRACE:
+                    // end of the list; skip all contents
+                    return seenLiteral;
+                default:
+                    // some other token than the expected ones; this is not a list of literals
+                    return false;
+                }
+            }
+            return false;
+        }
+
         @Override
         protected boolean isLanguageSpecificDiscarding() {
-            return discardingUsings || discardingNL || discardCurrent;
+            return discardingUsings || discardingNL || discardingLiterals || discardCurrent;
         }
     }
 }

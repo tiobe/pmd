@@ -154,6 +154,24 @@ public class CsTokenizerTest {
         assertEquals("using", tokens.getTokens().get(0).toString());
     }
 
+    @Test
+    public void testLongListsOfNumbersAreIgnored() {
+        // TODO: set some property?
+        tokenizer.setIgnoreUsings(false);
+        tokenizer.tokenize(toSourceCode(
+                "using System;\n"
+                        + "using System.Collections;\n"
+                        + "using System.Collections.Generic;\n"
+                        + "public class LongLists {\n"
+                        + "    List<byte> l = new List<byte> {\n"
+                        + "     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\n"
+                        + "    };\n"
+                        + "}\n"),
+                tokens
+        );
+        assertEquals(18, tokens.size());
+    }
+
     private SourceCode toSourceCode(String source) {
         return new SourceCode(new SourceCode.StringCodeLoader(source));
     }
