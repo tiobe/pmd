@@ -89,6 +89,11 @@ public class InvalidLogMessageFormatRule extends AbstractJavaRule {
         final List<ASTExpression> argumentList = parentNode.getFirstChildOfType(ASTPrimarySuffix.class)
                 .getFirstDescendantOfType(ASTArgumentList.class).findChildrenOfType(ASTExpression.class);
 
+        // ignore the first argument if it is a known non-string value, e.g. a slf4j-Marker
+        if (argumentList.get(0).getType() != null && !argumentList.get(0).getType().equals(String.class)) {
+            argumentList.remove(0);
+        }
+
         // remove the message parameter
         final ASTExpression messageParam = argumentList.remove(0);
         final int expectedArguments = expectedArguments(messageParam);
@@ -153,9 +158,30 @@ public class InvalidLogMessageFormatRule extends AbstractJavaRule {
         int lastIndex = params.size() - 1;
         ASTPrimaryExpression last = params.get(lastIndex).getFirstDescendantOfType(ASTPrimaryExpression.class);
 
-        if (isNewThrowable(last) || hasTypeThrowable(last) || isReferencingThrowable(last)) {
+        if (isNewThrowable(last) || hasTypeThrowable(last) || isReferencingThrowable(last) || isLambdaParameter(last)) {
             params.remove(lastIndex);
         }
+    }
+
+    private boolean isLambdaParameter(ASTPrimaryExpression last) {
+        String varName = null;
+        ASTPrimaryPrefix prefix = last.getFirstChildOfType(ASTPrimaryPrefix.class);
+        if (prefix != null) {
+            ASTName name = prefix.getFirstChildOfType(ASTName.class);
+            if (name != null) {
+                varName = name.getImage();
+            }
+        }
+        for (NameDeclaration decl : prefix.getScope().getDeclarations().keySet()) {
+            if (decl.getName().equals(varName)) {
+                if (decl.getNode().getParent() instanceof ASTLambdaExpression) {
+                    // If the last parameter is a lambda parameter, then we also ignore it - regardless of the type.
+                    // This is actually a workaround, since type resolution doesn't resolve the types of lambda parameters.
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private String getExpectedMessage(final List<ASTExpression> params, final int expectedArguments) {

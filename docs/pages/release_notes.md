@@ -14,93 +14,101 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### Modelica support
+#### Java 14 Support
 
-Thanks to [Anatoly Trosinenko](https://github.com/atrosinenko) PMD supports now a new language:
-[Modelica](https://modelica.org/modelicalanguage) is a language to model complex physical systems.
-Both PMD and CPD are supported and there are already [3 rules available](pmd_rules_modelica.html).
-The PMD Designer supports syntax highlighting for Modelica.
+This release of PMD brings support for Java 14. PMD can parse [Switch Expressions](https://openjdk.java.net/jeps/361),
+which have been promoted to be a standard language feature of Java.
 
-While the language implementation is quite complete, Modelica support is considered experimental
-for now. This is to allow us to change the rule API (e.g. the AST classes) slightly and improve
-the implementation based on your feedback.
+PMD also parses [Text Blocks](https://openjdk.java.net/jeps/368) as String literals, which is still a preview
+language feature in Java 14.
 
-#### Simple XML dump of AST
+The new [Pattern Matching for instanceof](https://openjdk.java.net/jeps/305) can be used as well as
+[Records](https://openjdk.java.net/jeps/359).
 
-We added a experimental feature to dump the AST of a source file into XML. The XML format
-is of course PMD specific and language dependent. That XML file can be used to execute
-(XPath) queries against without PMD. It can also be used as a textual visualization of the AST
-if you don't want to use the [Designer](https://github.com/pmd/pmd-designer).
+Note: The Text Blocks, Pattern Matching for instanceof and Records are all preview language features of OpenJDK 14
+and are not enabled by default. In order to
+analyze a project with PMD that uses these language features, you'll need to enable it via the environment
+variable `PMD_JAVA_OPTS` and select the new language version `14-preview`:
 
-This feature is experimental and might change or even be removed in the future, if it is not
-useful. A short description how to use it is available under [Creating XML dump of the AST](pmd_devdocs_experimental_ast_dump.html).
+    export PMD_JAVA_OPTS=--enable-preview
+    ./run.sh pmd -language java -version 14-preview ...
 
-Any feedback about it, especially about your use cases, is highly appreciated.
+Note: Support for the extended break statement introduced in Java 12 as a preview language feature
+has been removed from PMD with this version. The version "12-preview" is no longer available.
 
-#### Updated Apex Support
 
-*   The Apex language support has been bumped to version 48 (Spring '20). All new language features are now properly
-    parsed and processed.
+#### Updated PMD Designer
 
-#### CPD XML format
+This PMD release ships a new version of the pmd-designer.
+For the changes, see [PMD Designer Changelog](https://github.com/pmd/pmd-designer/releases/tag/6.21.0).
 
-The CPD XML output format has been enhanced to also report column information for found duplications
-in addition to the line information. This allows to display the exact tokens, that are considered
-duplicate.
+#### Apex Suppressions
 
-If a CPD language doesn't provide these exact information, then these additional attributes are omitted.
+In addition to suppressing violation with the `@SuppressWarnings` annotation, Apex now also supports
+the suppressions with a `NOPMD` comment. See [Suppressing warnings](pmd_userdocs_suppressing_warnings.html).
 
-Each `<file>` element in the XML format now has 3 new attributes:
+#### Improved CPD support for C#
 
-*   attribute `endLine`
-*   attribute `beginColumn` (if there is column information available)
-*   attribute `endColumn` (if there is column information available)
+The C# tokenizer is now based on an antlr grammar instead of a manual written tokenizer. This
+should give more accurate results and especially fixes the problems with the using statement syntax
+(see [#2139](https://github.com/pmd/pmd/issues/2139)).
 
-#### Modified Rules
+#### XPath Rules
 
-*   The Java rule {% rule "java/errorprone/AvoidLiteralsInIfCondition" %} (`java-errorprone`) has a new property
-    `ignoreExpressions`. This property is set by default to `true` in order to maintain compatibility. If this
-    property is set to false, then literals in more complex expressions are considered as well.
+See the new documentation about [Writing XPath Rules](pmd_userdocs_extending_writing_xpath_rules.html).
 
-*   The Apex rule {% rule "apex/errorprone/ApexCSRF" %} (`apex-errorprone`) has been moved from category
-    "Security" to "Error Prone". The Apex runtime already prevents DML statements from being executed, but only
-    at runtime. So, if you try to do this, you'll get an error at runtime, hence this is error prone. See also
-    the discussion on [#2064](https://github.com/pmd/pmd/issues/2064).
+*Note:* As of PMD version 6.22.0, XPath versions 1.0 and the 1.0 compatibility mode are **deprecated**.
+XPath 2.0 is superior in many ways, for example for its support for type checking, sequence values,
+or quantified expressions. For a detailed but approachable review of the features of XPath 2.0 and above,
+see the [Saxon documentation](https://www.saxonica.com/documentation/index.html#!expressions).
 
-*   The Java rule {% rule "java/documentation/CommentRequired" %} (`java-documentation`) has a new property
-    `classCommentRequirement`. This replaces the now deprecated property `headerCommentRequirement`, since
-    the name was misleading. (File) header comments are not checked, but class comments are.
+#### New Rules
+
+*   The Rule {% rule "apex/design/CognitiveComplexity" %} (`apex-design`) finds methods and classes
+    that are highly complex and therefore difficult to read and more costly to maintain. In contrast
+    to cyclomatic complexity, this rule uses "Cognitive Complexity", which is a measure of how
+    difficult it is for humans to read and understand a method.
+
+*   The Rule {% rule "apex/errorprone/TestMethodsMustBeInTestClasses" %} (`apex-errorprone`) finds test methods
+    that are not residing in a test class. The test methods should be moved to a proper test class.
+    Support for tests inside functional classes was removed in Spring-13 (API Version 27.0), making classes
+    that violate this rule fail compile-time. This rule is however useful when dealing with legacy code.
 
 ### Fixed Issues
 
 *   apex
-    *   [#2208](https://github.com/pmd/pmd/issues/2208): \[apex] ASTFormalComment should implement ApexNode&lt;T&gt;
-*   core
-    *   [#1984](https://github.com/pmd/pmd/issues/1984): \[java] Cyclomatic complexity is misreported (lack of clearing metrics cache)
-    *   [#2006](https://github.com/pmd/pmd/issues/2006): \[core] PMD should warn about multiple instances of the same rule in a ruleset
-    *   [#2161](https://github.com/pmd/pmd/issues/2161): \[core] ResourceLoader is deprecated and marked as internal but is exposed
-    *   [#2170](https://github.com/pmd/pmd/issues/2170): \[core] DocumentFile doesn't preserve newlines
+    *   [#1087](https://github.com/pmd/pmd/issues/1087): \[apex] Support suppression via //NOPMD
+    *   [#2306](https://github.com/pmd/pmd/issues/2306): \[apex] Switch statements are not parsed/supported
+*   apex-design
+    *   [#2162](https://github.com/pmd/pmd/issues/2162): \[apex] Cognitive Complexity rule
+*   apex-errorprone
+    *   [#639](https://github.com/pmd/pmd/issues/639): \[apex] Test methods should not be in classes other than test classes
+*   cs
+    *   [#2139](https://github.com/pmd/pmd/issues/2139): \[cs] CPD doesn't understand alternate using statement syntax with C# 8.0
 *   doc
-    *   [#2214](https://github.com/pmd/pmd/issues/2214): \[doc] Link broken in pmd documentation for writing Xpath rules
+    *   [#2274](https://github.com/pmd/pmd/issues/2274): \[doc] Java API documentation for PMD
 *   java
-    *   [#2212](https://github.com/pmd/pmd/issues/2212): \[java] JavaRuleViolation reports wrong class name
+    *   [#2159](https://github.com/pmd/pmd/issues/2159): \[java] Prepare for JDK 14
+    *   [#2268](https://github.com/pmd/pmd/issues/2268): \[java] Improve TypeHelper resilience
 *   java-bestpractices
-    *   [#2149](https://github.com/pmd/pmd/issues/2149): \[java] JUnitAssertionsShouldIncludeMessage - False positive with assertEquals and JUnit5
-*   java-codestyle
-    *   [#2167](https://github.com/pmd/pmd/issues/2167): \[java] UnnecessaryLocalBeforeReturn false positive with variable captured by method reference
-*   java-documentation
-    *   [#1683](https://github.com/pmd/pmd/issues/1683): \[java] CommentRequired property names are inconsistent
+    *   [#2277](https://github.com/pmd/pmd/issues/2277): \[java] FP in UnusedImports for ambiguous static on-demand imports
+*   java-design
+    *   [#911](https://github.com/pmd/pmd/issues/911): \[java] UselessOverridingMethod false positive when elevating access modifier
 *   java-errorprone
-    *   [#2140](https://github.com/pmd/pmd/issues/2140): \[java] AvoidLiteralsInIfCondition: false negative for expressions
-    *   [#2196](https://github.com/pmd/pmd/issues/2196): \[java] InvalidLogMessageFormat does not detect extra parameters when no placeholders
+    *   [#2242](https://github.com/pmd/pmd/issues/2242): \[java] False-positive MisplacedNullCheck reported
+    *   [#2250](https://github.com/pmd/pmd/issues/2250): \[java] InvalidLogMessageFormat flags logging calls using a slf4j-Marker
+    *   [#2255](https://github.com/pmd/pmd/issues/2255): \[java] InvalidLogMessageFormat false-positive for a lambda argument
 *   java-performance
-    *   [#2141](https://github.com/pmd/pmd/issues/2141): \[java] StringInstatiation: False negative with String-array access
+    *   [#2275](https://github.com/pmd/pmd/issues/2275): \[java] AppendCharacterWithChar flags literals in an expression
 *   plsql
-    *   [#2008](https://github.com/pmd/pmd/issues/2008): \[plsql] In StringLiteral using alternative quoting mechanism single quotes cause parsing errors
-    *   [#2009](https://github.com/pmd/pmd/issues/2009): \[plsql] Multiple DDL commands are skipped during parsing
+    *   [#2325](https://github.com/pmd/pmd/issues/2325): \[plsql] NullPointerException while running parsing test for CREATE TRIGGER
+    *   [#2327](https://github.com/pmd/pmd/pull/2327): \[plsql] Parsing of WHERE CURRENT OF
+    *   [#2328](https://github.com/pmd/pmd/issues/2328): \[plsql] Support XMLROOT
+    *   [#2331](https://github.com/pmd/pmd/pull/2331): \[plsql] Fix in Comment statement
+    *   [#2332](https://github.com/pmd/pmd/pull/2332): \[plsql] Fixed Execute Immediate statement parsing
+    *   [#2340](https://github.com/pmd/pmd/pull/2340): \[plsql] Fixed parsing / as divide or execute
 
 ### API Changes
-
 
 #### Deprecated APIs
 
@@ -129,22 +137,18 @@ You can identify them with the `@InternalApi` annotation. You'll also get a depr
 methods on {% jdoc apex::lang.apex.ast.ApexParserVisitor %} and its implementations.
  Use {% jdoc apex::lang.apex.ast.ApexNode %} instead, now considers comments too.
 
-* {% jdoc core::lang.ast.CharStream %}, {% jdoc core::lang.ast.JavaCharStream %},
-{% jdoc core::lang.ast.SimpleCharStream %}: these are APIs used by our JavaCC
-implementations and that will be moved/refactored for PMD 7.0.0. They should not
-be used, extended or implemented directly.
-* All classes generated by JavaCC, eg {% jdoc java::lang.ast.JJTJavaParserState %}.
-This includes token classes, which will be replaced with a single implementation, and
-subclasses of {% jdoc core::lang.ast.ParseException %}, whose usages will be replaced
-by just that superclass.
-
-
 ##### For removal
 
 * pmd-core
+  * {% jdoc core::lang.dfa.DFAGraphRule %} and its implementations
+  * {% jdoc core::lang.dfa.DFAGraphMethod %}
   * Many methods on the {% jdoc core::lang.ast.Node %} interface
   and {% jdoc core::lang.ast.AbstractNode %} base class. See their javadoc for details.
   * {% jdoc !!core::lang.ast.Node#isFindBoundary() %} is deprecated for XPath queries.
+  * Many APIs of {% jdoc_package core::lang.metrics %}, though most of them were internal and
+  probably not used directly outside of PMD. Use {% jdoc core::lang.metrics.MetricsUtil %} as
+  a replacement for the language-specific façades too.
+  * {% jdoc core::lang.ast.QualifiableNode %}, {% jdoc core::lang.ast.QualifiedName %}
 * pmd-java
   * {% jdoc java::lang.java.AbstractJavaParser %}
   * {% jdoc java::lang.java.AbstractJavaHandler %}
@@ -172,19 +176,90 @@ by just that superclass.
     following nodes: WhileStatement, DoStatement, ForStatement, IfStatement, AssertStatement, ConditionalExpression.
   * {% jdoc java::lang.java.ast.ASTYieldStatement %} will not implement {% jdoc java::lang.java.ast.TypeNode %}
     anymore come 7.0.0. Test the type of the expression nested within it.
+  * {% jdoc java::lang.java.metrics.JavaMetrics %}, {% jdoc java::lang.java.metrics.JavaMetricsComputer %}
+  * {% jdoc !!java::lang.java.ast.ASTArguments#getArgumentCount() %}.
+    Use {% jdoc java::lang.java.ast.ASTArguments#size() %} instead.
+  * {% jdoc !!java::lang.java.ast.ASTFormalParameters#getParameterCount() %}.
+    Use {% jdoc java::lang.java.ast.ASTFormalParameters#size() %} instead.
+* pmd-apex
+  * {% jdoc apex::lang.apex.metrics.ApexMetrics %}, {% jdoc apex::lang.apex.metrics.ApexMetricsComputer %}
 
+##### In ASTs (JSP)
+
+As part of the changes we'd like to do to AST classes for 7.0.0, we would like to
+hide some methods and constructors that rule writers should not have access to.
+The following usages are now deprecated **in the JSP AST** (with other languages to come):
+
+*   Manual instantiation of nodes. **Constructors of node classes are deprecated** and
+    marked {% jdoc core::annotation.InternalApi %}. Nodes should only be obtained from the parser,
+    which for rules, means that they never need to instantiate node themselves.
+    Those constructors will be made package private with 7.0.0.
+*   **Subclassing of abstract node classes, or usage of their type**. The base classes are internal API
+    and will be hidden in version 7.0.0. You should not couple your code to them.
+    *   In the meantime you should use interfaces like {% jdoc jsp::lang.jsp.ast.JspNode %} or
+        {% jdoc core::lang.ast.Node %}, or the other published interfaces in this package,
+        to refer to nodes generically.
+    *   Concrete node classes will **be made final** with 7.0.0.
+*   Setters found in any node class or interface. **Rules should consider the AST immutable**.
+    We will make those setters package private with 7.0.0.
+*   The class {% jdoc jsp::lang.jsp.JspParser %} is deprecated and should not be used directly.
+    Use {% jdoc !!core::lang.LanguageVersionHandler#getParser(ParserOptions) %} instead.
+
+Please look at {% jdoc_package jsp::lang.jsp.ast %} to find out the full list of deprecations.
+
+##### In ASTs (Velocity)
+
+As part of the changes we'd like to do to AST classes for 7.0.0, we would like to
+hide some methods and constructors that rule writers should not have access to.
+The following usages are now deprecated **in the VM AST** (with other languages to come):
+
+*   Manual instantiation of nodes. **Constructors of node classes are deprecated** and
+    marked {% jdoc core::annotation.InternalApi %}. Nodes should only be obtained from the parser,
+    which for rules, means that they never need to instantiate node themselves.
+    Those constructors will be made package private with 7.0.0.
+*   **Subclassing of abstract node classes, or usage of their type**. The base classes are internal API
+    and will be hidden in version 7.0.0. You should not couple your code to them.
+    *   In the meantime you should use interfaces like {% jdoc vm::lang.vm.ast.VmNode %} or
+        {% jdoc core::lang.ast.Node %}, or the other published interfaces in this package,
+        to refer to nodes generically.
+    *   Concrete node classes will **be made final** with 7.0.0.
+*   Setters found in any node class or interface. **Rules should consider the AST immutable**.
+    We will make those setters package private with 7.0.0.
+*   The package {% jdoc_package vm::lang.vm.directive %} as well as the classes
+    {% jdoc vm::lang.vm.util.DirectiveMapper %} and {% jdoc vm::lang.vm.util.LogUtil %} are deprecated
+    for removal. They were only used internally during parsing.
+*   The class {% jdoc vm::lang.vm.VmParser %} is deprecated and should not be used directly.
+    Use {% jdoc !!core::lang.LanguageVersionHandler#getParser(ParserOptions) %} instead.
+
+Please look at {% jdoc_package vm::lang.vm.ast %} to find out the full list of deprecations.
+
+#### PLSQL AST
+
+The production and node `ASTCursorBody` was unnecessary, not used and has been removed. Cursors have been already
+parsed as `ASTCursorSpecification`.
 
 ### External Contributions
 
-*   [#2041](https://github.com/pmd/pmd/pull/2041): \[modelica] Initial implementation for PMD - [Anatoly Trosinenko](https://github.com/atrosinenko)
-*   [#2051](https://github.com/pmd/pmd/pull/2051): \[doc] Update the docs on adding a new language - [Anatoly Trosinenko](https://github.com/atrosinenko)
-*   [#2069](https://github.com/pmd/pmd/pull/2069): \[java] CommentRequired: make property names consistent - [snuyanzin](https://github.com/snuyanzin)
-*   [#2169](https://github.com/pmd/pmd/pull/2169): \[modelica] Follow-up fixes for Modelica language module - [Anatoly Trosinenko](https://github.com/atrosinenko)
-*   [#2193](https://github.com/pmd/pmd/pull/2193): \[core] Fix odd logic in test runner - [Egor Bredikhin](https://github.com/Egor18)
-*   [#2194](https://github.com/pmd/pmd/pull/2194): \[java] Fix odd logic in AvoidUsingHardCodedIPRule - [Egor Bredikhin](https://github.com/Egor18)
-*   [#2195](https://github.com/pmd/pmd/pull/2195): \[modelica] Normalize invalid node ranges - [Anatoly Trosinenko](https://github.com/atrosinenko)
-*   [#2199](https://github.com/pmd/pmd/pull/2199): \[modelica] Fix Javadoc tags - [Anatoly Trosinenko](https://github.com/atrosinenko)
-*   [#2225](https://github.com/pmd/pmd/pull/2225): \[core] CPD: report endLine / column informations for found duplications - [Maikel Steneker](https://github.com/maikelsteneker)
+*   [#2251](https://github.com/pmd/pmd/pull/2251): \[java] FP for InvalidLogMessageFormat when using slf4j-Markers - [Kris Scheibe](https://github.com/kris-scheibe)
+*   [#2253](https://github.com/pmd/pmd/pull/2253): \[modelica] Remove duplicated dependencies - [Piotrek Żygieło](https://github.com/pzygielo)
+*   [#2256](https://github.com/pmd/pmd/pull/2256): \[doc] Corrected XML attributes in release notes - [Maikel Steneker](https://github.com/maikelsteneker)
+*   [#2276](https://github.com/pmd/pmd/pull/2276): \[java] AppendCharacterWithCharRule ignore literals in expressions - [Kris Scheibe](https://github.com/kris-scheibe)
+*   [#2278](https://github.com/pmd/pmd/pull/2278): \[java] fix UnusedImports rule for ambiguous static on-demand imports - [Kris Scheibe](https://github.com/kris-scheibe)
+*   [#2279](https://github.com/pmd/pmd/pull/2279): \[apex] Add support for suppressing violations using the // NOPMD comment - [Gwilym Kuiper](https://github.com/gwilymatgearset)
+*   [#2280](https://github.com/pmd/pmd/pull/2280): \[cs] CPD: Replace C# tokenizer by an Antlr-based one - [Maikel Steneker](https://github.com/maikelsteneker)
+*   [#2297](https://github.com/pmd/pmd/pull/2297): \[apex] Cognitive complexity metrics - [Gwilym Kuiper](https://github.com/gwilymatgearset)
+*   [#2317](https://github.com/pmd/pmd/pull/2317): \[apex] New Rule - Test Methods Must Be In Test Classes - [Brian Nørremark](https://github.com/noerremark)
+*   [#2321](https://github.com/pmd/pmd/pull/2321): \[apex] Support switch statements correctly in Cognitive Complexity - [Gwilym Kuiper](https://github.com/gwilymatgearset)
+*   [#2326](https://github.com/pmd/pmd/pull/2326): \[plsql] Added XML functions to parser: extract(xml), xml_root and fixed xml_forest - [Piotr Szymanski](https://github.com/szyman23)
+*   [#2327](https://github.com/pmd/pmd/pull/2327): \[plsql] Parsing of WHERE CURRENT OF added - [Piotr Szymanski](https://github.com/szyman23)
+*   [#2331](https://github.com/pmd/pmd/pull/2331): \[plsql] Fix in Comment statement - [Piotr Szymanski](https://github.com/szyman23)
+*   [#2332](https://github.com/pmd/pmd/pull/2332): \[plsql] Fixed Execute Immediate statement parsing - [Piotr Szymanski](https://github.com/szyman23)
+*   [#2338](https://github.com/pmd/pmd/pull/2338): \[cs] CPD: fixes in filtering of using directives - [Maikel Steneker](https://github.com/maikelsteneker)
+*   [#2339](https://github.com/pmd/pmd/pull/2339): \[cs] CPD: Fixed CPD --ignore-usings option - [Maikel Steneker](https://github.com/maikelsteneker)
+*   [#2340](https://github.com/pmd/pmd/pull/2340): \[plsql] fix for parsing / as divide or execute - [Piotr Szymanski](https://github.com/szyman23)
+*   [#2342](https://github.com/pmd/pmd/pull/2342): \[xml] Update property used in example - [Piotrek Żygieło](https://github.com/pzygielo)
+*   [#2344](https://github.com/pmd/pmd/pull/2344): \[doc] Update ruleset examples for ant - [Piotrek Żygieło](https://github.com/pzygielo)
+*   [#2343](https://github.com/pmd/pmd/pull/2343): \[ci] Disable checking for snapshots in jcenter - [Piotrek Żygieło](https://github.com/pzygielo)
 
 {% endtocmaker %}
 
