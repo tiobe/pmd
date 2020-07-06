@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd</artifactId>
-    <version>6.24.0</version>
+    <version>6.25.0</version>
     <packaging>pom</packaging>
     <name>PMD</name>
 
@@ -55,7 +55,7 @@
         <connection>scm:git:git://github.com/pmd/pmd.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/pmd/pmd.git</developerConnection>
         <url>https://github.com/pmd/pmd</url>
-        <tag>pmd_releases/6.24.0</tag>
+        <tag>pmd_releases/6.25.0</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
@@ -76,7 +76,7 @@
     </issueManagement>
 
     <properties>
-        <project.build.outputTimestamp>2020-05-24T15:23:10Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2020-06-27T09:21:27Z</project.build.outputTimestamp>
 
         <java.version>7</java.version>
 
@@ -256,7 +256,7 @@
                         <forkMode>once</forkMode>
                         <runOrder>alphabetical</runOrder>
                         <systemPropertyVariables>
-                            <mvn.project.src.test.resources>${project.basedir}/src/test/resources</mvn.project.src.test.resources>
+                            <mvn.project.src.test.resources>${project.build.testResources[0].directory}</mvn.project.src.test.resources>
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
@@ -1030,7 +1030,10 @@
         <module>pmd-plsql</module>
         <module>pmd-python</module>
         <module>pmd-ruby</module>
-        <module>pmd-scala</module>
+        <module>pmd-scala</module> <!-- deprecated -->
+        <module>pmd-scala-modules/pmd-scala-common</module>
+        <module>pmd-scala-modules/pmd-scala_2.13</module>
+        <module>pmd-scala-modules/pmd-scala_2.12</module>
         <module>pmd-swift</module>
         <module>pmd-test</module>
         <module>pmd-visualforce</module>
