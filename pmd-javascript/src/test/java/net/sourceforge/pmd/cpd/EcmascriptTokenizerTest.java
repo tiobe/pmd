@@ -95,4 +95,8 @@ public class EcmascriptTokenizerTest extends CpdTextComparisonTest {
         final Tokens tokens = new Tokens();
         t.tokenize(sourceCode, tokens); // should not result in error
     }
+
+    public void testTabWidth() {
+        doTest("tabWidth");
+    }
 }

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -346,7 +346,7 @@ public class RuleSetFactoryTest {
                     "WARNING: Discontinue using Rule rulesets/dummy/basic.xml/DeprecatedRule as it is scheduled for removal from PMD."));
         assertEquals(1,
                 StringUtils.countMatches(logging.getLog(),
-                    "WARNING: Unable to exclude rules [NonExistingRule] from ruleset reference rulesets/dummy/basic.xml; perhaps the rule name is mispelled or the rule doesn't exist anymore?"));
+                    "WARNING: Unable to exclude rules [NonExistingRule] from ruleset reference rulesets/dummy/basic.xml; perhaps the rule name is misspelled or the rule doesn't exist anymore?"));
     }
 
     /**
@@ -573,7 +573,7 @@ public class RuleSetFactoryTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIncorrectExternalRef() throws IllegalArgumentException, RuleSetNotFoundException {
-        loadFirstRule(REF_MISPELLED_XREF);
+        loadFirstRule(REF_MISSPELLED_XREF);
     }
 
     @Test
@@ -604,7 +604,7 @@ public class RuleSetFactoryTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testIncorrectMinimumLanugageVersion() throws RuleSetNotFoundException {
+    public void testIncorrectMinimumLanguageVersion() throws RuleSetNotFoundException {
         loadFirstRule(INCORRECT_MINIMUM_LANGUAGE_VERSION);
     }
 
@@ -633,7 +633,7 @@ public class RuleSetFactoryTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testIncorrectMaximumLanugageVersion() throws RuleSetNotFoundException {
+    public void testIncorrectMaximumLanguageVersion() throws RuleSetNotFoundException {
         loadFirstRule(INCORRECT_MAXIMUM_LANGUAGE_VERSION);
     }
 
@@ -927,7 +927,7 @@ public class RuleSetFactoryTest {
         + " </rule>\n"
         + "</ruleset>";
 
-    private static final String REF_MISPELLED_XREF = "<?xml version=\"1.0\"?>\n"
+    private static final String REF_MISSPELLED_XREF = "<?xml version=\"1.0\"?>\n"
         + "<ruleset name=\"test\">\n"
         + "\n"
         + " <description>testdesc</description>\n"
@@ -985,6 +985,7 @@ public class RuleSetFactoryTest {
         + " <description>testdesc</description>\n"
         + "<rule \n"
         + "\n"
+        + "language=\"dummy\" \n"
         + "name=\"MockRuleName\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\">\n"
@@ -997,6 +998,7 @@ public class RuleSetFactoryTest {
         + " <description>testdesc</description>\n"
         + "<rule \n"
         + "\n"
+        + "language=\"dummy\" \n"
         + "name=\"MockRuleName\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\">\n"
@@ -1034,6 +1036,7 @@ public class RuleSetFactoryTest {
         + "<ruleset name=\"test\">\n"
         + "<description>testdesc</description>\n"
         + "<rule \n"
+        + "language=\"dummy\" \n"
         + "name=\"MockRuleName\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\">\n"
@@ -1045,11 +1048,13 @@ public class RuleSetFactoryTest {
         + "\n"
         + "<description>testdesc</description>\n"
         + "<rule name=\"MockRuleName1\" \n"
+        + "language=\"dummy\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\">\n"
         + "\n"
         + "</rule>\n"
         + "<rule name=\"MockRuleName2\" \n"
+        + "language=\"dummy\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\">\n"
         + "\n"
@@ -1059,6 +1064,7 @@ public class RuleSetFactoryTest {
         + "<ruleset name=\"test\">\n"
         + "<description>testdesc</description>\n"
         + "<rule name=\"MockRuleName\" \n"
+        + "language=\"dummy\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\">\n"
         + "\n"
@@ -1080,6 +1086,7 @@ public class RuleSetFactoryTest {
         + "<ruleset name=\"test\">\n"
         + "<description>testdesc</description>\n"
         + "<rule name=\"MockRuleName\" \n"
+        + "language=\"dummy\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\">\n"
         + "<priority>3</priority>\n"
@@ -1098,6 +1105,7 @@ public class RuleSetFactoryTest {
         + "<ruleset name=\"test\">\n"
         + "<description>testdesc</description>\n"
         + "<rule \n"
+        + "language=\"dummy\" \n"
         + "name=\"MockRuleName\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\">\n"
@@ -1110,7 +1118,8 @@ public class RuleSetFactoryTest {
         + "<rule \n"
         + "name=\"MockRuleName\" \n"
         + "message=\"avoid the mock rule\" \n"
-        + "class=\"net.sourceforge.pmd.lang.rule.MockRule\" language=\"dummy\">\n"
+        + "class=\"net.sourceforge.pmd.lang.rule.MockRule\" "
+        + "language=\"dummy\">\n"
         + "</rule></ruleset>";
 
     private static final String INCORRECT_LANGUAGE = "<?xml version=\"1.0\"?>\n"
@@ -1186,8 +1195,8 @@ public class RuleSetFactoryTest {
         + "\n"
         + "<description>testdesc</description>\n"
         + "<rule \n"
+        + "language=\"dummy\" \n"
         + "name=\"MockRuleName\" \n"
-        + "\n"
         + "message=\"avoid the mock rule\" \n"
         + "class=\"net.sourceforge.pmd.lang.rule.MockRule\" deprecated=\"true\">\n"
         + "</rule></ruleset>";
@@ -1216,6 +1225,7 @@ public class RuleSetFactoryTest {
         + "<ruleset name=\"test\">\n"
         + "<description>testdesc</description>\n"
         + "<rule \n"
+        + "language=\"dummy\" \n"
         + "name=\"MockRuleName\" \n"
         + "message=\"avoid the mock rule\" \n"
         + "dfa=\"true\" \n"
@@ -1259,11 +1269,7 @@ public class RuleSetFactoryTest {
         return new RuleSetReferenceId(null) {
             @Override
             public InputStream getInputStream(ResourceLoader resourceLoader) throws RuleSetNotFoundException {
-                try {
-                    return new ByteArrayInputStream(ruleSetXml.getBytes("UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    return null;
-                }
+                return new ByteArrayInputStream(ruleSetXml.getBytes(StandardCharsets.UTF_8));
             }
         };
     }

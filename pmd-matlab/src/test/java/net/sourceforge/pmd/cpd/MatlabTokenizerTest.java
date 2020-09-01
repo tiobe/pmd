@@ -118,4 +118,9 @@ public class MatlabTokenizerTest extends CpdTextComparisonTest {
     public void testDoubleQuotedStrings() {
         doTest("doubleQuotedStrings");
     }
+
+    @Test
+    public void testTabWidth() {
+        doTest("tabWidth");
+    }
 }
