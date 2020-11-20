@@ -333,6 +333,7 @@ public class GUI implements CPDListener {
     private JCheckBox ignoreLiteralsCheckbox = new JCheckBox("", false);
     private JCheckBox ignoreAnnotationsCheckbox = new JCheckBox("", false);
     private JCheckBox ignoreUsingsCheckbox = new JCheckBox("", false);
+    private JCheckBox skipLiteralSequencesCheckbox = new JCheckBox("", false);
     private JComboBox<String> languageBox = new JComboBox<>();
     private JTextField extensionField = new JTextField();
     private JLabel extensionLabel = new JLabel("Extension:", SwingConstants.RIGHT);
@@ -478,6 +479,13 @@ public class GUI implements CPDListener {
         helper.nextRow();
         helper.addLabel("Ignore usings?");
         helper.add(ignoreUsingsCheckbox);
+        helper.addLabel("");
+        helper.addLabel("");
+        helper.nextRow();
+
+        helper.nextRow();
+        helper.addLabel("Skip literal sequences?");
+        helper.add(skipLiteralSequencesCheckbox);
         helper.add(goButton);
         helper.add(cxButton);
         helper.nextRow();
@@ -663,6 +671,7 @@ public class GUI implements CPDListener {
             config.setIgnoreLiterals(ignoreLiteralsCheckbox.isSelected());
             config.setIgnoreAnnotations(ignoreAnnotationsCheckbox.isSelected());
             config.setIgnoreUsings(ignoreUsingsCheckbox.isSelected());
+            config.setSkipLiteralSequences(skipLiteralSequencesCheckbox.isSelected());
             p.setProperty(LanguageFactory.EXTENSION, extensionField.getText());
 
             LanguageConfig conf = languageConfigFor((String) languageBox.getSelectedItem());

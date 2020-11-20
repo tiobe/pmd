@@ -19,15 +19,23 @@ import net.sourceforge.pmd.lang.cs.antlr4.CSharpLexer;
 public class CsTokenizer extends AntlrTokenizer {
 
     private boolean ignoreUsings = false;
+    private boolean skipLiteralSequences = false;
 
     public void setProperties(Properties properties) {
         if (properties.containsKey(IGNORE_USINGS)) {
             ignoreUsings = Boolean.parseBoolean(properties.getProperty(IGNORE_USINGS, "false"));
         }
+        if (properties.containsKey(OPTION_SKIP_LITERAL_SEQUENCES)) {
+            skipLiteralSequences = Boolean.parseBoolean(properties.getProperty(OPTION_SKIP_LITERAL_SEQUENCES, "false"));
+        }
     }
 
     public void setIgnoreUsings(boolean ignoreUsings) {
         this.ignoreUsings = ignoreUsings;
+    }
+
+    public void setSkipLiteralSequences(boolean skipLiteralSequences) {
+        this.skipLiteralSequences = skipLiteralSequences;
     }
 
     @Override
@@ -38,7 +46,7 @@ public class CsTokenizer extends AntlrTokenizer {
 
     @Override
     protected AntlrTokenFilter getTokenFilter(final AntlrTokenManager tokenManager) {
-        return new CsTokenFilter(tokenManager, ignoreUsings);
+        return new CsTokenFilter(tokenManager, ignoreUsings, skipLiteralSequences);
     }
 
     /**
@@ -56,14 +64,16 @@ public class CsTokenizer extends AntlrTokenizer {
         }
 
         private final boolean ignoreUsings;
+        private final boolean skipLiteralSequences;
         private boolean discardingUsings = false;
         private boolean discardingNL = false;
         private boolean discardingLiterals = false;
         private boolean discardCurrent = false;
 
-        CsTokenFilter(final AntlrTokenManager tokenManager, boolean ignoreUsings) {
+        CsTokenFilter(final AntlrTokenManager tokenManager, boolean ignoreUsings, boolean skipLiteralSequences) {
             super(tokenManager);
             this.ignoreUsings = ignoreUsings;
+            this.skipLiteralSequences = skipLiteralSequences;
         }
 
         @Override
@@ -75,7 +85,7 @@ public class CsTokenizer extends AntlrTokenizer {
         protected void analyzeTokens(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
             discardCurrent = false;
             skipUsingDirectives(currentToken, remainingTokens);
-            skipLiterals(currentToken, remainingTokens);
+            skipLiteralSequences(currentToken, remainingTokens);
         }
 
         private void skipUsingDirectives(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
@@ -150,17 +160,19 @@ public class CsTokenizer extends AntlrTokenizer {
             discardingNL = currentToken.getType() == CSharpLexer.NL;
         }
 
-        private void skipLiterals(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
-            final int type = currentToken.getType();
-            if (type == CSharpLexer.OPEN_BRACE && isListOfLiterals(remainingTokens)) {
-                discardingLiterals = true;
-            } else if (type == CSharpLexer.CLOSE_BRACE && discardingLiterals) {
-                discardingLiterals = false;
-                discardCurrent = true;
+        private void skipLiteralSequences(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
+            if (skipLiteralSequences) {
+                final int type = currentToken.getType();
+                if (type == CSharpLexer.OPEN_BRACE && isSequenceOfLiterals(remainingTokens)) {
+                    discardingLiterals = true;
+                } else if (type == CSharpLexer.CLOSE_BRACE && discardingLiterals) {
+                    discardingLiterals = false;
+                    discardCurrent = true;
+                }
             }
         }
 
-        private boolean isListOfLiterals(final Iterable<AntlrToken> remainingTokens) {
+        private boolean isSequenceOfLiterals(final Iterable<AntlrToken> remainingTokens) {
             boolean seenLiteral = false;
             for (final AntlrToken token : remainingTokens) {
                 switch (token.getType()) {
@@ -173,7 +185,7 @@ public class CsTokenizer extends AntlrTokenizer {
                     // end of the list; skip all contents
                     return seenLiteral;
                 default:
-                    // some other token than the expected ones; this is not a list of literals
+                    // some other token than the expected ones; this is not a sequence of literals
                     return false;
                 }
             }

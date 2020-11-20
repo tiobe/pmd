@@ -91,6 +91,9 @@ public class CPDConfiguration extends AbstractConfiguration {
     @Parameter(names = "--ignore-usings", description = "Ignore using directives in C#", required = false)
     private boolean ignoreUsings;
 
+    @Parameter(names = "--skip-literal-sequences", description = "Ignore sequences of literals", required = false)
+    private boolean skipLiteralSequences = false;
+
     @Parameter(names = "--skip-lexical-errors",
             description = "Skip files which can't be tokenized due to invalid characters instead of aborting CPD",
             required = false)
@@ -273,6 +276,11 @@ public class CPDConfiguration extends AbstractConfiguration {
         } else {
             properties.remove(Tokenizer.IGNORE_USINGS);
         }
+        if (configuration.isSkipLiteralSequences()) {
+            properties.setProperty(Tokenizer.OPTION_SKIP_LITERAL_SEQUENCES, "true");
+        } else {
+            properties.remove(Tokenizer.OPTION_SKIP_LITERAL_SEQUENCES);
+        }
         properties.setProperty(Tokenizer.OPTION_SKIP_BLOCKS, Boolean.toString(!configuration.isNoSkipBlocks()));
         properties.setProperty(Tokenizer.OPTION_SKIP_BLOCKS_PATTERN, configuration.getSkipBlocksPattern());
         configuration.getLanguage().setProperties(properties);
@@ -409,6 +417,14 @@ public class CPDConfiguration extends AbstractConfiguration {
 
     public void setIgnoreUsings(boolean ignoreUsings) {
         this.ignoreUsings = ignoreUsings;
+    }
+
+    public boolean isSkipLiteralSequences() {
+        return skipLiteralSequences;
+    }
+
+    public void setSkipLiteralSequences(boolean skipLiteralSequences) {
+        this.skipLiteralSequences = skipLiteralSequences;
     }
 
     public boolean isSkipLexicalErrors() {
