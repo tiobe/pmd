@@ -25,9 +25,7 @@ public class CsTokenizer extends AntlrTokenizer {
         if (properties.containsKey(IGNORE_USINGS)) {
             ignoreUsings = Boolean.parseBoolean(properties.getProperty(IGNORE_USINGS, "false"));
         }
-        if (properties.containsKey(OPTION_SKIP_LITERAL_SEQUENCES)) {
-            skipLiteralSequences = Boolean.parseBoolean(properties.getProperty(OPTION_SKIP_LITERAL_SEQUENCES, "false"));
-        }
+        skipLiteralSequences = Boolean.parseBoolean(properties.getProperty(OPTION_SKIP_LITERAL_SEQUENCES, "false"));
     }
 
     public void setIgnoreUsings(boolean ignoreUsings) {

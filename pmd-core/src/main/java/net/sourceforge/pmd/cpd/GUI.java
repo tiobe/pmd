@@ -115,6 +115,10 @@ public class GUI implements CPDListener {
             return false;
         }
 
+        public boolean canSkipLiteralSequences() {
+            return false;
+        }
+
         public abstract String[] extensions();
     }
 
@@ -158,6 +162,11 @@ public class GUI implements CPDListener {
 
                 @Override
                 public boolean canIgnoreUsings() {
+                    return "cs".equals(terseName);
+                }
+
+                @Override
+                public boolean canSkipLiteralSequences() {
                     return "cs".equals(terseName);
                 }
             };
@@ -421,6 +430,7 @@ public class GUI implements CPDListener {
         ignoreLiteralsCheckbox.setEnabled(current.canIgnoreLiterals());
         ignoreAnnotationsCheckbox.setEnabled(current.canIgnoreAnnotations());
         ignoreUsingsCheckbox.setEnabled(current.canIgnoreUsings());
+        skipLiteralSequencesCheckbox.setEnabled(current.canSkipLiteralSequences());
         extensionField.setText(current.extensions()[0]);
         boolean enableExtension = current.extensions()[0].isEmpty();
         extensionField.setEnabled(enableExtension);
