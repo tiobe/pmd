@@ -31,7 +31,6 @@ import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclaratorId;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableInitializer;
 import net.sourceforge.pmd.lang.java.rule.AbstractJavaRule;
 import net.sourceforge.pmd.lang.java.symboltable.JavaNameOccurrence;
-import net.sourceforge.pmd.lang.java.typeresolution.TypeHelper;
 import net.sourceforge.pmd.lang.symboltable.NameOccurrence;
 
 /**
@@ -55,7 +54,8 @@ public class InsufficientStringBufferDeclarationRule extends AbstractJavaRule {
 
     @Override
     public Object visit(ASTVariableDeclaratorId node, Object data) {
-        if (!TypeHelper.isExactlyAny(node.getNameDeclaration(), StringBuffer.class, StringBuilder.class)) {
+        if (node.getNameDeclaration() == null
+                || !ConsecutiveLiteralAppendsRule.isStringBuilderOrBuffer(node)) {
             return data;
         }
         Node rootNode = node;
@@ -72,10 +72,10 @@ public class InsufficientStringBufferDeclarationRule extends AbstractJavaRule {
         for (NameOccurrence no : usage) {
             JavaNameOccurrence jno = (JavaNameOccurrence) no;
             Node n = jno.getLocation();
-            if (!InefficientStringBufferingRule.isInStringBufferOperation(n, 3, "append")) {
+            if (!InefficientStringBufferingRule.isInStringBufferOperationChain(n, "append")) {
 
                 if (!jno.isOnLeftHandSide()
-                        && !InefficientStringBufferingRule.isInStringBufferOperation(n, 3, "setLength")) {
+                        && !InefficientStringBufferingRule.isInStringBufferOperationChain(n, "setLength")) {
                     continue;
                 }
                 if (constructorLength != -1 && anticipatedLength > constructorLength) {

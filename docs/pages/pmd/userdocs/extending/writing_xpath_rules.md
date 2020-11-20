@@ -80,10 +80,18 @@ function from Java types to XDM types.
 |`String`         | `xs:string`
 |`Character`      | `xs:string`
 |`Enum<E>`        | `xs:string` (uses `Object::toString`)
-|`List<E>`        | `conv(E)*` (a sequence type)
+|`List<E>`        | `conv(E)*` (a sequence type) <br> ⚠️ List support is deprecated with 6.25.0. See below.
 
 
 The same `conv` function is used to translate rule property values to XDM values.
+
+{% include warning.html content="Support for attributes of type `List<E>` has been deprecated
+with PMD 6.25.0 and will be removed completely with PMD 7. The reason is that newer Saxon
+versions don't support sequences as attributes anymore. Lists are still possible in Java-based
+rules but not with XPath.
+
+[Multivalued rule properties](pmd_userdocs_extending_defining_properties.html#multivalued-properties)
+are still supported." %}
 
 
 ## Migrating from 1.0 to 2.0
@@ -118,6 +126,18 @@ In XPath 2.0, a type error occurs. Like for boolean values, numeric values are
 represented by our 1.0 implementation as strings, meaning that `@BeginLine > "1"`
 worked ---that's not the case in 2.0 mode.
    * <code>@ArgumentCount > <b style="color:red">'</b>1<b style="color:red">'</b></code> &rarr; `@ArgumentCount > 1`
+
+* In XPath 1.0, the expression `/Foo` matches the *children* of the root named `Foo`.
+In XPath 2.0, that expression matches the root, if it is named `Foo`. Consider the following tree:
+```java
+Foo
+└─ Foo
+└─ Foo
+```
+Then `/Foo` will match the root in XPath 2, and the other nodes (but not the root) in XPath 1.
+See eg [an issue caused by this](https://github.com/pmd/pmd/issues/1919#issuecomment-512865434) in Apex,
+with nested classes.
+
 
 ## Rule properties
 

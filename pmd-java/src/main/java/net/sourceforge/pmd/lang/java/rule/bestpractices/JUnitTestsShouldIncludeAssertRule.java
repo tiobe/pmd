@@ -23,7 +23,7 @@ import net.sourceforge.pmd.lang.java.ast.ASTReferenceType;
 import net.sourceforge.pmd.lang.java.ast.ASTStatementExpression;
 import net.sourceforge.pmd.lang.java.rule.AbstractJUnitRule;
 import net.sourceforge.pmd.lang.java.symboltable.VariableNameDeclaration;
-import net.sourceforge.pmd.lang.java.typeresolution.TypeHelper;
+import net.sourceforge.pmd.lang.java.types.TypeTestUtil;
 import net.sourceforge.pmd.lang.symboltable.NameDeclaration;
 import net.sourceforge.pmd.lang.symboltable.NameOccurrence;
 import net.sourceforge.pmd.lang.symboltable.Scope;
@@ -61,6 +61,7 @@ public class JUnitTestsShouldIncludeAssertRule extends AbstractJUnitRule {
         if (n instanceof ASTStatementExpression) {
             if (isExpectStatement((ASTStatementExpression) n, expectables)
                     || isAssertOrFailStatement((ASTStatementExpression) n)
+                    || isHamcrestAssert((ASTStatementExpression) n)
                     || isVerifyStatement((ASTStatementExpression) n)
                     || isSoftAssertionStatement((ASTStatementExpression) n, variables)) {
                 return true;
@@ -122,7 +123,7 @@ public class JUnitTestsShouldIncludeAssertRule extends AbstractJUnitRule {
         List<ASTNormalAnnotation> annotations = methodParent.findDescendantsOfType(ASTNormalAnnotation.class);
         for (ASTNormalAnnotation annotation : annotations) {
             ASTName name = annotation.getFirstChildOfType(ASTName.class);
-            if (name != null && TypeHelper.isA(name, JUNIT4_CLASS_NAME)) {
+            if (TypeTestUtil.isA(JUNIT4_CLASS_NAME, name)) {
                 List<ASTMemberValuePair> memberValues = annotation.findDescendantsOfType(ASTMemberValuePair.class);
                 for (ASTMemberValuePair pair : memberValues) {
                     if ("expected".equals(pair.getImage())) {
@@ -134,43 +135,42 @@ public class JUnitTestsShouldIncludeAssertRule extends AbstractJUnitRule {
         return false;
     }
 
-    /**
-     * Tells if the expression is an assert statement or not.
-     */
-    private boolean isAssertOrFailStatement(ASTStatementExpression expression) {
+    private String getMethodCallNameOrNull(ASTStatementExpression expression) {
         if (expression != null) {
             ASTPrimaryExpression pe = expression.getFirstChildOfType(ASTPrimaryExpression.class);
             if (pe != null) {
                 Node name = pe.getFirstDescendantOfType(ASTName.class);
                 if (name != null) {
-                    String img = name.getImage();
-                    if (img != null && (img.startsWith("assert") || img.startsWith("fail")
-                            || img.startsWith("Assert.assert") || img.startsWith("Assert.fail"))) {
-                        return true;
-                    }
+                    return name.getImage();
                 }
             }
         }
-        return false;
+        return null;
+    }
+
+    /**
+     * Tells if the expression is an Hamcrest assert
+     */
+    private boolean isHamcrestAssert(ASTStatementExpression expression) {
+        String img = getMethodCallNameOrNull(expression);
+        return "assertThat".equals(img) || "MatcherAssert.assertThat".equals(img);
+    }
+
+    /**
+     * Tells if the expression is an assert statement or not.
+     */
+    private boolean isAssertOrFailStatement(ASTStatementExpression expression) {
+        String img = getMethodCallNameOrNull(expression);
+        return img != null && (img.startsWith("assert") || img.startsWith("fail")
+                || img.startsWith("Assert.assert") || img.startsWith("Assert.fail"));
     }
 
     /**
      * Tells if the expression is verify statement or not
      */
     private boolean isVerifyStatement(ASTStatementExpression expression) {
-        if (expression != null) {
-            ASTPrimaryExpression pe = expression.getFirstChildOfType(ASTPrimaryExpression.class);
-            if (pe != null) {
-                Node name = pe.getFirstDescendantOfType(ASTName.class);
-                if (name != null) {
-                    String img = name.getImage();
-                    if (img != null && (img.startsWith("verify") || img.startsWith("Mockito.verify"))) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        String img = getMethodCallNameOrNull(expression);
+        return img != null && (img.startsWith("verify") || img.startsWith("Mockito.verify"));
     }
 
     private boolean isExpectStatement(ASTStatementExpression expression,
@@ -210,7 +210,7 @@ public class JUnitTestsShouldIncludeAssertRule extends AbstractJUnitRule {
                 Node name = pe.getFirstDescendantOfType(ASTName.class);
                 if (name != null) {
                     String img = name.getImage();
-                    if (img.indexOf(".") == -1) {
+                    if (!img.contains(".")) {
                         return false;
                     }
                     String[] tokens = img.split("\\.");
@@ -219,7 +219,7 @@ public class JUnitTestsShouldIncludeAssertRule extends AbstractJUnitRule {
 
                     String varName = tokens[0];
                     boolean variableTypeIsSoftAssertion = variables.containsKey(varName)
-                            && TypeHelper.isA(variables.get(varName), "org.assertj.core.api.AbstractSoftAssertions");
+                            && TypeTestUtil.isA("org.assertj.core.api.AbstractSoftAssertions", variables.get(varName).getDeclaratorId());
 
                     return methodIsAssertAll && variableTypeIsSoftAssertion;
                 }

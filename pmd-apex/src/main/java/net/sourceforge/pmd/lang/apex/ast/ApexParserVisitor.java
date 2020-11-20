@@ -1,4 +1,4 @@
-/**
+/*
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
 
@@ -87,6 +87,8 @@ public interface ApexParserVisitor {
     Object visit(ASTIllegalStoreExpression node, Object data);
 
     Object visit(ASTInstanceOfExpression node, Object data);
+
+    Object visit(ASTInvalidDependentCompilation node, Object data);
 
     Object visit(ASTJavaMethodCallExpression node, Object data);
 

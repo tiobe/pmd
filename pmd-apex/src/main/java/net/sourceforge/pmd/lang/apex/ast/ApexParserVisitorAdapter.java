@@ -1,4 +1,4 @@
-/**
+/*
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
 
@@ -251,6 +251,11 @@ public class ApexParserVisitorAdapter implements ApexParserVisitor {
 
     @Override
     public Object visit(ASTInstanceOfExpression node, Object data) {
+        return visit((ApexNode<?>) node, data);
+    }
+
+    @Override
+    public Object visit(ASTInvalidDependentCompilation node, Object data) {
         return visit((ApexNode<?>) node, data);
     }
 

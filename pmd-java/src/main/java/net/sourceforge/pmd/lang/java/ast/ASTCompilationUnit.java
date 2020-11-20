@@ -60,6 +60,11 @@ public class ASTCompilationUnit extends AbstractJavaTypeNode implements RootNode
         return null;
     }
 
+    @Override
+    public ASTCompilationUnit getRoot() {
+        return this;
+    }
+
     /**
      * Returns the package name of this compilation unit. If this is in
      * the default package, returns the empty string.
@@ -67,7 +72,7 @@ public class ASTCompilationUnit extends AbstractJavaTypeNode implements RootNode
     // @NonNull
     public String getPackageName() {
         ASTPackageDeclaration pdecl = getPackageDeclaration();
-        return pdecl == null ? "" : pdecl.getPackageNameImage();
+        return pdecl == null ? "" : pdecl.getName();
     }
 
     @InternalApi

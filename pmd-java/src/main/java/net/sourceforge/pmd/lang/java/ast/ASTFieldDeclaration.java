@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import net.sourceforge.pmd.annotation.InternalApi;
 import net.sourceforge.pmd.lang.ast.SignedNode;
+import net.sourceforge.pmd.lang.ast.xpath.internal.DeprecatedAttribute;
 import net.sourceforge.pmd.lang.java.multifile.signature.JavaFieldSignature;
 import net.sourceforge.pmd.lang.java.typeresolution.typedefinition.JavaTypeDefinition;
 
@@ -168,7 +169,7 @@ public class ASTFieldDeclaration extends AbstractJavaAccessTypeNode implements D
 
     /**
      * Gets the variable name of this field. This method searches the first
-     * VariableDeclartorId node and returns its image or <code>null</code> if
+     * VariableDeclaratorId node and returns its image or <code>null</code> if
      * the child node is not found.
      *
      * @return a String representing the name of the variable
@@ -177,6 +178,7 @@ public class ASTFieldDeclaration extends AbstractJavaAccessTypeNode implements D
      *     Iterate on the {@linkplain ASTVariableDeclaratorId VariableDeclaratorIds} instead
      */
     @Deprecated
+    @DeprecatedAttribute(replaceWith = "VariableDeclaratorId/@Name")
     public String getVariableName() {
         ASTVariableDeclaratorId decl = getFirstDescendantOfType(ASTVariableDeclaratorId.class);
         if (decl != null) {

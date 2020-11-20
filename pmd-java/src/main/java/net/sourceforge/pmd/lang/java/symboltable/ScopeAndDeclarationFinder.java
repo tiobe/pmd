@@ -7,6 +7,7 @@ package net.sourceforge.pmd.lang.java.symboltable;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import net.sourceforge.pmd.annotation.InternalApi;
 import net.sourceforge.pmd.lang.java.ast.ASTAnnotationTypeDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTBlock;
 import net.sourceforge.pmd.lang.java.ast.ASTCatchStatement;
@@ -21,6 +22,7 @@ import net.sourceforge.pmd.lang.java.ast.ASTLambdaExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTMethodDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTMethodDeclarator;
 import net.sourceforge.pmd.lang.java.ast.ASTPackageDeclaration;
+import net.sourceforge.pmd.lang.java.ast.ASTRecordDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTSwitchStatement;
 import net.sourceforge.pmd.lang.java.ast.ASTTryStatement;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclaratorId;
@@ -39,6 +41,8 @@ import net.sourceforge.pmd.lang.symboltable.Scope;
  * each scope object is linked to its parent scope, which is the scope object of
  * the next embedding syntactic entity that has a scope.
  */
+@Deprecated
+@InternalApi
 public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
 
     private ClassLoader classLoader;
@@ -189,6 +193,13 @@ public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
     }
 
     @Override
+    public Object visit(ASTRecordDeclaration node, Object data) {
+        createClassScope(node);
+        cont(node);
+        return data;
+    }
+
+    @Override
     public Object visit(ASTClassOrInterfaceBody node, Object data) {
         if (node.isAnonymousInnerClass() || node.isEnumChild()) {
             createClassScope(node);
@@ -263,6 +274,16 @@ public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
 
     @Override
     public Object visit(ASTVariableDeclaratorId node, Object data) {
+        if (node.isPatternBinding()) {
+            // Don't consider type test patterns here. It could bind to a name
+            // that is already in the scope (e.g. field names).
+            // type tests patterns are tricky to implement
+            // and given it's a preview feature, and the sym table will be replaced
+            // for 7.0, it's not useful to support them.
+            // See https://cr.openjdk.java.net/~briangoetz/amber/pattern-semantics.html#scoping-of-pattern-variables
+            return super.visit(node, data);
+        }
+
         VariableNameDeclaration decl = new VariableNameDeclaration(node);
         node.getScope().addDeclaration(decl);
         node.setNameDeclaration(decl);

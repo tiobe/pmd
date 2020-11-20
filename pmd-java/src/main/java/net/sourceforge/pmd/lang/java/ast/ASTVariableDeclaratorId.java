@@ -6,8 +6,10 @@ package net.sourceforge.pmd.lang.java.ast;
 
 import java.util.List;
 
+import net.sourceforge.pmd.annotation.Experimental;
 import net.sourceforge.pmd.annotation.InternalApi;
 import net.sourceforge.pmd.lang.ast.Node;
+import net.sourceforge.pmd.lang.ast.xpath.internal.DeprecatedAttribute;
 import net.sourceforge.pmd.lang.java.symboltable.VariableNameDeclaration;
 import net.sourceforge.pmd.lang.symboltable.NameOccurrence;
 
@@ -57,6 +59,9 @@ public class ASTVariableDeclaratorId extends AbstractJavaTypeNode implements Dim
         return visitor.visit(this, data);
     }
 
+    /**
+     * Note: this might be <code>null</code> in certain cases.
+     */
     public VariableNameDeclaration getNameDeclaration() {
         return nameDeclaration;
     }
@@ -90,10 +95,26 @@ public class ASTVariableDeclaratorId extends AbstractJavaTypeNode implements Dim
      */
     @Override
     @Deprecated
+    @DeprecatedAttribute(replaceWith = "@ArrayType")
     public boolean isArray() {
         return arrayDepth > 0;
     }
 
+    /**
+     * @deprecated Use {@link #getName()}
+     * @return
+     */
+    @Override
+    @DeprecatedAttribute(replaceWith = "@Name")
+    @Deprecated
+    public String getImage() {
+        return getName();
+    }
+
+    /** Returns the name of the variable. */
+    public String getName() {
+        return super.getImage();
+    }
 
     /**
      * Returns true if the declared variable has an array type.
@@ -157,9 +178,13 @@ public class ASTVariableDeclaratorId extends AbstractJavaTypeNode implements Dim
 
     /**
      * Returns the name of the variable.
+     *
+     * @deprecated Use {@link #getName()}
      */
+    @Deprecated
+    @DeprecatedAttribute(replaceWith = "@Name")
     public String getVariableName() {
-        return getImage();
+        return getName();
     }
 
 
@@ -174,6 +199,14 @@ public class ASTVariableDeclaratorId extends AbstractJavaTypeNode implements Dim
             return true;
         } else if (isLambdaParamWithNoType()) {
             return false;
+        } else if (isPatternBinding()) {
+            // implicitly like final, assignment of a pattern binding is not allowed
+            return true;
+        }
+
+        if (getParent() instanceof ASTRecordComponent) {
+            // the field corresponding to this record component is declared final
+            return true;
         }
 
         if (getParent() instanceof ASTFormalParameter) {
@@ -239,6 +272,15 @@ public class ASTVariableDeclaratorId extends AbstractJavaTypeNode implements Dim
         return isLambdaParamWithNoType() || isLocalVariableTypeInferred() || isLambdaTypeInferred();
     }
 
+    /**
+     * Returns true if this is a binding variable in a
+     * {@linkplain ASTPattern pattern}.
+     */
+    @Experimental
+    public boolean isPatternBinding() {
+        return getParent() instanceof ASTPattern;
+    }
+
 
     private boolean isLocalVariableTypeInferred() {
         if (isResourceDeclaration()) {
@@ -288,6 +330,10 @@ public class ASTVariableDeclaratorId extends AbstractJavaTypeNode implements Dim
         } else if (isTypeInferred()) {
             // lambda expression with lax types. The type is inferred...
             return null;
+        } else if (getParent() instanceof ASTTypeTestPattern) {
+            return ((ASTTypeTestPattern) getParent()).getTypeNode();
+        } else if (getParent() instanceof ASTRecordComponent) {
+            return ((ASTRecordComponent) getParent()).getTypeNode();
         } else {
             Node n = getParent().getParent();
             if (n instanceof ASTLocalVariableDeclaration || n instanceof ASTFieldDeclaration) {

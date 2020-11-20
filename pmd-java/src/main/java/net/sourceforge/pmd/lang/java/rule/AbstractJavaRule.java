@@ -7,6 +7,7 @@ package net.sourceforge.pmd.lang.java.rule;
 import java.util.List;
 
 import net.sourceforge.pmd.RuleContext;
+import net.sourceforge.pmd.annotation.Experimental;
 import net.sourceforge.pmd.lang.LanguageRegistry;
 import net.sourceforge.pmd.lang.ast.Node;
 import net.sourceforge.pmd.lang.java.JavaLanguageModule;
@@ -86,6 +87,7 @@ import net.sourceforge.pmd.lang.java.ast.ASTNameList;
 import net.sourceforge.pmd.lang.java.ast.ASTNormalAnnotation;
 import net.sourceforge.pmd.lang.java.ast.ASTNullLiteral;
 import net.sourceforge.pmd.lang.java.ast.ASTPackageDeclaration;
+import net.sourceforge.pmd.lang.java.ast.ASTPermitsList;
 import net.sourceforge.pmd.lang.java.ast.ASTPostfixExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTPreDecrementExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTPreIncrementExpression;
@@ -95,6 +97,11 @@ import net.sourceforge.pmd.lang.java.ast.ASTPrimarySuffix;
 import net.sourceforge.pmd.lang.java.ast.ASTPrimitiveType;
 import net.sourceforge.pmd.lang.java.ast.ASTRSIGNEDSHIFT;
 import net.sourceforge.pmd.lang.java.ast.ASTRUNSIGNEDSHIFT;
+import net.sourceforge.pmd.lang.java.ast.ASTRecordBody;
+import net.sourceforge.pmd.lang.java.ast.ASTRecordComponent;
+import net.sourceforge.pmd.lang.java.ast.ASTRecordComponentList;
+import net.sourceforge.pmd.lang.java.ast.ASTRecordConstructorDeclaration;
+import net.sourceforge.pmd.lang.java.ast.ASTRecordDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTReferenceType;
 import net.sourceforge.pmd.lang.java.ast.ASTRelationalExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTResource;
@@ -123,6 +130,7 @@ import net.sourceforge.pmd.lang.java.ast.ASTTypeBound;
 import net.sourceforge.pmd.lang.java.ast.ASTTypeDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTTypeParameter;
 import net.sourceforge.pmd.lang.java.ast.ASTTypeParameters;
+import net.sourceforge.pmd.lang.java.ast.ASTTypeTestPattern;
 import net.sourceforge.pmd.lang.java.ast.ASTUnaryExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTUnaryExpressionNotPlusMinus;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclarator;
@@ -151,14 +159,8 @@ public abstract class AbstractJavaRule extends AbstractRule implements JavaParse
 
     protected void visitAll(List<? extends Node> nodes, RuleContext ctx) {
         for (Object element : nodes) {
-            /*
-                It is important to note that we are assuming that all nodes here are of type Compilation Unit,
-                but our caller method may be called with any type of node, and that's why we need to check the kind
-                of instance of each element
-            */
-            if (element instanceof ASTCompilationUnit) {
-                ASTCompilationUnit node = (ASTCompilationUnit) element;
-                visit(node, ctx);
+            if (element instanceof JavaNode) {
+                ((JavaNode) element).jjtAccept(this, ctx);
             }
         }
     }
@@ -832,6 +834,48 @@ public abstract class AbstractJavaRule extends AbstractRule implements JavaParse
 
     @Override
     public Object visit(ASTYieldStatement node, Object data) {
+        return visit((JavaNode) node, data);
+    }
+
+    @Override
+    @Experimental
+    public Object visit(ASTTypeTestPattern node, Object data) {
+        return visit((JavaNode) node, data);
+    }
+
+    @Override
+    @Experimental
+    public Object visit(ASTRecordDeclaration node, Object data) {
+        return visit((JavaNode) node, data);
+    }
+
+    @Override
+    @Experimental
+    public Object visit(ASTRecordComponentList node, Object data) {
+        return visit((JavaNode) node, data);
+    }
+
+    @Override
+    @Experimental
+    public Object visit(ASTRecordComponent node, Object data) {
+        return visit((JavaNode) node, data);
+    }
+
+    @Override
+    @Experimental
+    public Object visit(ASTRecordBody node, Object data) {
+        return visit((JavaNode) node, data);
+    }
+
+    @Override
+    @Experimental
+    public Object visit(ASTRecordConstructorDeclaration node, Object data) {
+        return visit((JavaNode) node, data);
+    }
+
+    @Override
+    @Experimental
+    public Object visit(ASTPermitsList node, Object data) {
         return visit((JavaNode) node, data);
     }
 }

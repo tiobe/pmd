@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import net.sourceforge.pmd.Rule;
 import net.sourceforge.pmd.annotation.InternalApi;
+import net.sourceforge.pmd.lang.ast.xpath.internal.DeprecatedAttribute;
 
 
 /**
@@ -111,7 +112,7 @@ public class ASTLocalVariableDeclaration extends AbstractJavaAccessNode implemen
 
     /**
      * Gets the variable name of this declaration. This method searches the first
-     * VariableDeclartorId node and returns it's image or <code>null</code> if
+     * VariableDeclaratorId node and returns it's image or <code>null</code> if
      * the child node is not found.
      *
      * @return a String representing the name of the variable
@@ -122,6 +123,7 @@ public class ASTLocalVariableDeclaration extends AbstractJavaAccessNode implemen
     // It would be nice to have a way to inform XPath users of the intended replacement
     // for a deprecated attribute. We may use another annotation for that.
     @Deprecated
+    @DeprecatedAttribute(replaceWith = "VariableDeclaratorId/@Name")
     public String getVariableName() {
         ASTVariableDeclaratorId decl = getFirstDescendantOfType(ASTVariableDeclaratorId.class);
         if (decl != null) {

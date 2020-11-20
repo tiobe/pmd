@@ -1,4 +1,4 @@
-/**
+/*
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
 
@@ -11,6 +11,7 @@ import apex.jorje.data.Location;
 import apex.jorje.data.Locations;
 import apex.jorje.semantic.ast.AstNode;
 import apex.jorje.semantic.exception.UnexpectedCodePathException;
+import apex.jorje.semantic.symbol.type.TypeInfo;
 
 /**
  * @deprecated Use {@link ApexNode}
@@ -54,11 +55,14 @@ public abstract class AbstractApexNode<T extends AstNode> extends AbstractApexNo
         // default implementation does nothing
     }
 
+    @Deprecated
+    @InternalApi
     @Override
     public T getNode() {
         return node;
     }
 
+    @Override
     public boolean hasRealLoc() {
         try {
             Location loc = node.getLoc();
@@ -77,5 +81,31 @@ public abstract class AbstractApexNode<T extends AstNode> extends AbstractApexNo
         } else {
             return "no location";
         }
+    }
+
+    private TypeInfo getDefiningTypeOrNull() {
+        try {
+            return node.getDefiningType();
+        } catch (UnsupportedOperationException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public String getDefiningType() {
+        TypeInfo definingType = getDefiningTypeOrNull();
+        if (definingType != null) {
+            return definingType.getApexName();
+        }
+        return null;
+    }
+
+    @Override
+    public String getNamespace() {
+        TypeInfo definingType = getDefiningTypeOrNull();
+        if (definingType != null) {
+            return definingType.getNamespace().toString();
+        }
+        return null;
     }
 }

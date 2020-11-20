@@ -274,6 +274,20 @@ public abstract class RuleTst {
             if (isUseAuxClasspath) {
                 // configure the "auxclasspath" option for unit testing
                 p.getConfiguration().prependClasspath(".");
+            } else {
+                // simple class loader, that doesn't delegate to parent.
+                // this allows us in the tests to simulate PMD run without
+                // auxclasspath, not even the classes from the test dependencies
+                // will be found.
+                p.getConfiguration().setClassLoader(new ClassLoader() {
+                    @Override
+                    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+                        if (name.startsWith("java.") || name.startsWith("javax.")) {
+                            return super.loadClass(name, resolve);
+                        }
+                        throw new ClassNotFoundException(name);
+                    }
+                });
             }
             RuleContext ctx = new RuleContext();
             ctx.setReport(report);
@@ -496,7 +510,7 @@ public abstract class RuleTst {
     }
 
     private static String parseTextNode(Node exampleNode) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < exampleNode.getChildNodes().getLength(); i++) {
             Node node = exampleNode.getChildNodes().item(i);
             if (node.getNodeType() == Node.CDATA_SECTION_NODE || node.getNodeType() == Node.TEXT_NODE) {

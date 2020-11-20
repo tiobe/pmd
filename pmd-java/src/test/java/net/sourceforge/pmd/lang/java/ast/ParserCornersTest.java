@@ -15,6 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import net.sourceforge.pmd.lang.ast.TokenMgrError;
 import net.sourceforge.pmd.lang.java.JavaParsingHelper;
 import net.sourceforge.pmd.lang.symboltable.NameDeclaration;
 import net.sourceforge.pmd.lang.symboltable.NameOccurrence;
@@ -30,6 +31,14 @@ public class ParserCornersTest {
     private final JavaParsingHelper java7 = java.withDefaultVersion("1.7");
     @Rule
     public ExpectedException expect = ExpectedException.none();
+
+
+    @Test
+    public void testInvalidUnicodeEscape() {
+        expect.expect(TokenMgrError.class); // previously Error
+        expect.expectMessage("Lexical error in file (no file name provided) at line 1, column 2.  Encountered: Invalid unicode escape");
+        java.parse("\\u00k0");
+    }
 
     /**
      * #1107 PMD 5.0.4 couldn't parse call of parent outer java class method
@@ -166,6 +175,21 @@ public class ParserCornersTest {
     @Test
     public void testGitHubBug207() {
         java8.parseResource("GitHubBug207.java");
+    }
+
+    @Test
+    public void testLambda2783() {
+        java8.parseResource("LambdaBug2783.java");
+    }
+
+    @Test
+    public void testGitHubBug2767() {
+        // PMD fails to parse an initializer block.
+        // PMD 6.26.0 parses this code just fine.
+        java.withDefaultVersion("15-preview")
+            .parse("class Foo {\n"
+                       + "    {final int I;}\n"
+                       + "}\n");
     }
 
     @Test

@@ -7,12 +7,13 @@ package net.sourceforge.pmd.lang.java.ast;
 import java.util.List;
 import java.util.Locale;
 
+import net.sourceforge.pmd.lang.ast.xpath.internal.DeprecatedAttribute;
 import net.sourceforge.pmd.lang.java.ast.internal.PrettyPrintingUtil;
 import net.sourceforge.pmd.lang.java.qname.JavaTypeQualifiedName;
 
 
 /**
- * Groups enum, class, annotation and interface declarations.
+ * Groups class, enum, record, annotation and interface declarations.
  *
  * @author Clément Fournier
  */
@@ -32,6 +33,7 @@ public interface ASTAnyTypeDeclaration extends TypeNode, JavaQualifiableNode, Ac
      * @deprecated Use {@link #getSimpleName()}
      */
     @Deprecated
+    @DeprecatedAttribute(replaceWith = "@SimpleName")
     @Override
     String getImage();
 
@@ -76,6 +78,10 @@ public interface ASTAnyTypeDeclaration extends TypeNode, JavaQualifiableNode, Ac
      */
     boolean isNested();
 
+    /**
+     * Returns true if this type is declared locally, e.g. in the context of a method block.
+     */
+    boolean isLocal();
 
     /**
      * The kind of type this node declares.
@@ -101,7 +107,7 @@ public interface ASTAnyTypeDeclaration extends TypeNode, JavaQualifiableNode, Ac
      */
     @Deprecated
     enum TypeKind {
-        CLASS, INTERFACE, ENUM, ANNOTATION;
+        CLASS, INTERFACE, ENUM, ANNOTATION, RECORD;
 
 
         public String getPrintableName() {

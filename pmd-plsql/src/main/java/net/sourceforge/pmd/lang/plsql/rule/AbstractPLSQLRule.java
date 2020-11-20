@@ -51,7 +51,6 @@ import net.sourceforge.pmd.lang.plsql.ast.ASTConditionalInsertClause;
 import net.sourceforge.pmd.lang.plsql.ast.ASTConditionalOrExpression;
 import net.sourceforge.pmd.lang.plsql.ast.ASTContinueStatement;
 import net.sourceforge.pmd.lang.plsql.ast.ASTCrossOuterApplyClause;
-import net.sourceforge.pmd.lang.plsql.ast.ASTCursorBody;
 import net.sourceforge.pmd.lang.plsql.ast.ASTCursorForLoopStatement;
 import net.sourceforge.pmd.lang.plsql.ast.ASTCursorSpecification;
 import net.sourceforge.pmd.lang.plsql.ast.ASTCursorUnit;
@@ -257,8 +256,9 @@ public abstract class AbstractPLSQLRule extends AbstractRule implements PLSQLPar
     protected void visitAll(List<? extends Node> nodes, RuleContext ctx) {
         LOGGER.entering(CLASS_NAME, "visitAll");
         for (Object element : nodes) {
-            ASTInput node = (ASTInput) element;
-            visit(node, ctx);
+            if (element instanceof PLSQLNode) {
+                ((PLSQLNode) element).jjtAccept(this, ctx);
+            }
         }
         LOGGER.exiting(CLASS_NAME, "visitAll");
     }
@@ -654,16 +654,6 @@ public abstract class AbstractPLSQLRule extends AbstractRule implements PLSQLPar
 
     @Override
     public Object visit(ASTCursorUnit node, Object data) {
-        return visit((PLSQLNode) node, data);
-    }
-
-    @Override
-    public Object visit(ASTCursorSpecification node, Object data) {
-        return visit((PLSQLNode) node, data);
-    }
-
-    @Override
-    public Object visit(ASTCursorBody node, Object data) {
         return visit((PLSQLNode) node, data);
     }
 
@@ -1438,6 +1428,11 @@ public abstract class AbstractPLSQLRule extends AbstractRule implements PLSQLPar
 
     @Override
     public Object visit(ASTWithClause node, Object data) {
+        return visit((PLSQLNode) node, data);
+    }
+
+    @Override
+    public Object visit(ASTCursorSpecification node, Object data) {
         return visit((PLSQLNode) node, data);
     }
 

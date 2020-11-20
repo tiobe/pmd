@@ -12,10 +12,9 @@ import net.sourceforge.pmd.lang.ast.Node;
 import net.sourceforge.pmd.lang.java.ast.ASTAllocationExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTAnyTypeDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceDeclaration;
-import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceType;
 import net.sourceforge.pmd.lang.java.ast.ASTEnumConstant;
 import net.sourceforge.pmd.lang.java.ast.ASTMethodDeclaration;
-import net.sourceforge.pmd.lang.java.typeresolution.TypeHelper;
+import net.sourceforge.pmd.lang.java.types.TypeTestUtil;
 import net.sourceforge.pmd.properties.BooleanProperty;
 import net.sourceforge.pmd.properties.PropertyBuilder.RegexPropertyBuilder;
 import net.sourceforge.pmd.properties.PropertyDescriptor;
@@ -35,6 +34,7 @@ public class MethodNamingConventionsRule extends AbstractNamingConventionRule<AS
     private final PropertyDescriptor<Pattern> nativeRegex = defaultProp("native").build();
     private final PropertyDescriptor<Pattern> junit3Regex = defaultProp("JUnit 3 test").defaultValue("test[A-Z0-9][a-zA-Z0-9]*").build();
     private final PropertyDescriptor<Pattern> junit4Regex = defaultProp("JUnit 4 test").build();
+    private final PropertyDescriptor<Pattern> junit5Regex = defaultProp("JUnit 5 test").build();
 
 
     public MethodNamingConventionsRule() {
@@ -45,6 +45,11 @@ public class MethodNamingConventionsRule extends AbstractNamingConventionRule<AS
         definePropertyDescriptor(nativeRegex);
         definePropertyDescriptor(junit3Regex);
         definePropertyDescriptor(junit4Regex);
+        definePropertyDescriptor(junit5Regex);
+    }
+
+    private boolean isJunit5Test(ASTMethodDeclaration node) {
+        return node.isAnnotationPresent("org.junit.jupiter.api.Test");
     }
 
     private boolean isJunit4Test(ASTMethodDeclaration node) {
@@ -64,9 +69,7 @@ public class MethodNamingConventionsRule extends AbstractNamingConventionRule<AS
             return false;
         }
 
-        ASTClassOrInterfaceType superClass = ((ASTClassOrInterfaceDeclaration) parent).getSuperClassTypeNode();
-
-        return superClass != null && TypeHelper.isA(superClass, "junit.framework.TestCase");
+        return TypeTestUtil.isA("junit.framework.TestCase", (ASTClassOrInterfaceDeclaration) parent);
     }
 
 
@@ -85,6 +88,8 @@ public class MethodNamingConventionsRule extends AbstractNamingConventionRule<AS
             }
         } else if (node.isStatic()) {
             checkMatches(node, staticRegex, data);
+        } else if (isJunit5Test(node)) {
+            checkMatches(node, junit5Regex, data);
         } else if (isJunit4Test(node)) {
             checkMatches(node, junit4Regex, data);
         } else if (isJunit3Test(node)) {
