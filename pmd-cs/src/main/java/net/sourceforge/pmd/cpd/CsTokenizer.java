@@ -160,7 +160,7 @@ public class CsTokenizer extends AntlrTokenizer {
 
         private void skipLiteralSequences(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
             if (skipLiteralSequences) {
-                final int type = currentToken.getType();
+                final int type = currentToken.getKind();
                 if (type == CSharpLexer.OPEN_BRACE && isSequenceOfLiterals(remainingTokens)) {
                     discardingLiterals = true;
                 } else if (type == CSharpLexer.CLOSE_BRACE && discardingLiterals) {
@@ -173,7 +173,7 @@ public class CsTokenizer extends AntlrTokenizer {
         private boolean isSequenceOfLiterals(final Iterable<AntlrToken> remainingTokens) {
             boolean seenLiteral = false;
             for (final AntlrToken token : remainingTokens) {
-                switch (token.getType()) {
+                switch (token.getKind()) {
                 case CSharpLexer.INTEGER_LITERAL:
                     seenLiteral = true;
                     break; // can be skipped; continue to the next token
