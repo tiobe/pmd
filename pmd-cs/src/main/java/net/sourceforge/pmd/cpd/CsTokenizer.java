@@ -174,7 +174,10 @@ public class CsTokenizer extends AntlrTokenizer {
             boolean seenLiteral = false;
             for (final AntlrToken token : remainingTokens) {
                 switch (token.getKind()) {
+                case CSharpLexer.CHARACTER_LITERAL:
+                case CSharpLexer.HEX_INTEGER_LITERAL:
                 case CSharpLexer.INTEGER_LITERAL:
+                case CSharpLexer.REAL_LITERAL:
                     seenLiteral = true;
                     break; // can be skipped; continue to the next token
                 case CSharpLexer.COMMA:
