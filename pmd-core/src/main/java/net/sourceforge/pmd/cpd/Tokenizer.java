@@ -14,7 +14,7 @@ public interface Tokenizer {
     /**
      * Ignore sequences of literals (e.g, <code>0,0,0,0...</code>).
      */
-    String OPTION_SKIP_LITERAL_SEQUENCES = "net.sourceforge.pmd.cpd.Tokenizer.skipLiteralSequences";
+    String OPTION_IGNORE_LITERAL_SEQUENCES = "net.sourceforge.pmd.cpd.Tokenizer.skipLiteralSequences";
     /**
      * Ignore using directives in C#. The default value is <code>false</code>.
      */

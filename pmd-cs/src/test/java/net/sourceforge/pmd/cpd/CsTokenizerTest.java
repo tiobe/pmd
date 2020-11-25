@@ -112,10 +112,10 @@ public class CsTokenizerTest extends CpdTextComparisonTest {
         return properties(false, true);
     }
 
-    private Properties properties(boolean ignoreUsings, boolean skipLiteralSequences) {
+    private Properties properties(boolean ignoreUsings, boolean ignoreLiteralSequences) {
         Properties properties = new Properties();
         properties.setProperty(Tokenizer.IGNORE_USINGS, Boolean.toString(ignoreUsings));
-        properties.setProperty(Tokenizer.OPTION_SKIP_LITERAL_SEQUENCES, Boolean.toString(skipLiteralSequences));
+        properties.setProperty(Tokenizer.OPTION_IGNORE_LITERAL_SEQUENCES, Boolean.toString(ignoreLiteralSequences));
         return properties;
     }
 }

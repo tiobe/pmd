@@ -19,19 +19,19 @@ import net.sourceforge.pmd.lang.cs.antlr4.CSharpLexer;
 public class CsTokenizer extends AntlrTokenizer {
 
     private boolean ignoreUsings = false;
-    private boolean skipLiteralSequences = false;
+    private boolean ignoreLiteralSequences = false;
 
     public void setProperties(Properties properties) {
         ignoreUsings = Boolean.parseBoolean(properties.getProperty(IGNORE_USINGS, "false"));
-        skipLiteralSequences = Boolean.parseBoolean(properties.getProperty(OPTION_SKIP_LITERAL_SEQUENCES, "false"));
+        ignoreLiteralSequences = Boolean.parseBoolean(properties.getProperty(OPTION_IGNORE_LITERAL_SEQUENCES, "false"));
     }
 
     public void setIgnoreUsings(boolean ignoreUsings) {
         this.ignoreUsings = ignoreUsings;
     }
 
-    public void setSkipLiteralSequences(boolean skipLiteralSequences) {
-        this.skipLiteralSequences = skipLiteralSequences;
+    public void setIgnoreLiteralSequences(boolean ignoreLiteralSequences) {
+        this.ignoreLiteralSequences = ignoreLiteralSequences;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CsTokenizer extends AntlrTokenizer {
 
     @Override
     protected AntlrTokenFilter getTokenFilter(final AntlrTokenManager tokenManager) {
-        return new CsTokenFilter(tokenManager, ignoreUsings, skipLiteralSequences);
+        return new CsTokenFilter(tokenManager, ignoreUsings, ignoreLiteralSequences);
     }
 
     /**
@@ -60,16 +60,16 @@ public class CsTokenizer extends AntlrTokenizer {
         }
 
         private final boolean ignoreUsings;
-        private final boolean skipLiteralSequences;
+        private final boolean ignoreLiteralSequences;
         private boolean discardingUsings = false;
         private boolean discardingNL = false;
         private boolean discardingLiterals = false;
         private boolean discardCurrent = false;
 
-        CsTokenFilter(final AntlrTokenManager tokenManager, boolean ignoreUsings, boolean skipLiteralSequences) {
+        CsTokenFilter(final AntlrTokenManager tokenManager, boolean ignoreUsings, boolean ignoreLiteralSequences) {
             super(tokenManager);
             this.ignoreUsings = ignoreUsings;
-            this.skipLiteralSequences = skipLiteralSequences;
+            this.ignoreLiteralSequences = ignoreLiteralSequences;
         }
 
         @Override
@@ -159,7 +159,7 @@ public class CsTokenizer extends AntlrTokenizer {
         }
 
         private void skipLiteralSequences(final AntlrToken currentToken, final Iterable<AntlrToken> remainingTokens) {
-            if (skipLiteralSequences) {
+            if (ignoreLiteralSequences) {
                 final int type = currentToken.getKind();
                 if (type == CSharpLexer.OPEN_BRACE && isSequenceOfLiterals(remainingTokens)) {
                     discardingLiterals = true;
