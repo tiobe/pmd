@@ -14,73 +14,68 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### CPD's AnyTokenizer has been improved
+#### Updated Apex Support
 
-The AnyTokenizer is used for languages, that don't have an own lexer/grammar based tokenizer.
-AnyTokenizer now handles string literals and end-of-line comments. Fortran, Perl and Ruby have
-been updated to use AnyTokenizer instead of their old custom tokenizer based on AbstractTokenizer.
-See [#2758](https://github.com/pmd/pmd/pull/2758) for details.
+*   The Apex language support has been bumped to version 50 (Winter '21). All new language features are now properly
+    parsed and processed. Especially the [Safe Navigation Operator](https://releasenotes.docs.salesforce.com/en-us/winter21/release-notes/rn_apex_SafeNavigationOperator.htm) is now supported.
+    See also [Salesforce Winter '21 Release Notes](https://releasenotes.docs.salesforce.com/en-us/winter21/release-notes/rn_apex.htm)
 
-AbstractTokenizer and the custom tokenizers of Fortran, Perl and Ruby are deprecated now.
+#### New Rules
+
+*   The new Apex rule {% rule "apex/performance/OperationWithLimitsInLoop" %} (`apex-performance`)
+    finds operations in loops that may hit governor limits such as DML operations, SOQL
+    queries and more. The rule replaces the three rules "AvoidDmlStatementsInLoops", "AvoidSoqlInLoops",
+    and "AvoidSoslInLoops".
+
+#### Renamed Rules
+
+*   The Java rule {% rule "java/errorprone/DoNotCallSystemExit" %} has been renamed to
+    {% rule "java/errorprone/DoNotTerminateVM" %}, since it checks for all the following calls:
+    `System.exit(int)`, `Runtime.exit(int)`, `Runtime.halt(int)`. All these calls terminate
+    the Java VM, which is bad, if the VM runs an application server which many independent applications.
+
+#### Deprecated Rules
+
+*   The Apex rules {% rule "apex/performance/AvoidDmlStatementsInLoops" %},
+    {% rule "apex/performance/AvoidSoqlInLoops" %} and {% rule "apex/performance/AvoidSoslInLoops" %}
+    (`apex-performance`) are deprecated in favour of the new rule
+    {% rule "apex/performance/OperationWithLimitsInLoop" %}. The deprecated rules will be removed
+    with PMD 7.0.0.
 
 ### Fixed Issues
 
-* cpd
-    * [#2758](https://github.com/pmd/pmd/pull/2758): \[cpd] Improve AnyTokenizer
-    * [#2760](https://github.com/pmd/pmd/issues/2760): \[cpd] AnyTokenizer doesn't count columns correctly
-
-* apex-security
-    * [#2774](https://github.com/pmd/pmd/issues/2774): \[apex] ApexSharingViolations does not correlate sharing settings with class that contains data access
-
-* java
-    * [#2738](https://github.com/pmd/pmd/issues/2738): \[java] Custom rule with @ExhaustiveEnumSwitch throws NPE
-    * [#2755](https://github.com/pmd/pmd/issues/2755): \[java] \[6.27.0] Exception applying rule CloseResource on file ... java.lang.NullPointerException
-    * [#2756](https://github.com/pmd/pmd/issues/2756): \[java] TypeTestUtil fails with NPE for anonymous class
-    * [#2767](https://github.com/pmd/pmd/issues/2767): \[java] IndexOutOfBoundsException when parsing an initializer BlockStatement
-    * [#2783](https://github.com/pmd/pmd/issues/2783): \[java] Error while parsing with lambda of custom interface
-* java-bestpractices
-    * [#2759](https://github.com/pmd/pmd/issues/2759): \[java] False positive in UnusedAssignment
-* java-design
-    * [#2708](https://github.com/pmd/pmd/issues/2708): \[java] False positive FinalFieldCouldBeStatic when using lombok Builder.Default
-
-
-### API Changes
-
-#### Deprecated API
-
-##### For removal
-
-* {% jdoc !!core::RuleViolationComparator %}. Use {% jdoc !!core::RuleViolation#DEFAULT_COMPARATOR %} instead.
-* {% jdoc !!core::cpd.AbstractTokenizer %}. Use {% jdoc !!core::cpd.AnyTokenizer %} instead.
-* {% jdoc !!fortran::cpd.FortranTokenizer %}. Was replaced by an {% jdoc core::cpd.AnyTokenizer %}. Use {% jdoc !!fortran::cpd.FortranLanguage#getTokenizer() %} anyway.
-* {% jdoc !!perl::cpd.PerlTokenizer %}. Was replaced by an {% jdoc core::cpd.AnyTokenizer %}. Use {% jdoc !!perl::cpd.PerlLanguage#getTokenizer() %} anyway.
-* {% jdoc !!ruby::cpd.RubyTokenizer %}. Was replaced by an {% jdoc core::cpd.AnyTokenizer %}. Use {% jdoc !!ruby::cpd.RubyLanguage#getTokenizer() %} anyway.
-* {% jdoc !!core::lang.rule.RuleReference#getOverriddenLanguage() %} and
-  {% jdoc !!core::lang.rule.RuleReference#setLanguage(net.sourceforge.pmd.lang.Language) %}
-* Antlr4 generated lexers:
-    * {% jdoc !!cs::lang.cs.antlr4.CSharpLexer %} will be moved to package `net.sourceforge.pmd.lang.cs.ast` with PMD 7.
-    * {% jdoc !!dart::lang.dart.antlr4.Dart2Lexer %} will be renamed to `DartLexer` and moved to package 
-      `net.sourceforge.pmd.lang.dart.ast` with PMD 7. All other classes in the old package will be removed.
-    * {% jdoc !!go::lang.go.antlr4.GolangLexer %} will be moved to package
-      `net.sourceforge.pmd.lang.go.ast` with PMD 7. All other classes in the old package will be removed.
-    * {% jdoc !!kotlin::lang.kotlin.antlr4.Kotlin %} will be renamed to `KotlinLexer` and moved to package 
-      `net.sourceforge.pmd.lang.kotlin.ast` with PMD 7.
-    * {% jdoc !!lua::lang.lua.antlr4.LuaLexer %} will be moved to package
-      `net.sourceforge.pmd.lang.lua.ast` with PMD 7. All other classes in the old package will be removed.
-
+*   apex
+    *   [#2839](https://github.com/pmd/pmd/issues/2839): \[apex] Apex classes with safe navigation operator from Winter 21 (50.0) are skipped
+*   apex-performance
+    *   [#1713](https://github.com/pmd/pmd/issues/1713): \[apex] Mark Database DML statements in For Loop
+*   core
+    *   [#2831](https://github.com/pmd/pmd/pull/2831): \[core] Fix XMLRenderer newlines when running under IBM Java
+*   java-errorprone
+    *   [#2157](https://github.com/pmd/pmd/issues/2157): \[java] Improve DoNotCallSystemExit: permit call in main(), flag System.halt
+    *   [#2764](https://github.com/pmd/pmd/issues/2764): \[java] CloseResourceRule does not recognize multiple assignment done to resource
+*   miscellaneous
+    *   [#2823](https://github.com/pmd/pmd/issues/2823): \[doc] Renamed/Moved rules are missing in documentation
+*   vf (Salesforce VisualForce)
+    *   [#2765](https://github.com/pmd/pmd/issues/2765): \[vf] Attributes with dot cause a VfParseException
 
 ### External Contributions
 
-* [#2735](https://github.com/pmd/pmd/pull/2735): \[ci] Add github actions for a fast view of pr succeed/not - [XenoAmess](https://github.com/XenoAmess)
-* [#2747](https://github.com/pmd/pmd/pull/2747): \[java] Don't trigger FinalFieldCouldBeStatic when field is annotated with lombok @Builder.Default - [Ollie Abbey](https://github.com/ollieabbey)
-* [#2773](https://github.com/pmd/pmd/pull/2773): \[java] issue-2738: Adding null check to avoid npe when switch case is default - [Nimit Patel](https://github.com/nimit-patel)
-* [#2789](https://github.com/pmd/pmd/pull/2789): Add badge for reproducible build - [Dan Rollo](https://github.com/bhamail)
-* [#2791](https://github.com/pmd/pmd/pull/2791): \[apex] Analyze inner classes for sharing violations - [Jeff Bartolotta](https://github.com/jbartolotta-sfdc)
+*   [#2803](https://github.com/pmd/pmd/pull/2803): \[java] Improve DoNotCallSystemExit (Fixes #2157) - [Vitaly Polonetsky](https://github.com/mvitaly)
+*   [#2809](https://github.com/pmd/pmd/pull/2809): \[java] Move test config from file to test class - [Stefan Birkner](https://github.com/stefanbirkner)
+*   [#2810](https://github.com/pmd/pmd/pull/2810): \[core] Move method "renderTempFile" to XMLRendererTest - [Stefan Birkner](https://github.com/stefanbirkner)
+*   [#2811](https://github.com/pmd/pmd/pull/2811): \[java] CloseResource - Fix #2764: False-negative when re-assigning variable - [Andi Pabst](https://github.com/andipabst)
+*   [#2813](https://github.com/pmd/pmd/pull/2813): \[core] Use JUnit's TemporaryFolder rule - [Stefan Birkner](https://github.com/stefanbirkner)
+*   [#2816](https://github.com/pmd/pmd/pull/2816): \[apex] Detect 'Database' method invocations inside loops - [Jeff Bartolotta](https://github.com/jbartolotta-sfdc)
+*   [#2829](https://github.com/pmd/pmd/pull/2829): \[doc] Small correction in pmd\_report\_formats.md - [Gustavo Krieger](https://github.com/gustavopcassol)
+*   [#2834](https://github.com/pmd/pmd/pull/2834): \[vf] Allow attributes with dot in Visualforce - [rmohan20](https://github.com/rmohan20)
+*   [#2842](https://github.com/pmd/pmd/pull/2842): \[core] Bump antlr4 from 4.7 to 4.7.2 - [Adrien Lecharpentier](https://github.com/alecharp)
+*   [#2865](https://github.com/pmd/pmd/pull/2865): \[java] (doc) Update ExcessiveImports example code for clarity - [Gustavo Krieger](https://github.com/gustavopcassol)
+*   [#2866](https://github.com/pmd/pmd/pull/2866): \[java] (doc) Fix example for CouplingBetweenObjects - [Gustavo Krieger](https://github.com/gustavopcassol)
 
 ### Stats
-* 58 commits
-* 24 closed tickets & PRs
-* Days since last release: 25
+* 50 commits
+* 23 closed tickets & PRs
+* Days since last release: 27
 
 {% endtocmaker %}
 
