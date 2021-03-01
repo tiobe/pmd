@@ -14,100 +14,79 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### SARIF Format
+#### Java 16 Support
 
-PMD now supports the [Static Analysis Results Interchange Format (SARIF)](https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=sarif)
-as an additional report format. Just use the [command line parameter](pmd_userdocs_cli_reference.html#format) `-format sarif` to select it.
-SARIF is an OASIS standard format for static analysis tools.
-PMD creates SARIF JSON files in [SARIF version 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html).
-An example report can be found in the documentation in [Report formats for PMD](pmd_userdocs_report_formats.html#sarif).
+This release of PMD brings support for Java 16. PMD supports [JEP 394: Pattern Matching for instanceof](https://openjdk.java.net/jeps/394) and [JEP 395: Records](https://openjdk.java.net/jeps/395). Both have been promoted
+to be a standard language feature of Java 16.
 
-#### CPD
+PMD also supports [JEP 397: Sealed Classes (Second Preview)](https://openjdk.java.net/jeps/397) as a preview
+language feature. In order to analyze a project with PMD that uses these language features, you'll need to enable
+it via the environment variable `PMD_JAVA_OPTS` and select the new language version `16-preview`:
 
-*   The C++ module now supports the new option [`--ignore-literal-sequences`](https://pmd.github.io/latest/pmd_userdocs_cpd.html#-ignore-literal-sequences),
-    which can be used to avoid detection of some uninteresting clones. This options has been
-    introduced with PMD 6.30.0 for C# and is now available for C++ as well. See [#2963](https://github.com/pmd/pmd/pull/2963).
+    export PMD_JAVA_OPTS=--enable-preview
+    ./run.sh pmd -language java -version 16-preview ...
 
-#### New Rules
+Note: Support for Java 14 preview language features have been removed. The version "14-preview" is no longer available.
 
-*   The new Apex rule {% rule "apex/errorprone/OverrideBothEqualsAndHashcode" %} brings the well known Java rule
-    to Apex. In Apex the same principle applies: `equals` and `hashCode` should always be overridden
-    together to ensure collection classes such as Maps and Sets work as expected.
+#### Modified Rules
 
-*   The new Visualforce rule {% rule "vf/security/VfHtmlStyleTagXss" %} checks for potential XSS problems
-    when using `<style>` tags on Visualforce pages.
-
-#### Deprecated rules
-
-*   java-performance
-    *   {% rule "java/performance/AvoidUsingShortType" %}: arithmetic on shorts is not significantly
-        slower than on ints, whereas using shorts may provide significant memory savings in arrays.
-    *   {% rule "java/performance/SimplifyStartsWith" %}: the suggested code transformation has an
-        insignificant performance impact, and decreases readability.
+*   The Apex rule {% rule "apex/documentation/ApexDoc" %} has two new properties: `reportPrivate` and
+    `reportProtected`. Previously the rule only considered public and global classes, methods, and
+    properties. With these properties, you can verify the existence of ApexDoc comments for private
+    and protected methods as well. By default, these properties are disabled to preserve backwards
+    compatible behavior.
 
 ### Fixed Issues
 
-*   core
-    *   [#2953](https://github.com/pmd/pmd/issues/2953): \[core] Support SARIF JSON Format
-    *   [#2970](https://github.com/pmd/pmd/issues/2970): \[core] PMD 6.30.0 release is not reproducible
-    *   [#2994](https://github.com/pmd/pmd/pull/2994): \[core] Fix code climate severity strings
+*   apex-documentation
+    *   [#3075](https://github.com/pmd/pmd/issues/3075): \[apex] ApexDoc should support private access modifier
+*   java
+    *   [#3101](https://github.com/pmd/pmd/issues/3101): \[java] NullPointerException when running PMD under JRE 11
 *   java-bestpractices
-    *   [#575](https://github.com/pmd/pmd/issues/575): \[java] LiteralsFirstInComparisons should consider constant fields
-    *   [#2454](https://github.com/pmd/pmd/issues/2454): \[java] UnusedPrivateMethod violation for disabled class in 6.23.0
-    *   [#2833](https://github.com/pmd/pmd/issues/2833): \[java] NPE in UseCollectionIsEmptyRule with enums
-    *   [#2876](https://github.com/pmd/pmd/issues/2876): \[java] UnusedPrivateField cannot override ignored annotations property
-    *   [#2957](https://github.com/pmd/pmd/issues/2957): \[java] Ignore unused declarations that have special name
-*   java-codestyle
-    *   [#2960](https://github.com/pmd/pmd/issues/2960): \[java] Thread issue in MethodNamingConventionsRule
-*   java-design
-    *   [#3006](https://github.com/pmd/pmd/issues/3006): \[java] NPE in SingularFieldRule with concise resource syntax
+    *   [#3132](https://github.com/pmd/pmd/issues/3132): \[java] UnusedImports with static imports on subclasses
 *   java-errorprone
-    *   [#2976](https://github.com/pmd/pmd/issues/2976): \[java] CompareObjectsWithEquals: FP with array.length
-    *   [#2977](https://github.com/pmd/pmd/issues/2977): \[java] 6.30.0 introduces new false positive in CloseResource rule?
-    *   [#2979](https://github.com/pmd/pmd/issues/2979): \[java] UseEqualsToCompareStrings: FP with "var" variables
-    *   [#3004](https://github.com/pmd/pmd/issues/3004): \[java] UseEqualsToCompareStrings false positive with PMD 6.30.0
-    *   [#3062](https://github.com/pmd/pmd/issues/3062): \[java] CloseResource FP with reassigned stream
-*   java-performance
-    *   [#2296](https://github.com/pmd/pmd/issues/2296): \[java] Deprecate rule AvoidUsingShortType
-    *   [#2740](https://github.com/pmd/pmd/issues/2740): \[java] Deprecate rule SimplifyStartsWith
-    *   [#3088](https://github.com/pmd/pmd/issues/3088): \[java] AvoidInstantiatingObjectsInLoops - false positive with Collections
-*   vf-security
-    *   [#3081](https://github.com/pmd/pmd/issues/3081): \[vf] VfUnescapeEl: Inherently un-XSS-able built-in functions trigger false positives
+    *   [#2716](https://github.com/pmd/pmd/issues/2716): \[java] CompareObjectsWithEqualsRule: False positive with Enums
+    *   [#3089](https://github.com/pmd/pmd/issues/3089): \[java] CloseResource rule throws exception on spaces in property types
+    *   [#3133](https://github.com/pmd/pmd/issues/3133): \[java] InvalidLogMessageFormat FP with StringFormattedMessage and ParameterizedMessage
+*   plsql
+    *   [#3106](https://github.com/pmd/pmd/issues/3106): \[plsql] ParseException while parsing EXECUTE IMMEDIATE 'drop database link ' \|\| linkname;
 
 ### API Changes
 
-#### Deprecated API
-
-*   {% jdoc xml::lang.xml.rule.AbstractDomXmlRule %}
-*   {% jdoc xml::lang.wsdl.rule.AbstractWsdlRule %}
-*   A few methods of {% jdoc xml::lang.xml.rule.AbstractXmlRule %}
-
 #### Experimental APIs
 
-*   The method {% jdoc !!core::lang.ast.GenericToken#getKind() %} has been added as experimental. This
-    unifies the token interface for both JavaCC and Antlr. The already existing method
-    {% jdoc !!core::cpd.token.AntlrToken#getKind() %} is therefore experimental as well. The
-    returned constant depends on the actual language and might change whenever the grammar
-    of the language is changed.
+*   The experimental class `ASTTypeTestPattern` has been renamed to {% jdoc java::lang.java.ast.ASTTypePattern %}
+    in order to align the naming to the JLS.
+*   The experimental class `ASTRecordConstructorDeclaration` has been renamed to {% jdoc java::lang.java.ast.ASTCompactConstructorDeclaration %}
+    in order to align the naming to the JLS.
+*   The AST types and APIs around Pattern Matching and Records are not experimental anymore:
+    *   {% jdoc !!java::lang.java.ast.ASTVariableDeclaratorId#isPatternBinding() %}
+    *   {% jdoc java::lang.java.ast.ASTPattern %}
+    *   {% jdoc java::lang.java.ast.ASTTypePattern %}
+    *   {% jdoc java::lang.java.ast.ASTRecordDeclaration %}
+    *   {% jdoc java::lang.java.ast.ASTRecordComponentList %}
+    *   {% jdoc java::lang.java.ast.ASTRecordComponent %}
+    *   {% jdoc java::lang.java.ast.ASTRecordBody %}
+    *   {% jdoc java::lang.java.ast.ASTCompactConstructorDeclaration %}
+
+#### Internal API
+
+Those APIs are not intended to be used by clients, and will be hidden or removed with PMD 7.0.0.
+You can identify them with the `@InternalApi` annotation. You'll also get a deprecation warning.
+
+*   The protected or public member of the Java rule {% jdoc java::lang.java.rule.bestpractices.AvoidUsingHardCodedIPRule %}
+    are deprecated and considered to be internal API. They will be removed with PMD 7.
 
 ### External Contributions
 
-*   [#2666](https://github.com/pmd/pmd/pull/2666): \[swift] Manage swift5 string literals - [kenji21](https://github.com/kenji21)
-*   [#2959](https://github.com/pmd/pmd/pull/2959): \[apex] New Rule: override equals and hashcode rule - [recdevs](https://github.com/recdevs)
-*   [#2963](https://github.com/pmd/pmd/pull/2963): \[cpp] Add option to ignore sequences of literals - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#2964](https://github.com/pmd/pmd/pull/2964): \[cs] Update C# grammar for additional C# 7 and C# 8 features - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#2965](https://github.com/pmd/pmd/pull/2965): \[cs] Improvements for ignore sequences of literals functionality - [Maikel Steneker](https://github.com/maikelsteneker)
-*   [#2968](https://github.com/pmd/pmd/pull/2968): \[java] NPE in UseCollectionIsEmptyRule with enums - [foxmason](https://github.com/foxmason)
-*   [#2983](https://github.com/pmd/pmd/pull/2983): \[java] LiteralsFirstInComparisons should consider constant fields - [Ozan Gulle](https://github.com/ozangulle)
-*   [#2994](https://github.com/pmd/pmd/pull/2994): \[core] Fix code climate severity strings - [Vincent Maurin](https://github.com/vmaurin)
-*   [#3005](https://github.com/pmd/pmd/pull/3005): \[vf] \[New Rule] Handle XSS violations that can occur within Html Style tags - [rmohan20](https://github.com/rmohan20)
-*   [#3073](https://github.com/pmd/pmd/pull/3073): \[core] Include SARIF renderer - [Manuel Moya Ferrer](https://github.com/mmoyaferrer)
-*   [#3084](https://github.com/pmd/pmd/pull/3084): \[vf] VfUnescapeEl false-positive with builtin functions - [Josh Feingold](https://github.com/jfeingold35)
+*   [#3098](https://github.com/pmd/pmd/pull/3098): \[apex] ApexDoc optionally report private and protected - [Jonathan Wiesel](https://github.com/jonathanwiesel)
+*   [#3107](https://github.com/pmd/pmd/pull/3107): \[plsql] Fix ParseException for EXECUTE IMMEDIATE str1\|\|str2; - [hvbtup](https://github.com/hvbtup)
+*   [#3125](https://github.com/pmd/pmd/pull/3125): \[doc] Fix sample code indentation in documentation - [Artur Dryomov](https://github.com/arturdryomov)
 
 ### Stats
-* 116 commits
-* 40 closed tickets & PRs
-* Days since last release: 49
+* 43 commits
+* 21 closed tickets & PRs
+* Days since last release: 27
 
 {% endtocmaker %}
 
