@@ -283,7 +283,6 @@ public final class ApexTreeBuilder extends AstVisitor<AdditionalPassScope> {
     public <T extends AstNode> ApexNode<T> build(T astNode) {
         // Create a Node
         AbstractApexNode<T> node = createNodeAdapter(astNode);
-        node.calculateLineNumbers(sourceCodePositioner);
         node.handleSourceCode(sourceCode);
 
         // Append to parent
@@ -304,6 +303,11 @@ public final class ApexTreeBuilder extends AstVisitor<AdditionalPassScope> {
             // add the comments only at the end of the processing as the last step
             addFormalComments();
         }
+
+        // calculate line numbers after the tree is built
+        // so that we can look at parent/children to figure
+        // out the positions if necessary.
+        node.calculateLineNumbers(sourceCodePositioner);
 
         return node;
     }
@@ -328,7 +332,7 @@ public final class ApexTreeBuilder extends AstVisitor<AdditionalPassScope> {
     }
 
     private void buildFormalComment(AstNode node) {
-        if (parents.peek() == node) {
+        if (node.equals(parents.peek())) {
             ApexNode<?> parent = (ApexNode<?>) nodes.peek();
             assignApexDocTokenToNode(node, parent);
         }
@@ -427,7 +431,7 @@ public final class ApexTreeBuilder extends AstVisitor<AdditionalPassScope> {
     }
 
     private boolean visit(AstNode node) {
-        if (parents.peek() == node) {
+        if (node.equals(parents.peek())) {
             return true;
         } else {
             build(node);

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd</artifactId>
-    <version>6.32.0</version>
+    <version>6.33.0</version>
     <packaging>pom</packaging>
     <name>PMD</name>
 
@@ -55,7 +55,7 @@
         <connection>scm:git:git://github.com/pmd/pmd.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/pmd/pmd.git</developerConnection>
         <url>https://github.com/pmd/pmd</url>
-        <tag>pmd_releases/6.32.0</tag>
+        <tag>pmd_releases/6.33.0</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
@@ -76,7 +76,7 @@
     </issueManagement>
 
     <properties>
-        <project.build.outputTimestamp>2021-02-27T08:32:21Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2021-03-27T15:15:00Z</project.build.outputTimestamp>
 
         <java.version>7</java.version>
 
@@ -105,7 +105,7 @@
 
         <argLine>-Xmx512m -Dfile.encoding=${project.build.sourceEncoding}</argLine>
 
-        <pmd.build-tools.version>8</pmd.build-tools.version>
+        <pmd.build-tools.version>10</pmd.build-tools.version>
 
         <pmd-designer.version>6.27.0</pmd-designer.version>
     </properties>
@@ -405,12 +405,12 @@
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-core</artifactId>
-                            <version>6.29.0</version>
+                            <version>6.32.0</version>
                         </dependency>
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-java</artifactId>
-                            <version>6.29.0</version>
+                            <version>6.32.0</version>
                         </dependency>
                         <!-- This contains the dogfood ruleset -->
                         <dependency>

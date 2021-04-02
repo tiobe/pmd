@@ -14,79 +14,44 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### Java 16 Support
+#### PLSQL parsing exclusions
 
-This release of PMD brings support for Java 16. PMD supports [JEP 394: Pattern Matching for instanceof](https://openjdk.java.net/jeps/394) and [JEP 395: Records](https://openjdk.java.net/jeps/395). Both have been promoted
-to be a standard language feature of Java 16.
-
-PMD also supports [JEP 397: Sealed Classes (Second Preview)](https://openjdk.java.net/jeps/397) as a preview
-language feature. In order to analyze a project with PMD that uses these language features, you'll need to enable
-it via the environment variable `PMD_JAVA_OPTS` and select the new language version `16-preview`:
-
-    export PMD_JAVA_OPTS=--enable-preview
-    ./run.sh pmd -language java -version 16-preview ...
-
-Note: Support for Java 14 preview language features have been removed. The version "14-preview" is no longer available.
-
-#### Modified Rules
-
-*   The Apex rule {% rule "apex/documentation/ApexDoc" %} has two new properties: `reportPrivate` and
-    `reportProtected`. Previously the rule only considered public and global classes, methods, and
-    properties. With these properties, you can verify the existence of ApexDoc comments for private
-    and protected methods as well. By default, these properties are disabled to preserve backwards
-    compatible behavior.
+The PMD PLSQL parser might not parse every valid PL/SQL code without problems.
+In order to still use PMD on such files, you can now mark certain lines for exclusion from
+the parser. More information can be found in the [language specific documentation for PLSQL](pmd_languages_plsql.html).
 
 ### Fixed Issues
 
-*   apex-documentation
-    *   [#3075](https://github.com/pmd/pmd/issues/3075): \[apex] ApexDoc should support private access modifier
+*   apex-design
+    *   [#3142](https://github.com/pmd/pmd/issues/3142): \[apex] ExcessiveClassLength multiple warning on the same class
 *   java
-    *   [#3101](https://github.com/pmd/pmd/issues/3101): \[java] NullPointerException when running PMD under JRE 11
+    *   [#3117](https://github.com/pmd/pmd/issues/3117): \[java] Infinite loop when parsing invalid code nested in lambdas
+    *   [#3145](https://github.com/pmd/pmd/issues/3145): \[java] Parse exception when using "record" as variable name
 *   java-bestpractices
-    *   [#3132](https://github.com/pmd/pmd/issues/3132): \[java] UnusedImports with static imports on subclasses
+    *   [#3118](https://github.com/pmd/pmd/issues/3118): \[java] UnusedPrivateMethod false positive when passing in lombok.val as argument
+    *   [#3144](https://github.com/pmd/pmd/issues/3144): \[java] GuardLogStatement can have more detailed example
+    *   [#3155](https://github.com/pmd/pmd/pull/3155): \[java] GuardLogStatement: False negative with unguarded method call
+    *   [#3160](https://github.com/pmd/pmd/issues/3160): \[java] MethodReturnsInternalArray does not consider static final fields and fields initialized with empty array
 *   java-errorprone
-    *   [#2716](https://github.com/pmd/pmd/issues/2716): \[java] CompareObjectsWithEqualsRule: False positive with Enums
-    *   [#3089](https://github.com/pmd/pmd/issues/3089): \[java] CloseResource rule throws exception on spaces in property types
-    *   [#3133](https://github.com/pmd/pmd/issues/3133): \[java] InvalidLogMessageFormat FP with StringFormattedMessage and ParameterizedMessage
+    *   [#2977](https://github.com/pmd/pmd/issues/2977): \[java] CloseResource: false positive with reassignment detection
+    *   [#3146](https://github.com/pmd/pmd/issues/3146): \[java] InvalidLogMessageFormat detection failing when String.format used
+    *   [#3148](https://github.com/pmd/pmd/issues/3148): \[java] CloseResource false positive with Objects.nonNull
+    *   [#3165](https://github.com/pmd/pmd/issues/3165): \[java] InvalidLogMessageFormat detection failing when String.format used in a variable
+*   java-performance
+    *   [#2427](https://github.com/pmd/pmd/issues/2427): \[java] ConsecutiveLiteralAppend false-positive with builder inside lambda
+    *   [#3152](https://github.com/pmd/pmd/issues/3152): \[java] ConsecutiveLiteralAppends and InsufficientStringBufferDeclaration: FP with switch expressions
 *   plsql
-    *   [#3106](https://github.com/pmd/pmd/issues/3106): \[plsql] ParseException while parsing EXECUTE IMMEDIATE 'drop database link ' \|\| linkname;
-
-### API Changes
-
-#### Experimental APIs
-
-*   The experimental class `ASTTypeTestPattern` has been renamed to {% jdoc java::lang.java.ast.ASTTypePattern %}
-    in order to align the naming to the JLS.
-*   The experimental class `ASTRecordConstructorDeclaration` has been renamed to {% jdoc java::lang.java.ast.ASTCompactConstructorDeclaration %}
-    in order to align the naming to the JLS.
-*   The AST types and APIs around Pattern Matching and Records are not experimental anymore:
-    *   {% jdoc !!java::lang.java.ast.ASTVariableDeclaratorId#isPatternBinding() %}
-    *   {% jdoc java::lang.java.ast.ASTPattern %}
-    *   {% jdoc java::lang.java.ast.ASTTypePattern %}
-    *   {% jdoc java::lang.java.ast.ASTRecordDeclaration %}
-    *   {% jdoc java::lang.java.ast.ASTRecordComponentList %}
-    *   {% jdoc java::lang.java.ast.ASTRecordComponent %}
-    *   {% jdoc java::lang.java.ast.ASTRecordBody %}
-    *   {% jdoc java::lang.java.ast.ASTCompactConstructorDeclaration %}
-
-#### Internal API
-
-Those APIs are not intended to be used by clients, and will be hidden or removed with PMD 7.0.0.
-You can identify them with the `@InternalApi` annotation. You'll also get a deprecation warning.
-
-*   The protected or public member of the Java rule {% jdoc java::lang.java.rule.bestpractices.AvoidUsingHardCodedIPRule %}
-    are deprecated and considered to be internal API. They will be removed with PMD 7.
+    *   [#195](https://github.com/pmd/pmd/issues/195): \[plsql] Ampersand '&' causes PMD processing error in sql file - Lexical error in file
 
 ### External Contributions
 
-*   [#3098](https://github.com/pmd/pmd/pull/3098): \[apex] ApexDoc optionally report private and protected - [Jonathan Wiesel](https://github.com/jonathanwiesel)
-*   [#3107](https://github.com/pmd/pmd/pull/3107): \[plsql] Fix ParseException for EXECUTE IMMEDIATE str1\|\|str2; - [hvbtup](https://github.com/hvbtup)
-*   [#3125](https://github.com/pmd/pmd/pull/3125): \[doc] Fix sample code indentation in documentation - [Artur Dryomov](https://github.com/arturdryomov)
+*   [#3161](https://github.com/pmd/pmd/pull/3161): \[plsql] Add support for lexical parameters in SQL*Plus scripts, allow excluding lines which the parser does not understand - [Henning von Bargen](https://github.com/hvbtup)
+*   [#3167](https://github.com/pmd/pmd/pull/3167): \[java] Minor typo in quickstart ruleset - [Austin Tice](https://github.com/AustinTice)
 
 ### Stats
-* 43 commits
-* 21 closed tickets & PRs
-* Days since last release: 27
+* 49 commits
+* 27 closed tickets & PRs
+* Days since last release: 28
 
 {% endtocmaker %}
 
