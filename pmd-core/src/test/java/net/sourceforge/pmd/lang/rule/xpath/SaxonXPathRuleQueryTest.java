@@ -193,6 +193,16 @@ public class SaxonXPathRuleQueryTest {
         assertExpression("DocumentSorter((LetExpression(LazyExpression(CardinalityChecker(ItemChecker(UntypedAtomicConverter(Atomizer($testClassPattern))))), (((/)/descendant::element(dummyNode, xs:anyType))[matches(CardinalityChecker(ItemChecker(UntypedAtomicConverter(Atomizer(attribute::attribute(SimpleName, xs:anyAtomicType))))), $zz:zz952562199)]))/child::element(foo, xs:anyType)))", query.nodeNameToXPaths.get(SaxonXPathRuleQuery.AST_ROOT).get(0));
     }
 
+    @Test
+    public void ruleChainVisitWithTwoFunctions() {
+        SaxonXPathRuleQuery query = createQuery("//dummyNode[ends-with(@Image, 'foo')][pmd-dummy:typeIs('bar')]");
+        List<String> ruleChainVisits = query.getRuleChainVisits();
+        Assert.assertEquals(1, ruleChainVisits.size());
+        Assert.assertTrue(ruleChainVisits.contains("dummyNode"));
+        Assert.assertEquals(2, query.nodeNameToXPaths.size());
+        assertExpression("((self::node()[ends-with(CardinalityChecker(ItemChecker(UntypedAtomicConverter(Atomizer(attribute::attribute(Image, xs:anyAtomicType))))), \"foo\")])[pmd-dummy:typeIs(\"bar\")])", query.nodeNameToXPaths.get("dummyNode").get(0));
+    }
+
     private static void assertExpression(String expected, Expression actual) {
         Assert.assertEquals(normalizeExprDump(expected),
                             normalizeExprDump(actual.toString()));
@@ -255,5 +265,36 @@ public class SaxonXPathRuleQueryTest {
         SaxonXPathRuleQuery query = createQuery("(//ForStatement | //WhileStatement | //DoStatement)//AssignmentOperator[@Image='foo']");
         List<String> ruleChainVisits = query.getRuleChainVisits();
         Assert.assertEquals(0, ruleChainVisits.size());
+    }
+
+    @Test
+    public void ruleChainWithUnionsCustomFunctionsVariant1() {
+        SaxonXPathRuleQuery query = createQuery("(//ForStatement | //WhileStatement | //DoStatement)//dummyNode[pmd-dummy:typeIs(@Image)]");
+        List<String> ruleChainVisits = query.getRuleChainVisits();
+        Assert.assertEquals(0, ruleChainVisits.size());
+    }
+
+    @Test
+    public void ruleChainWithUnionsCustomFunctionsVariant2() {
+        SaxonXPathRuleQuery query = createQuery("//(ForStatement | WhileStatement | DoStatement)//dummyNode[pmd-dummy:typeIs(@Image)]");
+        List<String> ruleChainVisits = query.getRuleChainVisits();
+        Assert.assertEquals(0, ruleChainVisits.size());
+    }
+
+    @Test
+    public void ruleChainWithUnionsCustomFunctionsVariant3() {
+        SaxonXPathRuleQuery query = createQuery("//ForStatement//dummyNode[pmd-dummy:typeIs(@Image)]"
+                + " | //WhileStatement//dummyNode[pmd-dummy:typeIs(@Image)]"
+                + " | //DoStatement//dummyNode[pmd-dummy:typeIs(@Image)]");
+        List<String> ruleChainVisits = query.getRuleChainVisits();
+        Assert.assertEquals(3, ruleChainVisits.size());
+        Assert.assertTrue(ruleChainVisits.contains("ForStatement"));
+        Assert.assertTrue(ruleChainVisits.contains("WhileStatement"));
+        Assert.assertTrue(ruleChainVisits.contains("DoStatement"));
+
+        final String expectedSubexpression = "((self::node()/descendant-or-self::node())/(child::element(dummyNode, xs:anyType)[pmd-dummy:typeIs(CardinalityChecker(ItemChecker(UntypedAtomicConverter(Atomizer(attribute::attribute(Image, xs:anyAtomicType))))))]))";
+        assertExpression(expectedSubexpression, query.nodeNameToXPaths.get("ForStatement").get(0));
+        assertExpression(expectedSubexpression, query.nodeNameToXPaths.get("WhileStatement").get(0));
+        assertExpression(expectedSubexpression, query.nodeNameToXPaths.get("DoStatement").get(0));
     }
 }

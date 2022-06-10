@@ -12,24 +12,38 @@ This is a {{ site.pmd.release_type }} release.
 
 {% tocmaker is_release_notes_processor %}
 
+### New and noteworthy
+
+#### All Contributors
+
+PMD follows the [All Contributors](https://allcontributors.org/) specification.
+Contributions of any kind welcome!
+
+See [credits](https://pmd.github.io/latest/pmd_projectdocs_credits.html) for our complete contributors list.
+
 ### Fixed Issues
 
-*   apex
-    *   [#3462](https://github.com/pmd/pmd/issues/3462): \[apex] SOQL performed in a for-each loop doesn't trigger ApexCRUDViolationRule
-    *   [#3484](https://github.com/pmd/pmd/issues/3484): \[apex] ApexCRUDViolationRule maintains state across files
 *   core
-    *   [#3446](https://github.com/pmd/pmd/issues/3446): \[core] Allow XPath rules to access the current file name
-*   java-bestpractices
-    *   [#3403](https://github.com/pmd/pmd/issues/3403): \[java] MethodNamingConventions junit5TestPattern does not detect parameterized tests
+    *   [#3499](https://github.com/pmd/pmd/pull/3499): \[core] Fix XPath rulechain with combined node tests
+*   java-errorprone
+    *   [#3493](https://github.com/pmd/pmd/pull/3493): \[java] AvoidAccessibilityAlteration: add tests and fix rule
+*   javascript
+    *   [#3516](https://github.com/pmd/pmd/pull/3516): \[javascript] NPE while creating rule violation when specifying explicit line numbers
+*   plsql
+    *   [#3487](https://github.com/pmd/pmd/issues/3487): \[plsql] Parsing exception OPEN ref_cursor_name FOR statement
+    *   [#3515](https://github.com/pmd/pmd/issues/3515): \[plsql] Parsing exception SELECT...INTO on Associative Arrays Types
+
+### API Changes
+
+No changes.
 
 ### External Contributions
 
-*   [#3445](https://github.com/pmd/pmd/pull/3445): \[java] Fix #3403 about MethodNamingConventions and JUnit5 parameterized tests - [Cyril Sicard](https://github.com/CyrilSicard)
-*   [#3470](https://github.com/pmd/pmd/pull/3470): \[apex] Fix ApexCRUDViolationRule - add super call - [Josh Feingold](https://github.com/jfeingold35)
+*   [#3516](https://github.com/pmd/pmd/pull/3516): \[javascript] NPE while creating rule violation when specifying explicit line numbers - [Kevin Guerra](https://github.com/kevingnet)
 
 ### Stats
-* 32 commits
-* 8 closed tickets & PRs
+* 37 commits
+* 10 closed tickets & PRs
 * Days since last release: 27
 
 {% endtocmaker %}

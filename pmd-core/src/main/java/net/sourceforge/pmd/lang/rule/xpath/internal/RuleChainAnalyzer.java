@@ -4,8 +4,10 @@
 
 package net.sourceforge.pmd.lang.rule.xpath.internal;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 
 import net.sourceforge.pmd.lang.ast.Node;
 
@@ -17,6 +19,7 @@ import net.sf.saxon.expr.LazyExpression;
 import net.sf.saxon.expr.PathExpression;
 import net.sf.saxon.expr.RootExpression;
 import net.sf.saxon.om.Axis;
+import net.sf.saxon.pattern.CombinedNodeTest;
 import net.sf.saxon.pattern.NameTest;
 import net.sf.saxon.sort.DocumentSorter;
 import net.sf.saxon.type.Type;
@@ -40,6 +43,7 @@ public class RuleChainAnalyzer extends SaxonExprVisitor {
     private boolean rootElementReplaced;
     private boolean insideLazyExpression;
     private boolean foundPathInsideLazy;
+    private boolean foundCombinedNodeTest;
 
     public RuleChainAnalyzer(Configuration currentConfiguration) {
         this.configuration = currentConfiguration;
@@ -69,7 +73,17 @@ public class RuleChainAnalyzer extends SaxonExprVisitor {
                     Expression step = newPath.getStepExpression();
                     if (step instanceof FilterExpression) {
                         FilterExpression filterExpression = (FilterExpression) newPath.getStepExpression();
-                        result = new FilterExpression(new AxisExpression(Axis.SELF, null), filterExpression.getFilter());
+
+                        Deque<Expression> filters = new ArrayDeque<>();
+                        Expression walker = filterExpression;
+                        while (walker instanceof FilterExpression) {
+                            filters.push(((FilterExpression) walker).getFilter());
+                            walker = ((FilterExpression) walker).getBaseExpression();
+                        }
+                        result = new FilterExpression(new AxisExpression(Axis.SELF, null), filters.pop());
+                        while (!filters.isEmpty()) {
+                            result = new FilterExpression(result, filters.pop());
+                        }
                         rootElementReplaced = true;
                     } else if (step instanceof AxisExpression) {
                         if (newPath.getStartExpression() instanceof RootExpression) {
@@ -93,13 +107,15 @@ public class RuleChainAnalyzer extends SaxonExprVisitor {
 
     @Override
     public Expression visit(AxisExpression e) {
-        if (rootElement == null && e.getNodeTest() instanceof NameTest) {
+        if (rootElement == null && e.getNodeTest() instanceof NameTest && !foundCombinedNodeTest) {
             NameTest test = (NameTest) e.getNodeTest();
             if (test.getPrimitiveType() == Type.ELEMENT && e.getAxis() == Axis.DESCENDANT) {
                 rootElement = configuration.getNamePool().getClarkName(test.getFingerprint());
             } else if (test.getPrimitiveType() == Type.ELEMENT && e.getAxis() == Axis.CHILD) {
                 rootElement = configuration.getNamePool().getClarkName(test.getFingerprint());
             }
+        } else if (e.getNodeTest() instanceof CombinedNodeTest) {
+            foundCombinedNodeTest = true;
         }
         return super.visit(e);
     }
