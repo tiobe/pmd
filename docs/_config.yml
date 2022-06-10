@@ -1,9 +1,9 @@
 repository: pmd/pmd
 
 pmd:
-    version: 6.33.0
-    previous_version: 6.32.0
-    date: 27-March-2021
+    version: 6.34.0
+    previous_version: 6.33.0
+    date: 24-April-2021
     release_type: minor
 
 # release types: major, minor, bugfix
@@ -45,6 +45,8 @@ exclude:
   - pdf-*.sh
   - pdfconfigs/
   - pdf/
+  - sitemap_generator.sh
+  - render_release_notes.rb
 
 feedback_subject_line: PMD Source Code Analyzer
 
