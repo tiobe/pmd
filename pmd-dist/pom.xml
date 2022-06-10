@@ -8,7 +8,7 @@
     <parent>
         <groupId>net.sourceforge.pmd</groupId>
         <artifactId>pmd</artifactId>
-        <version>6.34.0</version>
+        <version>6.35.0</version>
         <relativePath>../</relativePath>
     </parent>
 
@@ -140,11 +140,6 @@
         </dependency>
         <dependency>
             <groupId>net.sourceforge.pmd</groupId>
-            <artifactId>pmd-javascript</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.pmd</groupId>
             <artifactId>pmd-jsp</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -247,6 +242,11 @@
                 <dependency>
                     <groupId>net.sourceforge.pmd</groupId>
                     <artifactId>pmd-apex</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>net.sourceforge.pmd</groupId>
+                    <artifactId>pmd-javascript</artifactId>
                     <version>${project.version}</version>
                 </dependency>
                 <dependency>
