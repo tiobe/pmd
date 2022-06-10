@@ -14,182 +14,100 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### Updated Apex Support
+#### GitHub Action for PMD
 
-*   The Apex language support has been bumped to version 54.0 (Spring '22).
+PMD now has its own official GitHub Action: [GitHub Action for PMD](https://github.com/marketplace/actions/pmd).
+It can execute PMD with your own ruleset against your project. It creates a [SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
+report which is uploaded as a build artifact. Furthermore the build can be failed based on the number of violations.
 
-#### New rules
+Feedback and pull requests are welcome at <https://github.com/pmd/pmd-github-action>.
 
-*   The new Apex rule {% rule apex/performance/EagerlyLoadedDescribeSObjectResult %} finds
-    `DescribeSObjectResult`s which could have been loaded eagerly via `SObjectType.getDescribe()`.
+#### Last release in 2021
 
-```xml
-    <rule ref="category/apex/performance.xml/EagerlyLoadedDescribeSObjectResult" />
-```
-
-#### Modified rules
-
-*   The Apex rule {% rule apex/bestpractices/ApexUnitTestClassShouldHaveAsserts %} has a new property
-    `additionalAssertMethodPattern`. When specified the pattern is evaluated against each invoked
-    method name to determine whether it represents a test assertion in addition to the standard names.
-
-*   The Apex rule {% rule apex/documentation/ApexDoc %} has a new property `reportMissingDescription`.
-    If set to `false` (default is `true` if unspecified) doesn't report an issue if the `@description`
-    tag is missing. This is consistent with the ApexDoc dialect supported by derivatives such as
-    [SfApexDoc](https://gitlab.com/StevenWCox/sfapexdoc) and also with analogous documentation tools for
-    other languages, e.g., JavaDoc, ESDoc/JSDoc, etc.
-
-*   The Apex rule {% rule apex/security/ApexCRUDViolation %} has a couple of new properties:
-    These allow specification of regular-expression-based patterns for additional methods that should
-    be considered valid for pre-CRUD authorization beyond those offered by the system Apex checks and
-    ESAPI, e.g., [`sirono-common`'s `AuthorizationUtil` class](https://github.com/SCWells72/sirono-common#authorization-utilities).
-    Two new properties have been added per-CRUD operation, one to specify the naming pattern for a method
-    that authorizes that operation and another to specify the argument passed to that method that contains
-    the `SObjectType` instance of the type being authorized. Here is an example of these new properties:
-    
-    ```xml
-    <rule ref="category/apex/security.xml/ApexCRUDViolation" message="...">
-      <priority>3</priority>
-      <properties>
-        <property name="createAuthMethodPattern" value="AuthorizationUtil\.(is|assert)(Createable|Upsertable)"/>
-        <!--
-         There's one of these properties for each operation, and the default value is 0 so this is technically
-         superfluous, but it's included it here for example purposes.
-         -->
-        <property name="createAuthMethodTypeParamIndex" value="0"/>
-        <property name="readAuthMethodPattern" value="AuthorizationUtil\.(is|assert)Accessible"/>
-        <property name="updateAuthMethodPattern" value="AuthorizationUtil\.(is|assert)(Updateable|Upsertable)"/>
-        <property name="deleteAuthMethodPattern" value="AuthorizationUtil\.(is|assert)Deletable"/>
-        <property name="undeleteAuthMethodPattern" value="AuthorizationUtil\.(is|assert)Undeletable"/>
-        <property name="mergeAuthMethodPattern" value="AuthorizationUtil\.(is|assert)Mergeable"/>
-      </properties>
-    </rule>
-    ```
-
-*   The Apex rule {% rule apex/errorprone/EmptyStatementBlock %} has two new properties:
-    
-    Setting `reportEmptyPrivateNoArgConstructor` to `false` ignores empty private no-arg constructors
-    that are commonly used in singleton pattern implementations and utility classes in support of
-    prescribed best practices.
-    
-    Setting `reportEmptyVirtualMethod` to `false` ignores empty virtual methods that are commonly used in
-    abstract base classes as default no-op implementations when derived classes typically only override a
-    subset of virtual methods.
-    
-    By default, both properties are `true` to not change the default behaviour of this rule.
-
-*   The Apex rule {% rule apex/errorprone/EmptyCatchBlock %} has two new properties modeled after the analgous Java rule:
-    
-    The `allowCommentedBlocks` property, when set to `true` (defaults to `false`), ignores empty blocks containing comments, e.g.:
-
-    ```apex
-    try {
-        doSomethingThatThrowsAnExpectedException();
-        System.assert(false, 'Expected to catch an exception.');
-    } catch (Exception e) {
-        // Expected
-    }
-    ```
-
-    The `allowExceptionNameRegex` property is a regular expression for exception variable names for which empty catch blocks should be ignored by this rule. For example, using the default property value of `^(ignored|expected)$`, the following empty catch blocks will not be reported:
-
-    ```apex
-    try {
-        doSomethingThatThrowsAnExpectedException();
-        System.assert(false, 'Expected to catch an exception.');
-    } catch (IllegalStateException ignored) {
-    } catch (NumberFormatException expected) {
-    }
-    ```
-
-*   The Apex rule {% rule apex/codestyle/OneDeclarationPerLine %} has a new property `reportInForLoopInitializer`:
-    If set to `false` (default is `true` if unspecified) doesn't report an issue for multiple declarations in
-    a `for` loop's initializer section. This is support the common idiom of one declaration for the loop variable
-    and another for the loop bounds condition, e.g.,
-    
-    ```apex
-    for (Integer i = 0, numIterations = computeNumIterations(); i < numIterations; i++) {
-    }
-    ```
-
-*   The Java rule {% rule java/codestyle/ClassNamingConventions %} uses a different default value of the
-    property `utilityClassPattern`: This rule was detecting utility classes by default since PMD 6.3.0
-    and enforcing the naming convention that utility classes has to be suffixed with Util or Helper or Constants.
-    However this turned out to be not so useful as a default configuration, as there is no standard
-    naming convention for utility classes.
-    
-    With PMD 6.40.0, the default value of this property has been changed to `[A-Z][a-zA-Z0-9]*`
-    (Pascal case), effectively disabling the special handling of utility classes. This is the same default
-    pattern used for concrete classes.
-    
-    This means, that the feature to enforce a naming convention for utility classes is now a opt-in
-    feature and can be enabled on demand.
-    
-    To use the old behaviour, the property needs to be configured as follows:
-    
-    ```xml
-    <rule ref="category/java/codestyle.xml/ClassNamingConventions">
-        <properties>
-            <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+(Utils?|Helper|Constants)" />
-        </properties>
-    </rule>
-    ```
-
+This minor release will be the last one in 2021. The next release is scheduled to be end of January 2022.
 
 ### Fixed Issues
 
-*   apex
-    *   [#1089](https://github.com/pmd/pmd/issues/1089): \[apex] ApexUnitTestClassShouldHaveAsserts: Test asserts in other methods not detected
-    *   [#1090](https://github.com/pmd/pmd/issues/1090): \[apex] ApexCRUDViolation: checks not detected if done in another method
-    *   [#3532](https://github.com/pmd/pmd/issues/3532): \[apex] Promote usage of consistent getDescribe() info
-    *   [#3566](https://github.com/pmd/pmd/issues/3566): \[apex] ApexDoc rule should not require "@description"
-    *   [#3568](https://github.com/pmd/pmd/issues/3568): \[apex] EmptyStatementBlock: should provide options to ignore empty private constructors and empty virtual methods
-    *   [#3569](https://github.com/pmd/pmd/issues/3569): \[apex] EmptyCatchBlock: should provide an option to ignore empty catch blocks in test methods
-    *   [#3570](https://github.com/pmd/pmd/issues/3570): \[apex] OneDeclarationPerLine: should provide an option to ignore multiple declarations in a for loop initializer
-    *   [#3576](https://github.com/pmd/pmd/issues/3576): \[apex] ApexCRUDViolation should provide an option to specify additional patterns for methods that encapsulate authorization checks
-    *   [#3579](https://github.com/pmd/pmd/issues/3579): \[apex] ApexCRUDViolation: false negative with undelete
+*   core
+    *   [#2954](https://github.com/pmd/pmd/issues/2954): Create GitHub Action for PMD
+    *   [#3424](https://github.com/pmd/pmd/issues/3424): \[core] Migrate CLI to using GNU-style long options
+    *   [#3425](https://github.com/pmd/pmd/issues/3425): \[core] Add a `--version` CLI option
+    *   [#3593](https://github.com/pmd/pmd/issues/3593): \[core] Ant task fails with Java17
+    *   [#3635](https://github.com/pmd/pmd/issues/3635): \[ci] Update sample projects for regression tester
 *   java-bestpractices
-    *   [#3542](https://github.com/pmd/pmd/issues/3542): \[java] MissingOverride: False negative for enum method
-*   java-codestyle
-    *   [#1595](https://github.com/pmd/pmd/issues/1595): \[java] Discuss default for utility classes in ClassNamingConventions
-    *   [#3563](https://github.com/pmd/pmd/issues/3563): \[java] The ClassNamingConventionsRule false-positive's on the class name "Constants"
+    *   [#3595](https://github.com/pmd/pmd/issues/3595): \[java] PrimitiveWrapperInstantiation: no violation on 'new Boolean(val)'
+    *   [#3613](https://github.com/pmd/pmd/issues/3613): \[java] ArrayIsStoredDirectly doesn't consider nested classes
+    *   [#3614](https://github.com/pmd/pmd/issues/3614): \[java] JUnitTestsShouldIncludeAssert doesn't consider nested classes
+    *   [#3618](https://github.com/pmd/pmd/issues/3618): \[java] UnusedFormalParameter doesn't consider anonymous classes
+    *   [#3630](https://github.com/pmd/pmd/issues/3630): \[java] MethodReturnsInternalArray doesn't consider anonymous classes
+*   java-design
+    *   [#3620](https://github.com/pmd/pmd/issues/3620): \[java] SingularField doesn't consider anonymous classes defined in non-private fields
 *   java-errorprone
-    *   [#3560](https://github.com/pmd/pmd/issues/3560): \[java] InvalidLogMessageFormat: False positive with message and exception in a block inside a lambda
+    *   [#3624](https://github.com/pmd/pmd/issues/3624): \[java] TestClassWithoutTestCases reports wrong classes in a file
 *   java-performance
-    *   [#2364](https://github.com/pmd/pmd/issues/2364): \[java] AddEmptyString false positive in annotation value
-*   java-security
-    *   [#3368](https://github.com/pmd/pmd/issues/3368): \[java] HardcodedCryptoKey false negative with variable assignments
+    *   [#3491](https://github.com/pmd/pmd/issues/3491): \[java] UselessStringValueOf: False positive when `valueOf(char [], int, int)` is used
 
 ### API Changes
 
-#### Experimental APIs
+#### Command Line Interface
 
-*   The interface {% jdoc apex::lang.apex.ast.ASTCommentContainer %} has been added to the Apex AST.
-    It provides a way to check whether a node contains at least one comment. Currently this is only implemented for
-    {% jdoc apex::lang.apex.ast.ASTCatchBlockStatement %} and used by the rule
-    {% rule apex/errorprone/EmptyCatchBlock %}.
-    This information is also available via XPath attribute `@ContainsComment`.
+The command line options for PMD and CPD now use GNU-syle long options format. E.g. instead of `-rulesets` the
+preferred usage is now `--rulesets`. Alternatively one can still use the short option `-R`.
+Some options also have been renamed to a more consistent casing pattern at the same time
+(`--fail-on-violation` instead of `-failOnViolation`).
+The old single-dash options are still supported but are deprecated and will be removed with PMD 7.
+This change makes the command line interface more consistent within PMD and also less surprising
+compared to other cli tools.
+
+The changes in detail for PMD:
+
+|old option                     |new option|
+|-------------------------------|----------|
+| `-rulesets`                   | `--rulesets` (or `-R`) |
+| `-uri`                        | `--uri` |
+| `-dir`                        | `--dir` (or `-d`) |
+| `-filelist`                   | `--file-list` |
+| `-ignorelist`                 | `--ignore-list` |
+| `-format`                     | `--format` (or `-f`) |
+| `-debug`                      | `--debug` |
+| `-verbose`                    | `--verbose` |
+| `-help`                       | `--help` |
+| `-encoding`                   | `--encoding` |
+| `-threads`                    | `--threads` |
+| `-benchmark`                  | `--benchmark` |
+| `-stress`                     | `--stress` |
+| `-shortnames`                 | `--short-names` |
+| `-showsuppressed`             | `--show-suppressed` |
+| `-suppressmarker`             | `--suppress-marker` |
+| `-minimumpriority`            | `--minimum-priority` |
+| `-property`                   | `--property` |
+| `-reportfile`                 | `--report-file` |
+| `-force-language`             | `--force-language` |
+| `-auxclasspath`               | `--aux-classpath` |
+| `-failOnViolation`            | `--fail-on-violation` |
+| `--failOnViolation`           | `--fail-on-violation` |
+| `-norulesetcompatibility`     | `--no-ruleset-compatibility` |
+| `-cache`                      | `--cache` |
+| `-no-cache`                   | `--no-cache` |
+
+The changes in detail for CPD:
+
+|old option             |new option|
+|-----------------------|----------|
+| `--failOnViolation`   | `--fail-on-violation` |
+| `-failOnViolation`    | `--fail-on-violation` |
+| `--filelist`          | `--file-list` |
 
 ### External Contributions
 
-*   [#3538](https://github.com/pmd/pmd/pull/3538): \[apex] New rule EagerlyLoadedDescribeSObjectResult - [Jonathan Wiesel](https://github.com/jonathanwiesel)
-*   [#3549](https://github.com/pmd/pmd/pull/3549): \[java] Ignore AddEmptyString rule in annotations - [Stanislav Myachenkov](https://github.com/smyachenkov)
-*   [#3561](https://github.com/pmd/pmd/pull/3561): \[java] InvalidLogMessageFormat: False positive with message and exception in a block inside a lambda - [Nicolas Filotto](https://github.com/essobedo)
-*   [#3565](https://github.com/pmd/pmd/pull/3565): \[doc] Fix resource leak due to Files.walk - [lujiefsi](https://github.com/lujiefsi)
-*   [#3571](https://github.com/pmd/pmd/pull/3571): \[apex] Fix for #1089 - Added new configuration property additionalAssertMethodPattern to ApexUnitTestClassShouldHaveAssertsRule - [Scott Wells](https://github.com/SCWells72)
-*   [#3572](https://github.com/pmd/pmd/pull/3572): \[apex] Fix for #3566 - Added new configuration property reportMissingDescription to ApexDocRule - [Scott Wells](https://github.com/SCWells72)
-*   [#3573](https://github.com/pmd/pmd/pull/3573): \[apex] Fix for #3568 - Added new configuration properties reportEmptyPrivateNoArgConstructor and reportEmptyVirtualMethod to EmptyStatementBlock - [Scott Wells](https://github.com/SCWells72)
-*   [#3574](https://github.com/pmd/pmd/pull/3574): \[apex] Fix for #3569 - Added new configuration properties allowCommentedBlocks and allowExceptionNameRegex to EmptyCatchBlock - [Scott Wells](https://github.com/SCWells72)
-*   [#3575](https://github.com/pmd/pmd/pull/3575): \[apex] Fix for #3570 - Added new configuration property reportInForLoopInitializer to OneDeclarationPerLine - [Scott Wells](https://github.com/SCWells72)
-*   [#3577](https://github.com/pmd/pmd/pull/3577): \[apex] Fix for #3576 - Added new configuration properties \*AuthMethodPattern and \*AuthMethodTypeParamIndex to ApexCRUDViolation rule - [Scott Wells](https://github.com/SCWells72)
-*   [#3578](https://github.com/pmd/pmd/pull/3578): \[apex] ApexCRUDViolation: Documentation changes for #3576 - [Scott Wells](https://github.com/SCWells72)
-*   [#3580](https://github.com/pmd/pmd/pull/3580): \[doc] Release notes updates for the changes in issue #3569 - [Scott Wells](https://github.com/SCWells72)
-*   [#3581](https://github.com/pmd/pmd/pull/3581): \[apex] #3569 - Requested changes for code review feedback - [Scott Wells](https://github.com/SCWells72)
+*   [#3600](https://github.com/pmd/pmd/pull/3600): \[core] Implement GNU-style long options and '--version' - [Yang](https://github.com/duanyang25)
+*   [#3612](https://github.com/pmd/pmd/pull/3612): \[java] Created fix for UselessStringValueOf false positive - [John Armgardt](https://github.com/johnra2)
+*   [#3648](https://github.com/pmd/pmd/pull/3648): \[doc] Rename Code Inspector to Codiga - [Julien Delange](https://github.com/juli1)
 
 ### Stats
-* 72 commits
-* 37 closed tickets & PRs
-* Days since last release: 34
+* 80 commits
+* 23 closed tickets & PRs
+* Days since last release: 28
 
 {% endtocmaker %}
 
