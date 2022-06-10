@@ -30,13 +30,15 @@ end
 
 def upload_report
   Dir.chdir('target/reports') do
-    tar_filename = "pr-#{ENV['PMD_CI_PULL_REQUEST_NUMBER']}-diff-report-#{Time.now.strftime("%Y-%m-%dT%H-%M-%SZ")}.tar"
+    tar_filename = "pr-#{ENV['PMD_CI_PULL_REQUEST_NUMBER']}-diff-report-#{Time.now.strftime("%Y-%m-%dT%H-%M-%SZ")}.tar.gz"
     unless Dir.exist?('diff/')
       message("No java rules are changed!", sticky: true)
       return
     end
 
-    `tar -cf #{tar_filename} diff/`
+    `tar czf #{tar_filename} diff/`
+    tar_size = (10 * File.size(tar_filename) / 1024 / 1024)/10.0
+    @logger.info "Uploading file #{tar_filename} (#{tar_size}mb) now..."
     report_url = `curl -u #{ENV['PMD_CI_CHUNK_TOKEN']} -T #{tar_filename} https://chunk.io`
     if $?.success?
       @logger.info "Successfully uploaded #{tar_filename} to #{report_url}"
