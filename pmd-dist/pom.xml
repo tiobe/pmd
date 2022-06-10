@@ -8,7 +8,7 @@
     <parent>
         <groupId>net.sourceforge.pmd</groupId>
         <artifactId>pmd</artifactId>
-        <version>6.37.0</version>
+        <version>6.38.0</version>
         <relativePath>../</relativePath>
     </parent>
 
@@ -227,7 +227,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.19</version>
+            <version>1.21</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
