@@ -52,7 +52,11 @@ public final class ASTRecordDeclaration extends AbstractAnyTypeDeclaration {
 
     @Override
     public boolean isFindBoundary() {
-        return isNested();
+        return isNested() || isLocal();
+    }
+
+    public boolean isSyntacticallyFinal() {
+        return super.isFinal();
     }
 
     @Override

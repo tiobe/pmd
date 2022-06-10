@@ -804,11 +804,19 @@ in each object at runtime.
                 <value>
 <![CDATA[
 //FieldDeclaration
- [@Final= true() and @Static= false()]
+ [@Final=true() and @Static=false()]
  [not(preceding-sibling::Annotation/MarkerAnnotation/Name[@Image="Builder.Default"]
     and //ImportDeclaration/Name[@Image="lombok.Builder"])]
 /VariableDeclarator
- [VariableInitializer/Expression/PrimaryExpression[not(PrimarySuffix)]/PrimaryPrefix/Literal]
+ [VariableInitializer/Expression/PrimaryExpression[not(PrimarySuffix)]
+  /PrimaryPrefix/*
+    [
+        self::Literal (: literal :)
+        or
+        (: another static field :)
+        self::Name[@Image=//FieldDeclaration[@Static=true()]/VariableDeclarator/@Name]
+    ]
+ ]
 /VariableDeclaratorId
 ]]>
                 </value>

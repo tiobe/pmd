@@ -14,100 +14,79 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### GitHub Action for PMD
+#### Javascript: Rhino updated to latest version 1.7.14
 
-PMD now has its own official GitHub Action: [GitHub Action for PMD](https://github.com/marketplace/actions/pmd).
-It can execute PMD with your own ruleset against your project. It creates a [SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
-report which is uploaded as a build artifact. Furthermore the build can be failed based on the number of violations.
+[Rhino](https://github.com/mozilla/rhino), the implementation of JavaScript we use
+for parsing JavaScript code, has been updated to the latest version 1.7.14.
+Now language features like template strings can be parsed. However Rhino does
+not support all features of the latest EcmaScript standard.
 
-Feedback and pull requests are welcome at <https://github.com/pmd/pmd-github-action>.
+#### New rules
 
-#### Last release in 2021
+*   The new Java rule {% rule "java/codestyle/FinalParameterInAbstractMethod" %} detects parameters that are
+    declared as final in interfaces or abstract methods. Declaring the parameters as final is useless
+    because the implementation may choose to not respect it.
 
-This minor release will be the last one in 2021. The next release is scheduled to be end of January 2022.
+```xml
+    <rule ref="category/java/codestyle.xml/FinalParameterInAbstractMethod" />
+```
+
+   The rule is part of the quickstart.xml ruleset.
+
+#### Modified rules
+
+*   The Apex rule {% rule "apex/documentation/ApexDoc" %} has a new property `reportProperty`.
+    If set to `false` (default is `true` if unspecified) doesn't report missing ApexDoc comments on properties.
+    It allows you to enforce ApexDoc comments for classes and methods without requiring them for properties.
 
 ### Fixed Issues
 
 *   core
-    *   [#2954](https://github.com/pmd/pmd/issues/2954): Create GitHub Action for PMD
-    *   [#3424](https://github.com/pmd/pmd/issues/3424): \[core] Migrate CLI to using GNU-style long options
-    *   [#3425](https://github.com/pmd/pmd/issues/3425): \[core] Add a `--version` CLI option
-    *   [#3593](https://github.com/pmd/pmd/issues/3593): \[core] Ant task fails with Java17
-    *   [#3635](https://github.com/pmd/pmd/issues/3635): \[ci] Update sample projects for regression tester
+    *   [#3328](https://github.com/pmd/pmd/issues/3328): \[core] designer.bat errors when JAVAFX_HOME contains spaces
+*   java
+    *   [#3698](https://github.com/pmd/pmd/issues/3698): \[java] Error resolving Symbol Table
 *   java-bestpractices
-    *   [#3595](https://github.com/pmd/pmd/issues/3595): \[java] PrimitiveWrapperInstantiation: no violation on 'new Boolean(val)'
-    *   [#3613](https://github.com/pmd/pmd/issues/3613): \[java] ArrayIsStoredDirectly doesn't consider nested classes
-    *   [#3614](https://github.com/pmd/pmd/issues/3614): \[java] JUnitTestsShouldIncludeAssert doesn't consider nested classes
-    *   [#3618](https://github.com/pmd/pmd/issues/3618): \[java] UnusedFormalParameter doesn't consider anonymous classes
-    *   [#3630](https://github.com/pmd/pmd/issues/3630): \[java] MethodReturnsInternalArray doesn't consider anonymous classes
+    *   [#3209](https://github.com/pmd/pmd/issues/3209): \[java] UnusedPrivateMethod false positive with static method and cast expression
+    *   [#3468](https://github.com/pmd/pmd/issues/3468): \[java] UnusedPrivateMethod false positive when outer class calls private static method on inner class
 *   java-design
-    *   [#3620](https://github.com/pmd/pmd/issues/3620): \[java] SingularField doesn't consider anonymous classes defined in non-private fields
+    *   [#3679](https://github.com/pmd/pmd/issues/3679): \[java] Make FinalFieldCouldBeStatic detect constant variable
 *   java-errorprone
-    *   [#3624](https://github.com/pmd/pmd/issues/3624): \[java] TestClassWithoutTestCases reports wrong classes in a file
+    *   [#3644](https://github.com/pmd/pmd/issues/3644): \[java] InvalidLogMessageFormat: false positives with logstash structured logging
+    *   [#3686](https://github.com/pmd/pmd/issues/3686): \[java] ReturnEmptyCollectionRatherThanNull - false negative with conditioned returns
+    *   [#3701](https://github.com/pmd/pmd/issues/3701): \[java] MissingStaticMethodInNonInstantiatableClass false positive with method inner classes
+    *   [#3721](https://github.com/pmd/pmd/issues/3721): \[java] ReturnEmptyCollectionRatherThanNull - false positive with stream and lambda
 *   java-performance
-    *   [#3491](https://github.com/pmd/pmd/issues/3491): \[java] UselessStringValueOf: False positive when `valueOf(char [], int, int)` is used
+    *   [#3492](https://github.com/pmd/pmd/issues/3492): \[java] UselessStringValueOf: False positive when there is no initial String to append to
+    *   [#3639](https://github.com/pmd/pmd/issues/3639): \[java] UseStringBufferLength: false negative with empty string variable
+    *   [#3712](https://github.com/pmd/pmd/issues/3712): \[java] InsufficientStringBufferDeclaration false positive with StringBuilder.setLength(0)
+*   javascript
+    *   [#3703](https://github.com/pmd/pmd/issues/3703): \[javascript] Error - no Node adapter class registered for XmlPropRef
 
 ### API Changes
 
-#### Command Line Interface
-
-The command line options for PMD and CPD now use GNU-syle long options format. E.g. instead of `-rulesets` the
-preferred usage is now `--rulesets`. Alternatively one can still use the short option `-R`.
-Some options also have been renamed to a more consistent casing pattern at the same time
-(`--fail-on-violation` instead of `-failOnViolation`).
-The old single-dash options are still supported but are deprecated and will be removed with PMD 7.
-This change makes the command line interface more consistent within PMD and also less surprising
-compared to other cli tools.
-
-The changes in detail for PMD:
-
-|old option                     |new option|
-|-------------------------------|----------|
-| `-rulesets`                   | `--rulesets` (or `-R`) |
-| `-uri`                        | `--uri` |
-| `-dir`                        | `--dir` (or `-d`) |
-| `-filelist`                   | `--file-list` |
-| `-ignorelist`                 | `--ignore-list` |
-| `-format`                     | `--format` (or `-f`) |
-| `-debug`                      | `--debug` |
-| `-verbose`                    | `--verbose` |
-| `-help`                       | `--help` |
-| `-encoding`                   | `--encoding` |
-| `-threads`                    | `--threads` |
-| `-benchmark`                  | `--benchmark` |
-| `-stress`                     | `--stress` |
-| `-shortnames`                 | `--short-names` |
-| `-showsuppressed`             | `--show-suppressed` |
-| `-suppressmarker`             | `--suppress-marker` |
-| `-minimumpriority`            | `--minimum-priority` |
-| `-property`                   | `--property` |
-| `-reportfile`                 | `--report-file` |
-| `-force-language`             | `--force-language` |
-| `-auxclasspath`               | `--aux-classpath` |
-| `-failOnViolation`            | `--fail-on-violation` |
-| `--failOnViolation`           | `--fail-on-violation` |
-| `-norulesetcompatibility`     | `--no-ruleset-compatibility` |
-| `-cache`                      | `--cache` |
-| `-no-cache`                   | `--no-cache` |
-
-The changes in detail for CPD:
-
-|old option             |new option|
-|-----------------------|----------|
-| `--failOnViolation`   | `--fail-on-violation` |
-| `-failOnViolation`    | `--fail-on-violation` |
-| `--filelist`          | `--file-list` |
+No changes.
 
 ### External Contributions
 
-*   [#3600](https://github.com/pmd/pmd/pull/3600): \[core] Implement GNU-style long options and '--version' - [Yang](https://github.com/duanyang25)
-*   [#3612](https://github.com/pmd/pmd/pull/3612): \[java] Created fix for UselessStringValueOf false positive - [John Armgardt](https://github.com/johnra2)
-*   [#3648](https://github.com/pmd/pmd/pull/3648): \[doc] Rename Code Inspector to Codiga - [Julien Delange](https://github.com/juli1)
+*   [#3631](https://github.com/pmd/pmd/pull/3631): \[java] Fixed False positive for UselessStringValueOf when there is no initial String to append to - [John Armgardt](https://github.com/johnra2)
+*   [#3683](https://github.com/pmd/pmd/pull/3683): \[java] Fixed 3468 UnusedPrivateMethod false positive when outer class calls private static method on inner class - [John Armgardt](https://github.com/johnra2)
+*   [#3688](https://github.com/pmd/pmd/pull/3688): \[java] Bump log4j to 2.16.0 - [Sergey Nuyanzin](https://github.com/snuyanzin)
+*   [#3693](https://github.com/pmd/pmd/pull/3693): \[apex] ApexDoc: Add reportProperty property - [Steve Babula](https://github.com/babula)
+*   [#3704](https://github.com/pmd/pmd/pull/3704): \[java] Fix for #3686 - Fix ReturnEmptyCollectionRatherThanNull - [Oleksii Dykov](https://github.com/dykov)
+*   [#3713](https://github.com/pmd/pmd/pull/3713): \[java] Enhance UnnecessaryModifier to support records - [Vincent Galloy](https://github.com/vgalloy)
+*   [#3719](https://github.com/pmd/pmd/pull/3719): \[java] Upgrade log4j to 2.17.1 - [Daniel Paul Searles](https://github.com/squaresurf)
+*   [#3720](https://github.com/pmd/pmd/pull/3720): \[java] New rule: FinalParameterInAbstractMethod - [Vincent Galloy](https://github.com/vgalloy)
+*   [#3724](https://github.com/pmd/pmd/pull/3724): \[java] Fix for #3679 - fix FinalFieldCouldBeStatic - [Oleksii Dykov](https://github.com/dykov)
+*   [#3727](https://github.com/pmd/pmd/pull/3727): \[java] #3724 - fix FinalFieldCouldBeStatic: triggers only if the referenced name is static - [Oleksii Dykov](https://github.com/dykov)
+*   [#3742](https://github.com/pmd/pmd/pull/3742): \[java] Fix #3701 - fix MissingStaticMethodInNonInstantiatableClass for method local classes - [Oleksii Dykov](https://github.com/dykov)
+*   [#3744](https://github.com/pmd/pmd/pull/3744): \[core] Updated SaxonXPathRuleQueryTest.java - [Vyom Yadav](https://github.com/Vyom-Yadav)
+*   [#3745](https://github.com/pmd/pmd/pull/3745): \[java] Fix #3712: InsufficientStringBufferDeclaration setLength false positive - [Daniel Gredler](https://github.com/gredler)
+*   [#3747](https://github.com/pmd/pmd/pull/3747): \[visualforce] Updated DataType.java - [Vyom Yadav](https://github.com/Vyom-Yadav)
 
 ### Stats
-* 80 commits
-* 23 closed tickets & PRs
-* Days since last release: 28
+* 88 commits
+* 35 closed tickets & PRs
+* Days since last release: 62
 
 {% endtocmaker %}
 
