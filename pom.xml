@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd</artifactId>
-    <version>6.44.0</version>
+    <version>6.45.0</version>
     <packaging>pom</packaging>
     <name>PMD</name>
 
@@ -55,7 +55,7 @@
         <connection>scm:git:git://github.com/pmd/pmd.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/pmd/pmd.git</developerConnection>
         <url>https://github.com/pmd/pmd</url>
-        <tag>pmd_releases/6.44.0</tag>
+        <tag>pmd_releases/6.45.0</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
@@ -76,7 +76,7 @@
     </issueManagement>
 
     <properties>
-        <project.build.outputTimestamp>2022-03-27T14:51:59Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2022-04-30T07:25:51Z</project.build.outputTimestamp>
 
         <java.version>7</java.version>
 
@@ -406,12 +406,22 @@
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-core</artifactId>
-                            <version>6.43.0</version> <!-- pmd.dogfood.version -->
+                            <version>6.44.0</version> <!-- pmd.dogfood.version -->
                         </dependency>
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-java</artifactId>
-                            <version>6.43.0</version> <!-- pmd.dogfood.version -->
+                            <version>6.44.0</version> <!-- pmd.dogfood.version -->
+                        </dependency>
+                        <dependency>
+                            <groupId>net.sourceforge.pmd</groupId>
+                            <artifactId>pmd-jsp</artifactId>
+                            <version>6.44.0</version> <!-- pmd.dogfood.version -->
+                        </dependency>
+                        <dependency>
+                            <groupId>net.sourceforge.pmd</groupId>
+                            <artifactId>pmd-javascript</artifactId>
+                            <version>6.44.0</version> <!-- pmd.dogfood.version -->
                         </dependency>
                         <!-- This contains the dogfood ruleset -->
                         <dependency>
@@ -1084,6 +1094,7 @@
         <!-- java8 modules -->
         <module>pmd-apex-jorje</module>
         <module>pmd-apex</module>
+        <module>pmd-html</module>
         <module>pmd-java8</module>
         <module>pmd-javascript</module>
         <module>pmd-doc</module>
