@@ -137,6 +137,7 @@ public final class PmdParametersParseResult {
     /** Map of deprecated option to suggested replacement. */
     private static final Map<String, String> SUGGESTED_REPLACEMENT;
 
+
     static {
         Map<String, String> m = new LinkedHashMap<>();
 
@@ -153,7 +154,8 @@ public final class PmdParametersParseResult {
         m.put("-threads", "--threads");
         m.put("-benchmark", "--benchmark");
         m.put("-stress", "--stress");
-        m.put("-shortnames", "--short-names");
+        m.put("-shortnames", PMDParameters.RELATIVIZE_PATHS_WITH);
+        m.put("--short-names", PMDParameters.RELATIVIZE_PATHS_WITH);
         m.put("-showsuppressed", "--show-suppressed");
         m.put("-suppressmarker", "--suppress-marker");
         m.put("-minimumpriority", "--minimum-priority");
@@ -166,6 +168,13 @@ public final class PmdParametersParseResult {
         m.put("-norulesetcompatibility", "--no-ruleset-compatibility");
         m.put("-cache", "--cache");
         m.put("-no-cache", "--no-cache");
+        m.put("-v", "--use-version"); // In PMD 7, -v will enable verbose mode
+        m.put("-V", "--verbose"); // In PMD 7, -V will show the tool version
+        m.put("-min", "--minimum-priority");
+        m.put("-version", "--use-version");
+        m.put("-language", "--use-version");
+        m.put("-l", "--use-version");
+
         SUGGESTED_REPLACEMENT = Collections.unmodifiableMap(m);
     }
 }

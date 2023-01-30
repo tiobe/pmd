@@ -5,10 +5,9 @@
 package net.sourceforge.pmd.lang.java.ast
 
 import io.kotest.matchers.shouldBe
-import net.sourceforge.pmd.lang.ast.test.shouldBe as typeShouldBe
-import net.sourceforge.pmd.lang.java.ast.JavaVersion
-import net.sourceforge.pmd.lang.java.ast.JavaVersion.*
+import net.sourceforge.pmd.lang.java.ast.JavaVersion.J16
 import java.io.IOException
+import net.sourceforge.pmd.lang.ast.test.shouldBe as typeShouldBe
 
 class ASTPatternTest : ParserTestSpec({
     val typePatternsVersions = JavaVersion.since(J16)
@@ -16,10 +15,11 @@ class ASTPatternTest : ParserTestSpec({
     parserTest("Test patterns only available on JDK16 or higher (including preview)",
         javaVersions = JavaVersion.except(typePatternsVersions)) {
 
-        expectParseException("Pattern Matching for instanceof is only supported with JDK >= 16") {
-            parseAstExpression("obj instanceof Class c")
+        "obj instanceof Class c" should {
+            expectParseException("Pattern Matching for instanceof is only supported with JDK >= 16") {
+                parseAstExpression(it)
+            }
         }
-
     }
 
     parserTest("Test simple patterns", javaVersions = typePatternsVersions) {

@@ -4,6 +4,9 @@
 
 package net.sourceforge.pmd.cli;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -14,6 +17,7 @@ import net.sourceforge.pmd.PMD;
 import net.sourceforge.pmd.PMDConfiguration;
 import net.sourceforge.pmd.RulePriority;
 import net.sourceforge.pmd.annotation.InternalApi;
+import net.sourceforge.pmd.lang.Language;
 import net.sourceforge.pmd.lang.LanguageRegistry;
 import net.sourceforge.pmd.lang.LanguageVersion;
 
@@ -30,6 +34,7 @@ import com.beust.jcommander.validators.PositiveInteger;
 @InternalApi
 public class PMDParameters {
 
+    static final String RELATIVIZE_PATHS_WITH = "--relativize-paths-with";
     @Parameter(names = { "--rulesets", "-rulesets", "-R" },
                description = "Path to a ruleset xml file. "
                              + "The path may reference a resource on the classpath of the application, be a local file system path, or a URL. "
@@ -120,6 +125,17 @@ public class PMDParameters {
                    + "If this option is not specified, the report is rendered to standard output.")
     private String reportfile = null;
 
+    @Parameter(names = { RELATIVIZE_PATHS_WITH, "-z" },
+               variableArity = true,
+               description = "Path relative to which directories are rendered in the report. "
+                             + "This option allows shortening directories in the report; "
+                             + "without it, paths are rendered as mentioned in the source directory (option \"--dir\"). "
+                             + "The option can be repeated, in which case the shortest relative path will be used. "
+                             + "If the root path is mentioned (e.g. \"/\" or \"C:\\\"), then the paths will be rendered as absolute.",
+               validateValueWith = PathToRelativizeRootValidator.class,
+               converter = StringToPathConverter.class)
+    private List<Path> relativizePathRoot = new ArrayList<>();
+
     @Parameter(names = { "-version", "-v" }, description = "Specify version of a language PMD should use.")
     private String version = null;
 
@@ -162,6 +178,9 @@ public class PMDParameters {
 
     @Parameter(names = { "--no-cache", "-no-cache" }, description = "Explicitly disable incremental analysis. The '-cache' option is ignored if this switch is present in the command line.")
     private boolean noCache = false;
+
+    @Parameter(names = "--use-version", description = "The language version PMD should use when parsing source code in the language-version format, ie: 'java-1.8'")
+    private List<String> languageVersions = new ArrayList<>();
 
     // this has to be a public static class, so that JCommander can use it!
     public static class PropertyConverter implements IStringConverter<Properties> {
@@ -214,6 +233,27 @@ public class PMDParameters {
         }
     }
 
+    public static class PathToRelativizeRootValidator implements IValueValidator<List<Path>> {
+
+        @Override
+        public void validate(String name, List<Path> value) throws ParameterException {
+            for (Path p : value) {
+                if (Files.isRegularFile(p)) {
+                    throw new ParameterException("Expected a directory path for option " + name + ", found a file: " + p);
+                }
+            }
+        }
+    }
+
+
+    public static class StringToPathConverter implements IStringConverter<Path> {
+
+        @Override
+        public Path convert(String value) {
+            return Paths.get(value);
+        }
+    }
+
 
     /**
      * Converts these parameters into a configuration.
@@ -231,6 +271,7 @@ public class PMDParameters {
         configuration.setReportFormat(this.getFormat());
         configuration.setBenchmark(this.isBenchmark());
         configuration.setDebug(this.isDebug());
+        configuration.addRelativizeRoots(this.relativizePathRoot);
         configuration.setMinimumPriority(this.getMinimumPriority());
         configuration.setReportFile(this.getReportfile());
         configuration.setReportProperties(this.getProperties());
@@ -256,6 +297,24 @@ public class PMDParameters {
                 .findLanguageVersionByTerseName(this.getLanguage() + ' ' + this.getVersion());
         if (languageVersion != null) {
             configuration.getLanguageVersionDiscoverer().setDefaultLanguageVersion(languageVersion);
+        }
+
+        for (String langVerStr : this.getLanguageVersions()) {
+            int dashPos = langVerStr.indexOf('-');
+            if (dashPos == -1) {
+                throw new IllegalArgumentException("Invalid language version: " + langVerStr);
+            }
+            String langStr = langVerStr.substring(0, dashPos);
+            String verStr = langVerStr.substring(dashPos + 1);
+            Language lang = LanguageRegistry.findLanguageByTerseName(langStr);
+            LanguageVersion langVer = null;
+            if (lang != null) {
+                langVer = lang.getVersion(verStr);
+            }
+            if (lang == null || langVer == null) {
+                throw new IllegalArgumentException("Invalid language version: " + langVerStr);
+            }
+            configuration.getLanguageVersionDiscoverer().setDefaultLanguageVersion(langVer);
         }
 
         try {
@@ -346,6 +405,10 @@ public class PMDParameters {
 
     public String getLanguage() {
         return language != null ? language : LanguageRegistry.getDefaultLanguage().getTerseName();
+    }
+
+    public List<String> getLanguageVersions() {
+        return languageVersions;
     }
 
     public String getForceLanguage() {

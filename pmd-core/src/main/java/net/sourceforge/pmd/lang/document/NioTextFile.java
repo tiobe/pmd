@@ -17,8 +17,8 @@ import net.sourceforge.pmd.internal.util.AssertionUtil;
 import net.sourceforge.pmd.lang.LanguageVersion;
 import net.sourceforge.pmd.util.IOUtil;
 import net.sourceforge.pmd.util.datasource.DataSource;
-import net.sourceforge.pmd.util.datasource.FileDataSource;
 import net.sourceforge.pmd.util.datasource.internal.LanguageAwareDataSource;
+import net.sourceforge.pmd.util.datasource.internal.PathDataSource;
 
 /**
  * A {@link TextFile} backed by a file in some {@link FileSystem}.
@@ -36,12 +36,14 @@ class NioTextFile implements TextFile {
         AssertionUtil.requireParamNotNull("path", path);
         AssertionUtil.requireParamNotNull("charset", charset);
         AssertionUtil.requireParamNotNull("language version", languageVersion);
+        AssertionUtil.requireParamNotNull("display name", displayName);
 
         this.displayName = displayName;
         this.path = path;
         this.charset = charset;
         this.languageVersion = languageVersion;
-        this.pathId = path.toAbsolutePath().toString();
+        // using the URI here, that handles files inside zip archives automatically (schema "jar:file:...!/path/inside/zip")
+        this.pathId = path.toUri().toString();
     }
 
     @Override
@@ -74,7 +76,7 @@ class NioTextFile implements TextFile {
 
     @Override
     public DataSource toDataSourceCompat() {
-        return new LanguageAwareDataSource(new FileDataSource(path.toFile()), languageVersion);
+        return new LanguageAwareDataSource(new PathDataSource(path, displayName), languageVersion);
     }
 
     @Override

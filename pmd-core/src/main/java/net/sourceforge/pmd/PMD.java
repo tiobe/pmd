@@ -22,6 +22,8 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import net.sourceforge.pmd.annotation.InternalApi;
 import net.sourceforge.pmd.benchmark.TextTimingReportRenderer;
 import net.sourceforge.pmd.benchmark.TimeTracker;
@@ -60,8 +62,12 @@ import net.sourceforge.pmd.util.log.internal.SimpleMessageReporter;
  *
  * <p><strong>Warning:</strong> This class is not intended to be instantiated or subclassed. It will
  * be made final in PMD7.
+ *
+ * @deprecated This class is to be removed in PMD 7 in favor of a unified PmdCli entry point. {@link PmdAnalysis} should be used for non-CLI use-cases.
  */
+@Deprecated
 public class PMD {
+
 
     private static final Logger LOG = Logger.getLogger(PMD.class.getName());
 
@@ -468,7 +474,16 @@ public class PMD {
             System.err.println(CliMessages.runWithHelpFlagMessage());
             return StatusCode.ERROR;
         }
-        return runPmd(parseResult.toConfiguration());
+
+        PMDConfiguration conf;
+        try {
+            conf = parseResult.toConfiguration();
+            return runPmd(conf);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Cannot start analysis: " + e);
+            LOG.fine(ExceptionUtils.getStackTrace(e));
+            return StatusCode.ERROR;
+        }
     }
 
     private static void printErrorDetected(int errors) {
@@ -538,7 +553,9 @@ public class PMD {
      * Represents status codes that are used as exit codes during CLI runs.
      *
      * @see #runPmd(String[])
+     * @deprecated This class is to be removed in PMD 7 in favor of a unified PmdCli entry point.
      */
+    @Deprecated
     public enum StatusCode {
         /** No errors, no violations. This is exit code {@code 0}. */
         OK(0),

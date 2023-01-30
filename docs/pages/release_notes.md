@@ -14,50 +14,83 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### Updated PMD Designer
+#### New report format html-report-v2.xslt
 
-This PMD release ships a new version of the pmd-designer.
-For the changes, see [PMD Designer Changelog](https://github.com/pmd/pmd-designer/releases/tag/6.49.0).
+Thanks to @mohan-chinnappan-n a new PMD report format has been added which features a data table
+with charting functions. It uses an XSLT stylesheet to convert PMD's XML format into HTML.
+
+See [the example report](report-examples/html-report-v2.html).
 
 ### Fixed Issues
-
-* apex
-    * [#4096](https://github.com/pmd/pmd/issues/4096): \[apex] ApexAssertionsShouldIncludeMessage and ApexUnitTestClassShouldHaveAsserts: support new Assert class (introduced with Apex v56.0)
+* apex-bestpractices
+  * [#2669](https://github.com/pmd/pmd/issues/2669): \[apex] UnusedLocalVariable false positive in dynamic SOQL
 * core
-    * [#3970](https://github.com/pmd/pmd/issues/3970): \[core] FileCollector.addFile ignores language parameter
-* java-codestyle
-    * [#4082](https://github.com/pmd/pmd/issues/4082): \[java] UnnecessaryImport false positive for on-demand imports of nested classes
+  * [#4026](https://github.com/pmd/pmd/issues/4026): \[cli] Filenames printed as absolute paths in the report despite parameter `--short-names`
+  * [#4279](https://github.com/pmd/pmd/issues/4279): \[core] Can not set ruleset property value to empty
+  * [#4329](https://github.com/pmd/pmd/pull/4329): \[core] Refactor usage of snakeyaml
+  * [#4340](https://github.com/pmd/pmd/issues/4340): \[core] Allow to filter found matches in CPDReport
+* java
+  * [#4364](https://github.com/pmd/pmd/issues/4364): \[java] Parsing error with textblock containing quote followed by two backslashes
+* testing
+  * [#4236](https://github.com/pmd/pmd/issues/4236): \[test] kotest logs look broken
 
 ### API Changes
 
-#### Deprecated API
+#### PMD CLI
 
-* In order to reduce the dependency on Apex Jorje classes, the following methods have been deprecated.
-  These methods all leaked internal Jorje enums. These enums have been replaced now by enums the
-  PMD's AST package.
-    * {% jdoc !!apex::lang.apex.ast.ASTAssignmentExpression#getOperator() %}
-    * {% jdoc !!apex::lang.apex.ast.ASTBinaryExpression#getOperator() %}
-    * {% jdoc !!apex::lang.apex.ast.ASTBooleanExpression#getOperator() %}
-    * {% jdoc !!apex::lang.apex.ast.ASTPostfixExpression#getOperator() %}
-    * {% jdoc !!apex::lang.apex.ast.ASTPrefixExpression#getOperator() %}
+* PMD now supports a new `--relativize-paths-with` flag (or short `-z`), which replaces `--short-names`.
+  It serves the same purpose: Shortening the pathnames in the reports. However, with the new flag it's possible
+  to explicitly define one or more pathnames that should be used as the base when creating relative paths.
+  The old flag `--short-names` is deprecated.
 
-  All these classes have now a new `getOp()` method. Existing code should be refactored to use this method instead.
-  It returns the new enums, like {% jdoc apex::lang.apex.ast.AssignmentOperator %}, and avoids
-  the dependency to Jorje.
+#### Deprecated APIs
+
+##### For removal
+
+* {% jdoc !!apex::lang.apex.ast.ApexRootNode#getApexVersion() %} has been deprecated for removal. The version returned is
+  always `Version.CURRENT`, as the apex compiler integration doesn't use additional information which Apex version
+  actually is used. Therefore, this method can't be used to determine the Apex version of the project
+  that is being analyzed.
+* {% jdoc !!core::cpd.CPDConfiguration#setEncoding(java.lang.String) %} and
+  {% jdoc !!core::cpd.CPDConfiguration#getEncoding() %}. Use the methods
+  {% jdoc core::AbstractConfiguration#getSourceEncoding() %} and
+  {% jdoc core::AbstractConfiguration#setSourceEncoding(java.lang.String) %} instead. Both are available
+  for `CPDConfiguration` which extends `AbstractConfiguration`.
+* {% jdoc test::cli.BaseCLITest %} and {% jdoc test::cli.BaseCPDCLITest %} have been deprecated for removal without
+  replacement. CLI tests should be done in pmd-core only (and in PMD7 in pmd-cli). Individual language modules
+  shouldn't need to test the CLI integration logic again. Instead, the individual language modules should test their
+  functionality as unit tests.
+* {% jdoc core::cpd.CPDConfiguration.LanguageConverter %}
+
+* {% jdoc !!core::lang.document.FileCollector#addZipFile(java.nio.file.Path) %} has been deprecated. It is replaced
+  by {% jdoc !!core::lang.document.FileCollector#addZipFileWithContent(java.nio.file.Path) %} which directly adds the
+  content of the zip file for analysis.
+
+* {% jdoc !!core::PMDConfiguration#setReportShortNames(boolean) %} and
+  {% jdoc !!core::PMDConfiguration#isReportShortNames() %} have been deprecated for removal.
+  Use {% jdoc !!core::PMDConfiguration#addRelativizeRoot(java.nio.file.Path) %} instead.
+
+##### Internal APIs
+
+* {% jdoc core::renderers.CSVWriter %}
+* Some fields in {% jdoc test::ant.AbstractAntTestHelper %}
+
+##### Experimental APIs
+
+* CPDReport has a new method which limited mutation of a given report:
+  * {%jdoc core::cpd.CPDReport#filterMatches(net.sourceforge.pmd.util.Predicate) %} creates a new CPD report
+    with some matches removed with a given predicate based filter.
 
 ### External Contributions
-
-* [#4081](https://github.com/pmd/pmd/pull/4081): \[apex] Remove Jorje leaks outside `ast` package - [@eklimo](https://github.com/eklimo)
-* [#4083](https://github.com/pmd/pmd/pull/4083): \[java] UnnecessaryImport false positive for on-demand imports of nested classes (fix for #4082) - [@abyss638](https://github.com/abyss638)
-* [#4092](https://github.com/pmd/pmd/pull/4092): \[apex] Implement ApexQualifiableNode for ASTUserEnum - [@aaronhurst-google](https://github.com/aaronhurst-google)
-* [#4095](https://github.com/pmd/pmd/pull/4095): \[core] CPD: Added begin and end token to XML reports - [@pacvz](https://github.com/pacvz)
-* [#4097](https://github.com/pmd/pmd/pull/4097): \[apex] ApexUnitTestClassShouldHaveAssertsRule: Support new Assert class (Apex v56.0) - [@tprouvot](https://github.com/tprouvot)
-* [#4104](https://github.com/pmd/pmd/pull/4104): \[doc] Add MegaLinter in the list of integrations - [@nvuillam](https://github.com/nvuillam)
+* [#4110](https://github.com/pmd/pmd/pull/4110): \[apex] Feature/unused variable bind false positive with dynamic SOQL - [Thomas Prouvot](https://github.com/tprouvot) (@tprouvot)
+* [#4125](https://github.com/pmd/pmd/pull/4125): \[core] New report format html-report-v2.xslt to provide html with datatable and chart features - [Mohan Chinnappan](https://github.com/mohan-chinnappan-n) - (@mohan-chinnappan-n)
+* [#4280](https://github.com/pmd/pmd/pull/4280): \[apex] Deprecate ApexRootNode.getApexVersion - [Aaron Hurst](https://github.com/aaronhurst-google) (@aaronhurst-google)
+* [#4285](https://github.com/pmd/pmd/pull/4285): \[java] CommentDefaultAccessModifier - add co.elastic.clients.util.VisibleForTesting as default suppressed annotation - [Matthew Luckam](https://github.com/mluckam) (@mluckam)
 
 ### Stats
-* 49 commits
-* 10 closed tickets & PRs
-* Days since last release: 32
+* 107 commits
+* 19 closed tickets & PRs
+* Days since last release: 27
 
 {% endtocmaker %}
 
