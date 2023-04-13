@@ -173,14 +173,14 @@ public class CPPTokenizerTest extends CpdTextComparisonTest {
         return properties(false, null, false, true);
     }
 
-    private static Properties properties(boolean skipBlocks, String skipPattern, boolean skipLiteralSequences, boolean skipCommaSepSequences) {
+    private static Properties properties(boolean skipBlocks, String skipPattern, boolean skipLiteralSequences, boolean skipSequences) {
         Properties properties = new Properties();
         properties.setProperty(Tokenizer.OPTION_SKIP_BLOCKS, Boolean.toString(skipBlocks));
         if (skipPattern != null) {
             properties.setProperty(Tokenizer.OPTION_SKIP_BLOCKS_PATTERN, skipPattern);
         }
         properties.setProperty(Tokenizer.OPTION_IGNORE_LITERAL_SEQUENCES, Boolean.toString(skipLiteralSequences));
-        properties.setProperty(Tokenizer.OPTION_IGNORE_IDENTIFIER_AND_LITERAL_SEQUENCES, Boolean.toString(skipCommaSepSequences));
+        properties.setProperty(Tokenizer.OPTION_IGNORE_IDENTIFIER_AND_LITERAL_SEQUENCES, Boolean.toString(skipSequences));
         return properties;
     }
     
