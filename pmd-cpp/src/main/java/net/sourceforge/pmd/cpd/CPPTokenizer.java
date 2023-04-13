@@ -27,6 +27,7 @@ public class CPPTokenizer extends JavaCCTokenizer {
     private boolean skipBlocks = true;
     private String skipBlocksStart;
     private String skipBlocksEnd;
+    private boolean ignoreIdentifierAndLiteralSeqences = false;
     private boolean ignoreLiteralSequences = false;
 
     /**
@@ -49,8 +50,9 @@ public class CPPTokenizer extends JavaCCTokenizer {
                 skipBlocksEnd = split[1];
             }
         }
-        ignoreLiteralSequences = Boolean.parseBoolean(properties.getProperty(OPTION_IGNORE_LITERAL_SEQUENCES,
-                Boolean.FALSE.toString()));
+        ignoreLiteralSequences = Boolean.parseBoolean(properties.getProperty(OPTION_IGNORE_LITERAL_SEQUENCES, Boolean.FALSE.toString()));
+        ignoreIdentifierAndLiteralSeqences = 
+            Boolean.parseBoolean(properties.getProperty(OPTION_IGNORE_IDENTIFIER_AND_LITERAL_SEQUENCES, Boolean.FALSE.toString()));
     }
 
     private String maybeSkipBlocks(String test) throws IOException {
@@ -90,42 +92,44 @@ public class CPPTokenizer extends JavaCCTokenizer {
 
     @Override
     protected TokenFilter getTokenFilter(final TokenManager tokenManager) {
-        return new CppTokenFilter(tokenManager, ignoreLiteralSequences);
+        return new CppTokenFilter(tokenManager, ignoreLiteralSequences, ignoreIdentifierAndLiteralSeqences);
     }
 
     private static class CppTokenFilter extends JavaCCTokenFilter {
         private final boolean ignoreLiteralSequences;
-        private GenericToken discardingLiteralsUntil = null;
+        private final boolean ignoreIdentifierAndLiteralSeqences;
+        private GenericToken discardingTokensUntil = null;
         private boolean discardCurrent = false;
 
-        CppTokenFilter(final TokenManager tokenManager, final boolean ignoreLiteralSequences) {
+        CppTokenFilter(final TokenManager tokenManager, final boolean ignoreLiteralSequences, final boolean ignoreIdentifierAndLiteralSeqences) {
             super(tokenManager);
+            this.ignoreIdentifierAndLiteralSeqences = ignoreIdentifierAndLiteralSeqences;
             this.ignoreLiteralSequences = ignoreLiteralSequences;
         }
 
         @Override
         protected void analyzeTokens(final GenericToken currentToken, final Iterable<GenericToken> remainingTokens) {
             discardCurrent = false;
-            skipLiteralSequences(currentToken, remainingTokens);
+            skipSequences(currentToken, remainingTokens);
         }
 
-        private void skipLiteralSequences(final GenericToken currentToken, final Iterable<GenericToken> remainingTokens) {
-            if (ignoreLiteralSequences) {
+        private void skipSequences(final GenericToken currentToken, final Iterable<GenericToken> remainingTokens) {
+            if (ignoreLiteralSequences || ignoreIdentifierAndLiteralSeqences) {
                 final int kind = currentToken.getKind();
-                if (isDiscardingLiterals()) {
-                    if (currentToken == discardingLiteralsUntil) { // NOPMD - intentional check for reference equality
-                        discardingLiteralsUntil = null;
+                if (isDiscardingToken()) {
+                    if (currentToken == discardingTokensUntil) { // NOPMD - intentional check for reference equality
+                        discardingTokensUntil = null;
                         discardCurrent = true;
                     }
                 } else if (kind == CppParserConstants.LCURLYBRACE) {
-                    final GenericToken finalToken = findEndOfSequenceOfLiterals(remainingTokens);
-                    discardingLiteralsUntil = finalToken;
+                    final GenericToken finalToken = findEndOfSequenceToDiscard(remainingTokens, ignoreIdentifierAndLiteralSeqences);
+                    discardingTokensUntil = finalToken;
                 }
             }
         }
 
-        private static GenericToken findEndOfSequenceOfLiterals(final Iterable<GenericToken> remainingTokens) {
-            boolean seenLiteral = false;
+        private static GenericToken findEndOfSequenceToDiscard(final Iterable<GenericToken> remainingTokens, boolean ignoreIdentifierAndLiteralSeqences) {
+            boolean seenAllowedToken = false;
             int braceCount = 0;
             for (final GenericToken token : remainingTokens) {
                 switch (token.getKind()) {
@@ -135,8 +139,18 @@ public class CPPTokenizer extends JavaCCTokenizer {
                 case CppParserConstants.HEXADECIMAL_INT_LITERAL:
                 case CppParserConstants.OCTAL_INT_LITERAL:
                 case CppParserConstants.ZERO:
-                    seenLiteral = true;
+                case CppParserConstants.STRING:
+                    seenAllowedToken = true;
                     break; // can be skipped; continue to the next token
+                case CppParserConstants.ID:
+                    // Ignore identifiers if instructed
+                    if (ignoreIdentifierAndLiteralSeqences) {
+                        seenAllowedToken = true;
+                        break; // can be skipped; continue to the next token
+                    } else {
+                        // token not expected, other than identifier
+                        return null;
+                    }
                 case CppParserConstants.COMMA:
                     break; // can be skipped; continue to the next token
                 case CppParserConstants.LCURLYBRACE:
@@ -146,7 +160,7 @@ public class CPPTokenizer extends JavaCCTokenizer {
                     braceCount--;
                     if (braceCount < 0) {
                         // end of the list; skip all contents
-                        return seenLiteral ? token : null;
+                        return seenAllowedToken ? token : null;
                     } else {
                         // curly braces are not yet balanced; continue to the next token
                         break;
@@ -159,13 +173,13 @@ public class CPPTokenizer extends JavaCCTokenizer {
             return null;
         }
 
-        private boolean isDiscardingLiterals() {
-            return discardingLiteralsUntil != null;
+        private boolean isDiscardingToken() {
+            return discardingTokensUntil != null;
         }
 
         @Override
         protected boolean isLanguageSpecificDiscarding() {
-            return isDiscardingLiterals() || discardCurrent;
+            return isDiscardingToken() || discardCurrent;
         }
     }
 }
