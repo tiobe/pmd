@@ -27,7 +27,7 @@ public class CPPTokenizer extends JavaCCTokenizer {
     private boolean skipBlocks = true;
     private String skipBlocksStart;
     private String skipBlocksEnd;
-    private boolean ignoreIdentifiersAndLiteralsInSeqence = false;
+    private boolean ignoreIdentifierAndLiteralSeqences = false;
     private boolean ignoreLiteralSequences = false;
 
     /**
@@ -51,7 +51,7 @@ public class CPPTokenizer extends JavaCCTokenizer {
             }
         }
         ignoreLiteralSequences = Boolean.parseBoolean(properties.getProperty(OPTION_IGNORE_LITERAL_SEQUENCES, Boolean.FALSE.toString()));
-        ignoreIdentifiersAndLiteralsInSeqence = 
+        ignoreIdentifierAndLiteralSeqences = 
             Boolean.parseBoolean(properties.getProperty(OPTION_IGNORE_IDENTIFIER_AND_LITERAL_SEQUENCES, Boolean.FALSE.toString()));
     }
 
@@ -92,18 +92,18 @@ public class CPPTokenizer extends JavaCCTokenizer {
 
     @Override
     protected TokenFilter getTokenFilter(final TokenManager tokenManager) {
-        return new CppTokenFilter(tokenManager, ignoreLiteralSequences, ignoreIdentifiersAndLiteralsInSeqence);
+        return new CppTokenFilter(tokenManager, ignoreLiteralSequences, ignoreIdentifierAndLiteralSeqences);
     }
 
     private static class CppTokenFilter extends JavaCCTokenFilter {
         private final boolean ignoreLiteralSequences;
-        private final boolean ignoreIdentifiersAndLiteralsInSeqence;
+        private final boolean ignoreIdentifierAndLiteralSeqences;
         private GenericToken discardingTokensUntil = null;
         private boolean discardCurrent = false;
 
-        CppTokenFilter(final TokenManager tokenManager, final boolean ignoreLiteralSequences, final boolean ignoreIdentifiersInSeqence) {
+        CppTokenFilter(final TokenManager tokenManager, final boolean ignoreLiteralSequences, final boolean ignoreIdentifierAndLiteralSeqences) {
             super(tokenManager);
-            this.ignoreIdentifiersAndLiteralsInSeqence = ignoreIdentifiersInSeqence;
+            this.ignoreIdentifierAndLiteralSeqences = ignoreIdentifierAndLiteralSeqences;
             this.ignoreLiteralSequences = ignoreLiteralSequences;
         }
 
@@ -114,7 +114,7 @@ public class CPPTokenizer extends JavaCCTokenizer {
         }
 
         private void skipSequences(final GenericToken currentToken, final Iterable<GenericToken> remainingTokens) {
-            if (ignoreLiteralSequences || ignoreIdentifiersAndLiteralsInSeqence) {
+            if (ignoreLiteralSequences || ignoreIdentifierAndLiteralSeqences) {
                 final int kind = currentToken.getKind();
                 if (isDiscardingToken()) {
                     if (currentToken == discardingTokensUntil) { // NOPMD - intentional check for reference equality
@@ -122,13 +122,13 @@ public class CPPTokenizer extends JavaCCTokenizer {
                         discardCurrent = true;
                     }
                 } else if (kind == CppParserConstants.LCURLYBRACE) {
-                    final GenericToken finalToken = findEndOfSequenceToDiscard(remainingTokens, ignoreIdentifiersAndLiteralsInSeqence);
+                    final GenericToken finalToken = findEndOfSequenceToDiscard(remainingTokens, ignoreIdentifierAndLiteralSeqences);
                     discardingTokensUntil = finalToken;
                 }
             }
         }
 
-        private static GenericToken findEndOfSequenceToDiscard(final Iterable<GenericToken> remainingTokens, boolean ignoreIdentifiersAndLiteralsInSeqence) {
+        private static GenericToken findEndOfSequenceToDiscard(final Iterable<GenericToken> remainingTokens, boolean ignoreIdentifierAndLiteralSeqences) {
             boolean seenAllowedToken = false;
             int braceCount = 0;
             for (final GenericToken token : remainingTokens) {
@@ -144,7 +144,7 @@ public class CPPTokenizer extends JavaCCTokenizer {
                     break; // can be skipped; continue to the next token
                 case CppParserConstants.ID:
                     // Ignore identifiers if instructed
-                    if (ignoreIdentifiersAndLiteralsInSeqence) {
+                    if (ignoreIdentifierAndLiteralSeqences) {
                         seenAllowedToken = true;
                         break; // can be skipped; continue to the next token
                     } else {
