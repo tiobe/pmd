@@ -51,7 +51,7 @@ public abstract class AntlrTokenizer implements Tokenizer {
         return new AntlrTokenFilter(tokenManager);
     }
 
-    protected final CharStream bomFilter(CharStream inputStream) {
+    protected static CharStream bomFilter(CharStream inputStream) {
         // Check if there is a BOM character after the beginning to the file.
         final String charString = inputStream.toString();
         final int bomIndex = charString.indexOf('\uFEFF');
