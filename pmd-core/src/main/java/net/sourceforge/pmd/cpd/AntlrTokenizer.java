@@ -51,9 +51,22 @@ public abstract class AntlrTokenizer implements Tokenizer {
         return new AntlrTokenFilter(tokenManager);
     }
 
+    protected static CharStream bomFilter(CharStream inputStream) {
+        // Check if there is a BOM character after the beginning to the file.
+        final String charString = inputStream.toString();
+        final int bomIndex = charString.indexOf('\uFEFF');
+
+        if (bomIndex >= 0) {
+            String bomFreeString = charString.substring(0, bomIndex) + charString.substring(bomIndex+1);
+            return CharStreams.fromString(bomFreeString, inputStream.getSourceName());
+        } else {
+            return inputStream;
+        }
+    }
+
     public static CharStream getCharStreamFromSourceCode(final SourceCode sourceCode) {
         StringBuilder buffer = sourceCode.getCodeBuffer();
-        return CharStreams.fromString(buffer.toString());
+        return bomFilter(CharStreams.fromString(buffer.toString()));
     }
 
     private void processToken(final Tokens tokenEntries, final String fileName, final AntlrToken token) {
