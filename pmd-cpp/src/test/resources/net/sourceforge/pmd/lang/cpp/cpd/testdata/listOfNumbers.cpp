@@ -22,5 +22,6 @@ int main() {
   int e[1][3] = {{a, a, a}}; // identifiers in multi-dimensional array
   int f[1] = {main()}; // method invocations should not be filtered out
   int g[1][1] = {{main()}}; // method invocation in multi-dimensional array
+  int h[50] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
   return 0;
 }

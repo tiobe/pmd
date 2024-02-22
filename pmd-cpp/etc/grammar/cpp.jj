@@ -293,14 +293,14 @@ TOKEN:
 | <  ZERO: "0" >
 | <  BINARY_INT_LITERAL:      "0" ["b", "B"]            ("'" | <BINARYDIGIT>)+  (<INT_SUFFIX>)? >
 | <  OCTAL_INT_LITERAL:       "0"                       ("'" | <OCTALDIGIT>)+   (<INT_SUFFIX>)? >
-| <  DECIMAL_INT_LITERAL:     ["1"-"9"]                 ("'" | <DECIMALDIGIT>)* (<INT_SUFFIX>)? >
+| <  DECIMAL_INT_LITERAL:     ("-")? ["1"-"9"]                 ("'" | <DECIMALDIGIT>)* (<INT_SUFFIX>)? >
 | <  HEXADECIMAL_INT_LITERAL: "0" ["x", "X"] <HEXDIGIT> ("'" | <HEXDIGIT>)+     (<INT_SUFFIX>)? >
 
 // like DECIMALINT but may start with 0
 | <  #INT_IN_FLOAT: ["0"-"9"] ("'" | <DECIMALDIGIT>)* >
 | <  #EXP_PART: ["e", "E"] (["-","+"])? <INT_IN_FLOAT> >
 
-| <  FLOAT_LITERAL : <INT_IN_FLOAT> ("." (<INT_IN_FLOAT> (<EXP_PART>)?)? | <EXP_PART> ) (["f", "l", "F", "L"])? >
+| <  FLOAT_LITERAL : ("-")? <INT_IN_FLOAT> ("." (<INT_IN_FLOAT> (<EXP_PART>)?)? | <EXP_PART> ) (["f", "l", "F", "L"])? >
 }
 
 TOKEN :
