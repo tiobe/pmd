@@ -36,7 +36,7 @@ public class PowershellTokenizerTest extends CpdTextComparisonTest {
     }
 
     @Test
-    public void testExpandableString() {
-        doTest("Expandable-String-Test");
+    public void testStringLiterals() {
+        doTest("String-Literal-Test");
     }
 }
