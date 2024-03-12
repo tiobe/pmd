@@ -7,7 +7,9 @@ lexer grammar PowershellLexer;
 
 @lexer::members
 {
-    private Stack<Boolean> interpolatedStringLevels = new Stack<Boolean>(); // If true is here string, otherwise normal interp string
+    // Keep track of nested expandable string levels
+    // true -> here-string, false -> normal expandable string
+    private Stack<Boolean> interpolatedStringLevels = new Stack<Boolean>();
 }
 
 channels { COMMENTS_CHANNEL }
@@ -204,22 +206,32 @@ DOLLAR
    ;
 
 // B.1.6 Variables
-
 VARIABLE
    : VARIABLE_PART ('.' VARIABLE_PART)*
    ;
 
-VARIABLE_PART
+BRACED_VARIABLE
+   : '${' VARIABLE_SCOPE? BRACED_VARIABLE_CHARACTER+ '}'
+   ;
+
+fragment VARIABLE_CHARACTER
+   : UNICODE_LETTER_OR_DIGIT
+   | UNDERSCORE
+   | QUESTION_MARK
+   ;
+
+fragment BRACED_VARIABLE_CHARACTER
+   : ~ ('}' | '`')
+   | ESCAPED_CHARACTER
+   ;
+
+fragment VARIABLE_PART
    : DOLLAR DOLLAR
    | DOLLAR QUESTION_MARK
    | DOLLAR '^'
    | DOLLAR VARIABLE_SCOPE? VARIABLE_CHARACTER+
    | '@' VARIABLE_SCOPE? VARIABLE_CHARACTER+
    | BRACED_VARIABLE
-   ;
-
-BRACED_VARIABLE
-   : '${' VARIABLE_SCOPE? BRACED_VARIABLE_CHARACTER+ '}'
    ;
 
 VARIABLE_SCOPE
@@ -262,6 +274,19 @@ INTEGER_LITERAL
    | HEXADECIMAL_INTEGER_LITERAL
    ;
 
+fragment DECIMAL_INTEGER_LITERAL
+   : DEC_DGT+ NUMERIC_TYPE_SUFFIX? NUMERIC_MULTIPLIER?
+   ;
+
+fragment HEXADECIMAL_INTEGER_LITERAL
+   : '0x' HEX_DGT+ LONG_TYPE_SUFFIX? NUMERIC_MULTIPLIER?
+   ;
+
+fragment NUMERIC_TYPE_SUFFIX
+   : LONG_TYPE_SUFFIX
+   | DECIMAL_TYPE_SUFFIX
+   ;
+
 // B.1.9.2 Real Literals
 
 REAL_LITERAL
@@ -270,7 +295,22 @@ REAL_LITERAL
    | DEC_DGT+ EXPONENT_PART DECIMAL_TYPE_SUFFIX? NUMERIC_MULTIPLIER?
    ;
 
+fragment EXPONENT_PART
+   : E SIGN? DEC_DGT*
+   ;
+
+fragment SIGN
+   : PLUS
+   | DASH
+   ;
+
 // B.1.9.3 String Literals
+SINGLE_QUOTE
+   : ('\u0027' | '\u2018' // Left single quotation mark (U+2018)
+   | '\u2019' // Right single quotation mark (U+2019)
+   | '\u201A' // Single low-9 quotation mark (U+201A)
+   | '\u201B') // Single high-reversed-9 quotation mark (U+201B)
+   ;
 
 fragment DOUBLE_QUOTE
    : ('"' | '\u201C' // Left double quotation mark
@@ -329,14 +369,6 @@ SIMPLE_NAME_CHAR
    | UNDERSCORE
    ;
 
-
-SINGLE_QUOTE
-   : ('\u0027' | '\u2018' // Left single quotation mark (U+2018)
-   | '\u2019' // Right single quotation mark (U+2019)
-   | '\u201A' // Single low-9 quotation mark (U+201A)
-   | '\u201B') // Single high-reversed-9 quotation mark (U+201B)
-   ;
-
 SIGNATURE_BEGIN
    : '# SIG # Begin signature block' NL
    ;
@@ -385,6 +417,10 @@ fragment REQUIRES_COMMENT
    : '#' R E Q U I R E S WHITESPACE .*?
    ;
 
+SIGNATUREBLOCK
+   : SIGNATURE_BEGIN COMMENT+ SIGNATURE_END -> channel(COMMENTS_CHANNEL)
+   ;
+
 // B.1.3 White space
 
 WHITESPACE
@@ -396,47 +432,7 @@ WHITESPACE_OR_NL
    | NL
    ;
 
-fragment VARIABLE_CHARACTER
-   : UNICODE_LETTER_OR_DIGIT
-   | UNDERSCORE
-   | QUESTION_MARK
-   ;
-
-fragment BRACED_VARIABLE_CHARACTER
-   : ~ ('}' | '`')
-   | ESCAPED_CHARACTER
-   ;
-
-fragment ESCAPED_CHARACTER
-   : BACKTICK .
-   ;
-
-fragment EXPONENT_PART
-   : E SIGN? DEC_DGT*
-   ;
-
-fragment SIGN
-   : PLUS
-   | DASH
-   ;
-
-fragment DECIMAL_INTEGER_LITERAL
-   : DEC_DGT+ NUMERIC_TYPE_SUFFIX? NUMERIC_MULTIPLIER?
-   ;
-
-fragment HEXADECIMAL_INTEGER_LITERAL
-   : '0x' HEX_DGT+ LONG_TYPE_SUFFIX? NUMERIC_MULTIPLIER?
-   ;
-
-fragment NUMERIC_TYPE_SUFFIX
-   : LONG_TYPE_SUFFIX
-   | DECIMAL_TYPE_SUFFIX
-   ;
-
-SIGNATUREBLOCK
-   : SIGNATURE_BEGIN COMMENT+ SIGNATURE_END -> channel(COMMENTS_CHANNEL)
-   ;
-
+// Operators
 OPERATOR_OR_PUNCTUATOR
    : '{'
    | '}'
@@ -529,7 +525,6 @@ TYPE_LITERAL
 
 // Unicode class definitions from https://github.com/antlr/grammars-v4/blob/master/unicode/unicode16/classify.g4
 
-
 UNICODE_LETTER
    : Lu
    | Ll
@@ -541,6 +536,10 @@ UNICODE_LETTER
 UNICODE_LETTER_OR_DIGIT
    : UNICODE_LETTER
    | Nd
+   ;
+
+fragment ESCAPED_CHARACTER
+   : BACKTICK .
    ;
 
 fragment Ll: [\p{Ll}];
