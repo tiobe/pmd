@@ -8,7 +8,9 @@ L1
     [+]                                     53        53
     [ ]                                     54        54
     ["]                                     55        55
-    [with an inner expandable string $i[    56        97
+    [with an inner expandable string ]      56        87
+    [$innerVar]                             88        96
+    [ ]                                     97        97
     [$(]                                    98        99
     [SubExpr]                               100       106
     [ ]                                     107       107
@@ -29,7 +31,9 @@ L3
     [+]                                     77        77
     [ ]                                     78        78
     ["]                                     79        79
-    [with an inner expandable string $i[    80        121
+    [with an inner expandable string ]      80        111
+    [$innerVar]                             112       120
+    [ ]                                     121       121
     [$(]                                    122       123
     [SubExpr]                               124       130
     [ ]                                     131       131

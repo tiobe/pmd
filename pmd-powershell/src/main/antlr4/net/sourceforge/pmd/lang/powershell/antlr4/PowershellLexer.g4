@@ -1,17 +1,5 @@
 lexer grammar PowershellLexer;
 
-@lexer::header
-{
-    import java.util.Stack;
-}
-
-@lexer::members
-{
-    // Keep track of nested expandable string levels
-    // true -> here-string, false -> normal expandable string
-    private Stack<Boolean> interpolatedStringLevels = new Stack<Boolean>();
-}
-
 channels { COMMENTS_CHANNEL }
 
 // Case-insensitive alphabet
@@ -170,15 +158,10 @@ fragment HEX_DGT
 R_PAREN
    : ')'
    {
-        if (!interpolatedStringLevels.empty()) {
-            boolean isHere = interpolatedStringLevels.pop();
-            if (isHere) {
-                pushMode(EXPANDABLE_HERE_STRING_MODE);
-            } else {
-                pushMode(EXPANDABLE_STRING_MODE);
-            }
+        if (!_modeStack.isEmpty()) {
+            popMode();
         }
-    }
+   }
    ;
 
 L_PAREN
@@ -595,13 +578,12 @@ VERBATIM_HERE_STRING_END
 
 mode EXPANDABLE_STRING_MODE;
 EXPANDABLE_STRING_LITERAL_SECTION
-   : EXPANDABLE_STRING_PART+
+   : EXPANDABLE_STRING_LITERAL_PART+
    ;
 
-fragment EXPANDABLE_STRING_PART
-   : ~ ('$' | '"' | '`') // Any Unicode character except $ double-quote-character ` (The BACKTICK character U+0060)
+fragment EXPANDABLE_STRING_LITERAL_PART
+   : ~('$' | '"' | '`') // Any Unicode character except $ double-quote-character ` (The BACKTICK character U+0060)
    | SIMPLE_NAME
-   | DOLLAR ~ ('(' | '{' | '"' | '`') //Any Unicode character except ( { double-quote-character ` (The BACKTICK character U+0060)*
    | DOLLAR ESCAPED_CHARACTER
    | ESCAPED_CHARACTER
    | DOUBLE_QUOTE DOUBLE_QUOTE
@@ -609,9 +591,7 @@ fragment EXPANDABLE_STRING_PART
 
 SUBEXPR_START
    : '$('
-   {
-       interpolatedStringLevels.push(false);
-   } -> popMode
+    -> pushMode(DEFAULT_MODE)
    ;
 
 EXPANDABLE_STRING_VARIABLE
@@ -625,9 +605,7 @@ EXPANDABLE_STRING_END
 mode EXPANDABLE_HERE_STRING_MODE;
 SUBEXPR_HERE_START
    : '$('
-   {
-        interpolatedStringLevels.push(true);
-   } -> popMode
+   -> pushMode(DEFAULT_MODE)
    ;
 
 EXPANDABLE_HERE_STRING_SECTION
@@ -639,8 +617,7 @@ EXPANDABLE_HERE_STRING_VARIABLE
    ;
 
 fragment EXPANDABLE_HERE_STRING_PART
-   : DOLLAR ~ ('\r' | '\n' | '(' | '{') // Any Unicode character except ( new-line-character
-   | ~ ('\r' | '\n' | '$' | '@' | '"' | '\u201C' | '\u201D' | '\u201E')+
+   : ~('\r' | '\n' | '$' | '@' | '"' | '\u201C' | '\u201D' | '\u201E')+
    | DOLLAR NL ~ ('"') // Any Unicode character except double-quote-char
    | NL ~ ('"' | '\u201C' // Left double quotation mark
    | '\u201D' // Right double quotation mark

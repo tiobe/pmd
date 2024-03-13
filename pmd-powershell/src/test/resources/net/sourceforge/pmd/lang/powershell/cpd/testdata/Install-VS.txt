@@ -271,7 +271,8 @@ L57
     [+]                                     51        51
     [ ]                                     52        52
     ["]                                     53        53
-    [;$0]                                   54        56
+    [;]                                     54        54
+    [$0]                                    55        56
     ["]                                     57        57
     [\n]                                    58        58
 L58
@@ -550,7 +551,8 @@ L90
     [=]                                     6         6
     [ ]                                     7         7
     ["]                                     8         8
-    [C:\\Program Files\\Microsoft Visua[    9         54
+    [C:\\Program Files\\Microsoft Visua[    9         49
+    [$Year]                                 50        54
     ["]                                     55        55
     [\n]                                    56        56
 L91
@@ -626,7 +628,9 @@ L96
     [WriteOK]                               4         10
     [ ]                                     11        11
     ["]                                     12        12
-    [Visual Studio $Year is already ins[    13        52
+    [Visual Studio ]                        13        26
+    [$Year]                                 27        31
+    [ is already installed]                 32        52
     ["]                                     53        53
     [\n]                                    54        54
 L97
@@ -690,7 +694,11 @@ L104
     [HighTitle]                             3         11
     [ ]                                     12        12
     ["]                                     13        13
-    [Visual Studio $Year ($sku)]            14        39
+    [Visual Studio ]                        14        27
+    [$Year]                                 28        32
+    [ (]                                    33        34
+    [$sku]                                  35        38
+    [)]                                     39        39
     ["]                                     40        40
     [\n]                                    41        41
 L105
@@ -710,7 +718,12 @@ L108
     [=]                                     9         9
     [ ]                                     10        10
     ["]                                     11        11
-    [vs_$sku`_$Year`_$Version]              12        35
+    [vs_]                                   12        14
+    [$sku]                                  15        18
+    [`_]                                    19        20
+    [$Year]                                 21        25
+    [`_]                                    26        27
+    [$Version]                              28        35
     ["]                                     36        36
     [\n]                                    37        37
 L109
@@ -718,7 +731,8 @@ L109
     [DownloadBootstrap]                     3         19
     [ ]                                     20        20
     ["]                                     21        21
-    [$bits`.zip]                            22        31
+    [$bits]                                 22        26
+    [`.zip]                                 27        31
     ["]                                     32        32
     [ ]                                     33        33
     [$env:TEMP]                             34        42
@@ -735,7 +749,9 @@ L112
     [$(]                                    6         7
     [$env:TEMP]                             8         16
     [)]                                     17        17
-    [\\$bits`.exe]                          18        28
+    [\\]                                    18        18
+    [$bits]                                 19        23
+    [`.exe]                                 24        28
     ["]                                     29        29
     [ ]                                     30        30
     [--]                                    31        32
@@ -748,7 +764,9 @@ L112
     [$(]                                    51        52
     [$env:TEMP]                             53        61
     [)]                                     62        62
-    [\\vs_$sku`.vsconfig]                   63        80
+    [\\vs_]                                 63        66
+    [$sku]                                  67        70
+    [`.vsconfig]                            71        80
     ["]                                     81        81
     [\n]                                    82        82
 L113
@@ -818,7 +836,9 @@ L129
     [DownloadBootstrap]                     3         19
     [ ]                                     20        20
     ["]                                     21        21
-    [vs_extensions_$Year.zip]               22        44
+    [vs_extensions_]                        22        35
+    [$Year]                                 36        40
+    [.zip]                                  41        44
     ["]                                     45        45
     [ ]                                     46        46
     [$env:TEMP]                             47        55
@@ -853,7 +873,8 @@ L132
     [=]                                     14        14
     [ ]                                     15        15
     ["]                                     16        16
-    [$root\\Common7\\IDE\\vsixinstaller[    17        51
+    [$root]                                 17        21
+    [\\Common7\\IDE\\vsixinstaller.exe]     22        51
     ["]                                     52        52
     [\n]                                    53        53
 L133
@@ -965,7 +986,9 @@ L151
     [WriteWarn]                             3         11
     [ ]                                     12        12
     ["]                                     13        13
-    [... installing $name extension in [    14        61
+    [... installing ]                       14        28
+    [$name]                                 29        33
+    [ extension in the background]          34        61
     ["]                                     62        62
     [\n]                                    63        63
 L152
@@ -978,7 +1001,9 @@ L152
     [$(]                                    12        13
     [$env:TEMP]                             14        22
     [)]                                     23        23
-    [\\$name`.vsix]                         24        35
+    [\\]                                    24        24
+    [$name]                                 25        29
+    [`.vsix]                                30        35
     ["]                                     36        36
     [\n]                                    37        37
 L153
@@ -1084,7 +1109,8 @@ L172
     [Path]                                  16        19
     [ ]                                     20        20
     ["]                                     21        21
-    [$env:TEMP\\*]                          22        32
+    [$env:TEMP]                             22        30
+    [\\*]                                   31        32
     ["]                                     33        33
     [ ]                                     34        34
     [-]                                     35        35
