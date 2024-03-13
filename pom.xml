@@ -1183,8 +1183,8 @@
         <module>pmd-objectivec</module>
         <module>pmd-perl</module>
         <module>pmd-php</module>
-        <module>pmd-powershell</module>
         <module>pmd-plsql</module>
+        <module>pmd-powershell</module>
         <module>pmd-python</module>
         <module>pmd-ruby</module>
         <module>pmd-swift</module>
