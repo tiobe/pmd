@@ -57,7 +57,7 @@ public abstract class AntlrTokenizer implements Tokenizer {
         final int bomIndex = charString.indexOf('\uFEFF');
 
         if (bomIndex >= 0) {
-            String bomFreeString = charString.substring(0, bomIndex) + charString.substring(bomIndex+1);
+            String bomFreeString = charString.substring(0, bomIndex) + charString.substring(bomIndex + 1);
             return CharStreams.fromString(bomFreeString, inputStream.getSourceName());
         } else {
             return inputStream;

@@ -1,0 +1,3978 @@
+    [Image] or [Truncated image[            Bcol      Ecol
+L13
+    [\[]                                    2         2
+    [CmdletBinding]                         3         15
+    [(]                                     16        16
+    [SupportsShouldProcess]                 17        37
+    [=]                                     38        38
+    [$true]                                 39        43
+    [)]                                     44        44
+    [\]]                                    45        45
+L15
+    [param]                                 1         5
+    [(]                                     7         7
+L16
+    [\[]                                    2         2
+    [parameter]                             3         11
+    [(]                                     12        12
+    [Position]                              13        20
+    [=]                                     21        21
+    [0]                                     22        22
+    [)]                                     23        23
+    [\]]                                    24        24
+    [$command]                              26        33
+    [,]                                     34        34
+L17
+    [\[switch\]]                            2         9
+    [$ListCommands]                         11        23
+L18
+    [)]                                     1         1
+L20
+    [Begin]                                 1         5
+L21
+    [{]                                     1         1
+L22
+    [.]                                     2         2
+    [$PSScriptRoot]                         4         16
+    [\\]                                    17        17
+    [common.ps1]                            18        27
+L25
+    [function]                              2         9
+    [CreateHeadlessPowerPlan]               11        33
+    [(]                                     34        34
+    [)]                                     35        35
+L26
+    [{]                                     2         2
+L27
+    [\[]                                    3         3
+    [System.ComponentModel.Description]     4         36
+    [(]                                     37        37
+L28
+    ['Create a power plan suitable for [    5         87
+    [)]                                     88        88
+    [\]]                                    89        89
+L29
+    [\[]                                    3         3
+    [CmdletBinding]                         4         16
+    [(]                                     17        17
+    [HelpURI]                               18        24
+    [=]                                     25        25
+    ['cmd']                                 26        30
+    [)]                                     31        31
+    [\]]                                    32        32
+    [param]                                 34        38
+    [(]                                     39        39
+    [)]                                     40        40
+L35
+    [$headlessGuid]                         3         15
+    [=]                                     17        17
+    ['1015f01d-73d6-47dd-906b-dc8af8cd7[    19        56
+L37
+    [if]                                    3         4
+    [(]                                     6         6
+    [powercfg]                              7         14
+    [/]                                     16        16
+    [list]                                  17        20
+    [|]                                     22        22
+    [?]                                     24        24
+    [{]                                     26        26
+    [$_]                                    28        29
+    [.]                                     30        30
+    [Contains]                              31        38
+    [(]                                     39        39
+    [$headlessGuid]                         40        52
+    [)]                                     53        53
+    [}]                                     55        55
+    [)]                                     56        56
+L38
+    [{]                                     3         3
+L39
+    [Write-Verbose]                         4         16
+    ['Headless power scheme already exi[    18        55
+L40
+    [return]                                4         9
+L41
+    [}]                                     3         3
+L45
+    [$balancedGuid]                         3         15
+    [=]                                     17        17
+    ['381b4222-f694-41f0-9685-ff5bb260d[    19        56
+L46
+    [$displayGuid]                          3         14
+    [=]                                     16        16
+    ['7516b95f-f776-4464-8c53-06167f40c[    18        55
+L47
+    [$brightnessGuid]                       3         17
+    [=]                                     19        19
+    ['aded5e82-b909-4619-9949-f5d71dac0[    21        58
+L49
+    [powercfg]                              3         10
+    [/]                                     12        12
+    [duplicatescheme]                       13        27
+    [$balancedGuid]                         29        41
+    [$headlessGuid]                         43        55
+    [|]                                     57        57
+    [Out-Null]                              59        66
+L50
+    [powercfg]                              3         10
+    [/]                                     12        12
+    [changename]                            13        22
+    [$headlessGuid]                         24        36
+    ['Headless']                            38        47
+    ['Run backups or watch movies']         49        77
+L51
+    [powercfg]                              3         10
+    [/]                                     12        12
+    [setacvalueindex]                       13        27
+    [$headlessGuid]                         29        41
+    [$displayGuid]                          43        54
+    [$brightnessGuid]                       56        70
+    [0]                                     72        72
+L52
+    [powercfg]                              3         10
+    [/]                                     12        12
+    [setdcvalueindex]                       13        27
+    [$headlessGuid]                         29        41
+    [$displayGuid]                          43        54
+    [$brightnessGuid]                       56        70
+    [0]                                     72        72
+L53
+    [}]                                     2         2
+L56
+    [function]                              2         9
+    [DisableHomeGroups]                     11        27
+L57
+    [{]                                     2         2
+L58
+    [\[]                                    3         3
+    [System.ComponentModel.Description]     4         36
+    [(]                                     37        37
+    ['Disable the useless Home Groups f[    38        78
+    [)]                                     79        79
+    [\]]                                    80        80
+L59
+    [\[]                                    3         3
+    [CmdletBinding]                         4         16
+    [(]                                     17        17
+    [HelpURI]                               18        24
+    [=]                                     25        25
+    ['cmd']                                 26        30
+    [)]                                     31        31
+    [\]]                                    32        32
+    [param]                                 34        38
+    [(]                                     39        39
+    [)]                                     40        40
+L62
+    [Write-Verbose]                         3         15
+    ['stopping and disabling Home Group[    17        61
+L63
+    [if]                                    3         4
+    [(]                                     6         6
+    [Get-Service]                           7         17
+    [HomeGroupListener]                     19        35
+    [-]                                     37        37
+    [ErrorAction:]                          38        49
+    [SilentlyContinue]                      50        65
+    [)]                                     66        66
+L64
+    [{]                                     3         3
+L65
+    [Stop-Service]                          4         15
+    ['HomeGroupListener']                   17        35
+    [-]                                     37        37
+    [WarningAction]                         38        50
+    [SilentlyContinue]                      52        67
+L66
+    [Set-Service]                           4         14
+    ['HomeGroupListener']                   16        34
+    [-]                                     36        36
+    [StartupType]                           37        47
+    [Disabled]                              49        56
+L67
+    [Stop-Service]                          4         15
+    ['HomeGroupProvider']                   17        35
+    [-]                                     37        37
+    [WarningAction]                         38        50
+    [SilentlyContinue]                      52        67
+L68
+    [Set-Service]                           4         14
+    ['HomeGroupProvider']                   16        34
+    [-]                                     36        36
+    [StartupType]                           37        47
+    [Disabled]                              49        56
+L69
+    [}]                                     3         3
+L70
+    [}]                                     2         2
+L73
+    [function]                              2         9
+    [DisableOneDrive]                       11        25
+L74
+    [{]                                     2         2
+L75
+    [\[]                                    3         3
+    [System.ComponentModel.Description]     4         36
+    [(]                                     37        37
+    ['Disable OneDrive, useful for test[    38        89
+    [)]                                     90        90
+    [\]]                                    91        91
+L76
+    [\[]                                    3         3
+    [CmdletBinding]                         4         16
+    [(]                                     17        17
+    [HelpURI]                               18        24
+    [=]                                     25        25
+    ['cmd']                                 26        30
+    [)]                                     31        31
+    [\]]                                    32        32
+    [param]                                 34        38
+    [(]                                     39        39
+    [)]                                     40        40
+L78
+    [Write-Verbose]                         3         15
+    ['disabling OneDrive...']               17        39
+L79
+    [$0]                                    3         4
+    [=]                                     6         6
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    8         59
+L80
+    [If]                                    3         4
+    [(]                                     6         6
+    [!]                                     7         7
+    [(]                                     8         8
+    [Test-Path]                             9         17
+    [$0]                                    19        20
+    [)]                                     21        21
+    [)]                                     22        22
+    [{]                                     24        24
+    [New-Item]                              26        33
+    [-]                                     35        35
+    [Path]                                  36        39
+    [$0]                                    41        42
+    [|]                                     44        44
+    [Out-Null]                              46        53
+    [}]                                     55        55
+L81
+    [Set-ItemProperty]                      3         18
+    [$0]                                    20        21
+    [-]                                     23        23
+    [Name]                                  24        27
+    ['DisableFileSyncNGSC']                 29        49
+    [-]                                     51        51
+    [Type]                                  52        55
+    [DWord]                                 57        61
+    [-]                                     63        63
+    [Value]                                 64        68
+    [1]                                     70        70
+L83
+    [if]                                    3         4
+    [(]                                     6         6
+    [$PSVersionTable]                       7         21
+    [.]                                     22        22
+    [PSEdition]                             23        31
+    [-]                                     33        33
+    [ne]                                    34        35
+    ['Desktop']                             37        45
+    [)]                                     46        46
+    [{]                                     48        48
+L84
+    [return]                                4         9
+L85
+    [}]                                     3         3
+L87
+    [Write-Verbose]                         3         15
+    ['attempting to uninstall OneDrive']    17        50
+L89
+    [Write-Output]                          3         14
+    ["]                                     16        16
+    [Uninstalling OneDrive...]              17        40
+    ["]                                     41        41
+L90
+    [Stop-Process]                          3         14
+    [-]                                     16        16
+    [Name]                                  17        20
+    ["]                                     22        22
+    [OneDrive]                              23        30
+    ["]                                     31        31
+    [-]                                     33        33
+    [Force]                                 34        38
+    [-]                                     40        40
+    [ErrorAction]                           41        51
+    [SilentlyContinue]                      53        68
+L91
+    [Start-Sleep]                           3         13
+    [-]                                     15        15
+    [s]                                     16        16
+    [2]                                     18        18
+L92
+    [$onedrive]                             3         11
+    [=]                                     13        13
+    ["]                                     15        15
+    [$env:SYSTEMROOT]                       16        30
+    [\\SysWOW64\\OneDriveSetup.exe]         31        57
+    ["]                                     58        58
+L93
+    [if]                                    3         4
+    [(]                                     6         6
+    [!]                                     7         7
+    [(]                                     8         8
+    [Test-Path]                             9         17
+    [$onedrive]                             19        27
+    [)]                                     28        28
+    [)]                                     29        29
+    [{]                                     31        31
+L94
+    [$onedrive]                             4         12
+    [=]                                     14        14
+    ["]                                     16        16
+    [$env:SYSTEMROOT]                       17        31
+    [\\System32\\OneDriveSetup.exe]         32        58
+    ["]                                     59        59
+L95
+    [}]                                     3         3
+L97
+    [if]                                    3         4
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$onedrive]                             17        25
+    [)]                                     26        26
+L98
+    [{]                                     3         3
+L99
+    [try]                                   4         6
+L100
+    [{]                                     4         4
+L101
+    [Start-Process]                         5         17
+    [$onedrive]                             19        27
+    ["]                                     29        29
+    [/uninstall]                            30        39
+    ["]                                     40        40
+    [-]                                     42        42
+    [NoNewWindow]                           43        53
+    [-]                                     55        55
+    [Wait]                                  56        59
+    [-]                                     61        61
+    [ErrorAction]                           62        72
+    [Stop]                                  74        77
+L102
+    [Start-Sleep]                           5         15
+    [-]                                     17        17
+    [s]                                     18        18
+    [2]                                     20        20
+L103
+    [Stop-Process]                          5         16
+    [-]                                     18        18
+    [Name]                                  19        22
+    ["]                                     24        24
+    [explorer]                              25        32
+    ["]                                     33        33
+    [-]                                     35        35
+    [Force]                                 36        40
+    [-]                                     42        42
+    [ErrorAction]                           43        53
+    [SilentlyContinue]                      55        70
+L104
+    [Start-Sleep]                           5         15
+    [-]                                     17        17
+    [s]                                     18        18
+    [2]                                     20        20
+L105
+    [Remove-Item]                           5         15
+    [-]                                     17        17
+    [Path]                                  18        21
+    ["]                                     23        23
+    [$env:USERPROFILE]                      24        39
+    [\\OneDrive]                            40        48
+    ["]                                     49        49
+    [-]                                     51        51
+    [Force]                                 52        56
+    [-]                                     58        58
+    [Recurse]                               59        65
+    [-]                                     67        67
+    [ErrorAction]                           68        78
+    [SilentlyContinue]                      80        95
+L106
+    [Remove-Item]                           5         15
+    [-]                                     17        17
+    [Path]                                  18        21
+    ["]                                     23        23
+    [$env:LOCALAPPDATA]                     24        40
+    [\\Microsoft\\OneDrive]                 41        59
+    ["]                                     60        60
+    [-]                                     62        62
+    [Force]                                 63        67
+    [-]                                     69        69
+    [Recurse]                               70        76
+    [-]                                     78        78
+    [ErrorAction]                           79        89
+    [SilentlyContinue]                      91        106
+L107
+    [Remove-Item]                           5         15
+    [-]                                     17        17
+    [Path]                                  18        21
+    ["]                                     23        23
+    [$env:PROGRAMDATA]                      24        39
+    [\\Microsoft OneDrive]                  40        58
+    ["]                                     59        59
+    [-]                                     61        61
+    [Force]                                 62        66
+    [-]                                     68        68
+    [Recurse]                               69        75
+    [-]                                     77        77
+    [ErrorAction]                           78        88
+    [SilentlyContinue]                      90        105
+L108
+    [Remove-Item]                           5         15
+    [-]                                     17        17
+    [Path]                                  18        21
+    ["]                                     23        23
+    [$env:SYSTEMDRIVE]                      24        39
+    [\\OneDriveTemp]                        40        52
+    ["]                                     53        53
+    [-]                                     55        55
+    [Force]                                 56        60
+    [-]                                     62        62
+    [Recurse]                               63        69
+    [-]                                     71        71
+    [ErrorAction]                           72        82
+    [SilentlyContinue]                      84        99
+L110
+    [EnsureHKCRDrive]                       5         19
+L111
+    [Remove-Item]                           5         15
+    [-]                                     17        17
+    [Path]                                  18        21
+    ["]                                     23        23
+    [HKCR:\\CLSID\\{018D5C66-4533-4307-[    24        73
+    ["]                                     74        74
+    [-]                                     76        76
+    [Recurse]                               77        83
+    [-]                                     85        85
+    [ErrorAction]                           86        96
+    [SilentlyContinue]                      98        113
+L112
+    [Remove-Item]                           5         15
+    [-]                                     17        17
+    [Path]                                  18        21
+    ["]                                     23        23
+    [HKCR:\\Wow6432Node\\CLSID\\{018D5C[    24        85
+    ["]                                     86        86
+    [-]                                     88        88
+    [Recurse]                               89        95
+    [-]                                     97        97
+    [ErrorAction]                           98        108
+    [SilentlyContinue]                      110       125
+L113
+    [}]                                     4         4
+L114
+    [catch]                                 4         8
+L115
+    [{]                                     4         4
+L116
+    [$log]                                  5         8
+    [=]                                     10        10
+    ["]                                     12        12
+    [${env:PROGRAMDATA}]                    13        30
+    [\\Initialize-Machine-Exception.log]    31        63
+    ["]                                     64        64
+L117
+    [ConvertTo-Json]                        5         18
+    [$_]                                    20        21
+    [.]                                     22        22
+    [Exception]                             23        31
+    [|]                                     33        33
+    [Out-File]                              35        42
+    [$log]                                  44        47
+L118
+    [Write-Verbose]                         5         17
+    ["]                                     19        19
+    [EXCEPTION written to ]                 20        40
+    [$log]                                  41        44
+    ["]                                     45        45
+L119
+    [}]                                     4         4
+L120
+    [}]                                     3         3
+L121
+    [}]                                     2         2
+L124
+    [function]                              2         9
+    [DisableZipFolders]                     11        27
+L125
+    [{]                                     2         2
+L126
+    [\[]                                    3         3
+    [System.ComponentModel.Description]     4         36
+    [(]                                     37        37
+L127
+    ['Disable default Zip folder integr[    5         88
+    [)]                                     89        89
+    [\]]                                    90        90
+L128
+    [\[]                                    3         3
+    [CmdletBinding]                         4         16
+    [(]                                     17        17
+    [HelpURI]                               18        24
+    [=]                                     25        25
+    ['cmd']                                 26        30
+    [)]                                     31        31
+    [\]]                                    32        32
+    [param]                                 34        38
+    [(]                                     39        39
+    [)]                                     40        40
+L130
+    [Write-Verbose]                         3         15
+    ['disabling default Windows Zip fol[    17        75
+L133
+    [Set-RegistryOwner]                     3         19
+    ['HKCR']                                21        26
+    ['CLSID\\{E88DCCE0-B7B3-11d1-A9F0-0[    28        73
+    [;]                                     74        74
+L134
+    [Set-RegistryOwner]                     3         19
+    ['HKCR']                                21        26
+    ['CLSID\\{0CD7A5C0-9F37-11CE-AE65-0[    28        73
+    [;]                                     74        74
+L135
+    [Set-RegistryOwner]                     3         19
+    ['HKLM']                                21        26
+    ['SOFTWARE\\WOW6432Node\\Classes\\C[    28        102
+    [;]                                     103       103
+L136
+    [Set-RegistryOwner]                     3         19
+    ['HKLM']                                21        26
+    ['SOFTWARE\\WOW6432Node\\Classes\\C[    28        102
+    [;]                                     103       103
+L139
+    [Remove-Item]                           3         13
+    [-]                                     15        15
+    [Path]                                  16        19
+    [Registry:]                             21        29
+    [:]                                     30        30
+    [HKEY_CLASSES_ROOT]                     31        47
+    [\\]                                    48        48
+    [CLSID]                                 49        53
+    [\\]                                    54        54
+    [`]                                     55        55
+    [{]                                     56        56
+    [E88DCCE0-B7B3-11d1-A9F0-00AA0060FA[    57        92
+    [`]                                     93        93
+    [}]                                     94        94
+    [-]                                     96        96
+    [Force]                                 97        101
+    [-]                                     103       103
+    [Recurse]                               104       110
+    [-]                                     112       112
+    [ErrorAction]                           113       123
+    [SilentlyContinue]                      125       140
+    [;]                                     141       141
+L140
+    [Remove-Item]                           2         12
+    [-]                                     14        14
+    [Path]                                  15        18
+    [Registry:]                             20        28
+    [:]                                     29        29
+    [HKEY_CLASSES_ROOT]                     30        46
+    [\\]                                    47        47
+    [CLSID]                                 48        52
+    [\\]                                    53        53
+    [`]                                     54        54
+    [{]                                     55        55
+    [0CD7A5C0-9F37-11CE-AE65-08002B2E12[    56        91
+    [`]                                     92        92
+    [}]                                     93        93
+    [-]                                     95        95
+    [Force]                                 96        100
+    [-]                                     102       102
+    [Recurse]                               103       109
+    [-]                                     111       111
+    [ErrorAction]                           112       122
+    [SilentlyContinue]                      124       139
+    [;]                                     140       140
+L141
+    [Remove-Item]                           2         12
+    [-]                                     14        14
+    [Path]                                  15        18
+    [Registry:]                             20        28
+    [:]                                     29        29
+    [HKEY_LOCAL_MACHINE]                    30        47
+    [\\]                                    48        48
+    [SOFTWARE]                              49        56
+    [\\]                                    57        57
+    [WOW6432Node]                           58        68
+    [\\]                                    69        69
+    [Classes]                               70        76
+    [\\]                                    77        77
+    [CLSID]                                 78        82
+    [\\]                                    83        83
+    [`]                                     84        84
+    [{]                                     85        85
+    [E88DCCE0-B7B3-11d1-A9F0-00AA0060FA[    86        121
+    [`]                                     122       122
+    [}]                                     123       123
+    [-]                                     125       125
+    [Force]                                 126       130
+    [-]                                     132       132
+    [Recurse]                               133       139
+    [-]                                     141       141
+    [ErrorAction]                           142       152
+    [SilentlyContinue]                      154       169
+    [;]                                     170       170
+L142
+    [Remove-Item]                           1         11
+    [-]                                     13        13
+    [Path]                                  14        17
+    [Registry:]                             19        27
+    [:]                                     28        28
+    [HKEY_LOCAL_MACHINE]                    29        46
+    [\\]                                    47        47
+    [SOFTWARE]                              48        55
+    [\\]                                    56        56
+    [WOW6432Node]                           57        67
+    [\\]                                    68        68
+    [Classes]                               69        75
+    [\\]                                    76        76
+    [CLSID]                                 77        81
+    [\\]                                    82        82
+    [`]                                     83        83
+    [{]                                     84        84
+    [0CD7A5C0-9F37-11CE-AE65-08002B2E12[    85        120
+    [`]                                     121       121
+    [}]                                     122       122
+    [-]                                     124       124
+    [Force]                                 125       129
+    [-]                                     131       131
+    [Recurse]                               132       138
+    [-]                                     140       140
+    [ErrorAction]                           141       151
+    [SilentlyContinue]                      153       168
+    [;]                                     169       169
+L143
+    [}]                                     1         1
+L146
+    [function]                              1         8
+    [EnableHyperVEnhancedMode]              10        33
+L147
+    [{]                                     1         1
+L148
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L149
+    ['Disable Windows Hello to allow En[    1         71
+    [)]                                     72        72
+    [\]]                                    73        73
+L150
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L158
+    [if]                                    1         2
+    [(]                                     4         4
+    [(]                                     5         5
+    [gwmi]                                  6         9
+    [Win32_BaseBoard]                       11        25
+    [)]                                     26        26
+    [.]                                     27        27
+    [Manufacturer]                          28        39
+    [-]                                     41        41
+    [eq]                                    42        43
+    ['Microsoft Corporation']               45        67
+    [)]                                     68        68
+L159
+    [{]                                     1         1
+L160
+    [Write-Verbose]                         1         13
+    ['disabling Windows Hello for this [    15        51
+L162
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Microsoft\\Windo[    6         77
+L163
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['DevicePasswordLessBuildVersion']      27        58
+    [-]                                     60        60
+    [Type]                                  61        64
+    [DWord]                                 66        70
+    [-]                                     72        72
+    [Value]                                 73        77
+    [0]                                     79        79
+L164
+    [}]                                     1         1
+L165
+    [else]                                  1         4
+L166
+    [{]                                     1         1
+L167
+    [Write-Verbose]                         1         13
+    ['disabling Windows Hello to improv[    15        76
+L168
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Microsoft\\Windo[    6         77
+L169
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [|]                                     42        42
+    [Out-Null]                              44        51
+    [}]                                     53        53
+L171
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['DevicePasswordLessBuildVersion']      27        58
+    [-]                                     60        60
+    [Type]                                  61        64
+    [DWord]                                 66        70
+    [-]                                     72        72
+    [Value]                                 73        77
+    [0]                                     79        79
+L177
+    [}]                                     1         1
+L178
+    [}]                                     1         1
+L181
+    [function]                              1         8
+    [EnablePhotoViewer]                     10        26
+L182
+    [{]                                     1         1
+L183
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L184
+    ['Restore traditional Windows Photo[    1         68
+    [)]                                     69        69
+    [\]]                                    70        70
+L185
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd/extra']                           24        34
+    [)]                                     35        35
+    [\]]                                    36        36
+    [param]                                 38        42
+    [(]                                     43        43
+    [)]                                     44        44
+L187
+    [Write-Verbose]                         1         13
+    ['associating the good old Photo Vi[    15        53
+L190
+    [$pvcmd]                                1         6
+    [=]                                     8         8
+    ['%SystemRoot%\\System32\\rundll32.[    10        124
+L192
+    [EnsureHKCRDrive]                       1         15
+L193
+    [@(]                                    1         2
+    ['Paint.Picture']                       3         17
+    [,]                                     18        18
+    ['giffile']                             20        28
+    [,]                                     29        29
+    ['jpegfile']                            31        40
+    [,]                                     41        41
+    ['icofile']                             43        51
+    [,]                                     52        52
+    ['pngfile']                             54        62
+    [)]                                     63        63
+    [|]                                     65        65
+    [%]                                     67        67
+L194
+    [{]                                     3         3
+L195
+    [$0]                                    1         2
+    [=]                                     4         4
+    ["]                                     6         6
+    [HKCR:\\]                               7         12
+    [$_]                                    13        14
+    [\\shell\\open]                         15        25
+    ["]                                     26        26
+L196
+    [New-Item]                              1         8
+    [-]                                     10        10
+    [Path]                                  11        14
+    [$0]                                    16        17
+    [-]                                     19        19
+    [Force]                                 20        24
+    [|]                                     26        26
+    [Out-Null]                              28        35
+L197
+    [New-Item]                              1         8
+    [-]                                     10        10
+    [Path]                                  11        14
+    ["]                                     16        16
+    [$0]                                    17        18
+    [\\command]                             19        26
+    ["]                                     27        27
+    [|]                                     29        29
+    [Out-Null]                              31        38
+L198
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['MuiVerb']                             27        35
+    [-]                                     37        37
+    [Type]                                  38        41
+    [ExpandString]                          43        54
+    [-]                                     56        56
+    [Value]                                 57        61
+    ['@%ProgramFiles%\\Windows Photo Vi[    63        122
+L199
+    [Set-ItemProperty]                      1         16
+    ["]                                     18        18
+    [$0]                                    19        20
+    [\\command]                             21        28
+    ["]                                     29        29
+    [-]                                     31        31
+    [Name]                                  32        35
+    ['(Default)']                           37        47
+    [-]                                     49        49
+    [Type]                                  50        53
+    [ExpandString]                          55        66
+    [-]                                     68        68
+    [Value]                                 69        73
+    [$pvcmd]                                75        80
+L200
+    [}]                                     1         1
+L202
+    [Write-Verbose]                         1         13
+    ['adding Photo Viewer to "Open with[    15        53
+L203
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCR:\\Applications\\photoviewer.[    6         52
+L204
+    [New-Item]                              1         8
+    [-]                                     10        10
+    [Path]                                  11        14
+    ["]                                     16        16
+    [$0]                                    17        18
+    [\\command]                             19        26
+    ["]                                     27        27
+    [-]                                     29        29
+    [Force]                                 30        34
+    [|]                                     36        36
+    [Out-Null]                              38        45
+L205
+    [New-Item]                              1         8
+    [-]                                     10        10
+    [Path]                                  11        14
+    ["]                                     16        16
+    [$0]                                    17        18
+    [\\DropTarget]                          19        29
+    ["]                                     30        30
+    [-]                                     32        32
+    [Force]                                 33        37
+    [|]                                     39        39
+    [Out-Null]                              41        48
+L206
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['MuiVerb']                             27        35
+    [-]                                     37        37
+    [Type]                                  38        41
+    [String]                                43        48
+    [-]                                     50        50
+    [Value]                                 51        55
+    ['@photoviewer.dll,-3043']              57        80
+L207
+    [Set-ItemProperty]                      1         16
+    ["]                                     18        18
+    [$0]                                    19        20
+    [\\command]                             21        28
+    ["]                                     29        29
+    [-]                                     31        31
+    [Name]                                  32        35
+    ['(Default)']                           37        47
+    [-]                                     49        49
+    [Type]                                  50        53
+    [ExpandString]                          55        66
+    [-]                                     68        68
+    [Value]                                 69        73
+    [$pvcmd]                                75        80
+L208
+    [Set-ItemProperty]                      1         16
+    ["]                                     18        18
+    [$0]                                    19        20
+    [\\DropTarget]                          21        31
+    ["]                                     32        32
+    [-]                                     34        34
+    [Name]                                  35        38
+    ['Clsid']                               40        46
+    [-]                                     48        48
+    [Type]                                  49        52
+    [String]                                54        59
+    [-]                                     61        61
+    [Value]                                 62        66
+    ['{FFE2A43C-56B9-4bf5-9A79-CC6D4285[    68        107
+L211
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\Software\\Classes']            6         29
+L212
+    [@(]                                    1         2
+    ['jpg']                                 3         7
+    [,]                                     8         8
+    ['jpeg']                                10        15
+    [,]                                     16        16
+    ['gif']                                 18        22
+    [,]                                     23        23
+    ['png']                                 25        29
+    [,]                                     30        30
+    ['bmp']                                 32        36
+    [,]                                     37        37
+    ['tiff']                                39        44
+    [,]                                     45        45
+    ['ico']                                 47        51
+    [)]                                     52        52
+    [|]                                     54        54
+    [%]                                     56        56
+L213
+    [{]                                     3         3
+L214
+    [Set-ItemProperty]                      1         16
+    ["]                                     18        18
+    [$0]                                    19        20
+    [\\.]                                   21        22
+    [$_]                                    23        24
+    ["]                                     25        25
+    [-]                                     27        27
+    [Name]                                  28        31
+    ['(Default)']                           33        43
+    [-]                                     45        45
+    [Type]                                  46        49
+    [String]                                51        56
+    [-]                                     58        58
+    [Value]                                 59        63
+    ['PhotoViewer.FileAssoc.Tiff']          65        92
+L215
+    [}]                                     1         1
+L216
+    [}]                                     1         1
+L218
+    [function]                              1         8
+    [EnableRemoteDesktop]                   10        28
+L219
+    [{]                                     1         1
+L220
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L221
+    ['Enable Remote Desktop hosting, fo[    1         62
+    [)]                                     63        63
+    [\]]                                    64        64
+L222
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L224
+    [if]                                    1         2
+    [(]                                     4         4
+    [IsWindowsHomeEdition]                  5         24
+    [)]                                     25        25
+    [{]                                     27        27
+L225
+    [WriteWarn]                             1         9
+    ['Remote Desktop cannot be enabled [    11        68
+L226
+    [return]                                1         6
+L227
+    [}]                                     1         1
+L229
+    [Write-Verbose]                         1         13
+    ['enabling Remote Desktop w/o Netwo[    15        75
+L230
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SYSTEM\\CurrentControlSet[     6         61
+L231
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['fDenyTSConnections']                  27        46
+    [-]                                     48        48
+    [Type]                                  49        52
+    [DWord]                                 54        58
+    [-]                                     60        60
+    [Value]                                 61        65
+    [0]                                     67        67
+L232
+    [Set-ItemProperty]                      1         16
+    ["]                                     18        18
+    [$0]                                    19        20
+    [\\WinStations\\RDP-Tcp]                21        40
+    ["]                                     41        41
+    [-]                                     43        43
+    [Name]                                  44        47
+    ['UserAuthentication']                  49        68
+    [-]                                     70        70
+    [Type]                                  71        74
+    [DWord]                                 76        80
+    [-]                                     82        82
+    [Value]                                 83        87
+    [0]                                     89        89
+L233
+    [Enable-NetFirewallRule]                1         22
+    [-]                                     24        24
+    [Name]                                  25        28
+    ['RemoteDesktop*']                      30        45
+L234
+    [}]                                     1         1
+L237
+    [function]                              1         8
+    [FixAirpodConnectivity]                 10        30
+L238
+    [{]                                     1         1
+L239
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+    ['Fixes airpod connectivity and pai[    36        81
+    [)]                                     82        82
+    [\]]                                    83        83
+L240
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L244
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SYSTEM\\ControlSet001\\Con[    6         91
+L245
+    [if]                                    1         2
+    [(]                                     4         4
+    [Test-Path]                             5         13
+    [$0]                                    15        16
+    [)]                                     17        17
+L246
+    [{]                                     1         1
+L247
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['PnPCapabilities']                     27        43
+    [-]                                     45        45
+    [Type]                                  46        49
+    [String]                                51        56
+    [-]                                     58        58
+    [Value]                                 59        63
+    ['24']                                  65        68
+L248
+    [}]                                     1         1
+L252
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SYSTEM\\CurrentControlSet[     6         51
+L253
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['CsEnabled']                           27        37
+    [-]                                     39        39
+    [Type]                                  40        43
+    [DWord]                                 45        49
+    [-]                                     51        51
+    [Value]                                 52        56
+    [0]                                     58        58
+L254
+    [}]                                     1         1
+L257
+    [function]                              1         8
+    [GetPowerShellProfile]                  10        29
+L258
+    [{]                                     1         1
+L259
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+    ['Install the WindowsPowerShell pro[    36        74
+    [)]                                     75        75
+    [\]]                                    76        76
+L260
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L262
+    [Write-Verbose]                         1         13
+    ['fetching WindowsPowerShell enviro[    15        54
+L264
+    [Push-Location]                         1         13
+    [(]                                     15        15
+    [\[Environment\]]                       16        28
+    [::]                                    29        30
+    [GetFolderPath]                         31        43
+    [(]                                     44        44
+    ['MyDocuments']                         45        57
+    [)]                                     58        58
+    [)]                                     59        59
+L265
+    [git]                                   1         3
+    [clone]                                 5         9
+    [https:]                                11        16
+    [/]                                     17        17
+    [/]                                     18        18
+    [github.com]                            19        28
+    [/]                                     29        29
+    [stevencohn]                            30        39
+    [/]                                     40        40
+    [WindowsPowerShell.git]                 41        61
+L266
+    [Pop-Location]                          1         12
+L267
+    [}]                                     1         1
+L270
+    [function]                              1         8
+    [GetYellowCursors]                      10        25
+L271
+    [{]                                     1         1
+L272
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L273
+    ['Install yellow mouse cursors maki[    1         80
+    [)]                                     81        81
+    [\]]                                    82        82
+L274
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L276
+    [Write-Verbose]                         1         13
+    ['enabling yellow mouse cursors']       15        45
+L278
+    [Push-Location]                         1         13
+    [(]                                     15        15
+    [\[Environment\]]                       16        28
+    [::]                                    29        30
+    [GetFolderPath]                         31        43
+    [(]                                     44        44
+    ['MyDocuments']                         45        57
+    [)]                                     58        58
+    [)]                                     59        59
+L279
+    [git]                                   1         3
+    [clone]                                 5         9
+    [https:]                                11        16
+    [/]                                     17        17
+    [/]                                     18        18
+    [github.com]                            19        28
+    [/]                                     29        29
+    [stevencohn]                            30        39
+    [/]                                     40        40
+    [YellowCursors.git]                     41        57
+L280
+    [Push-Location]                         1         13
+    [YellowCursors]                         15        27
+L281
+    [.]                                     1         1
+    [\\]                                    2         2
+    [Install.ps1]                           3         13
+L282
+    [Pop-Location]                          1         12
+L283
+    [Remove-Item]                           1         11
+    [YellowCursors]                         13        25
+    [-]                                     27        27
+    [Recurse]                               28        34
+    [-]                                     36        36
+    [Force]                                 37        41
+L284
+    [Pop-Location]                          1         12
+L285
+    [}]                                     1         1
+L288
+    [function]                              1         8
+    [InstallTools]                          10        21
+L289
+    [{]                                     1         1
+L290
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+    ['Install chocolatey, Git, and 7Zip[    36        70
+    [)]                                     71        71
+    [\]]                                    72        72
+L291
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L293
+    [Write-Verbose]                         1         13
+    ['installing helper tools']             15        39
+L295
+    [InstallChocolatey]                     1         17
+L296
+    [InstallGit]                            1         10
+L299
+    [if]                                    1         2
+    [(]                                     4         4
+    [(]                                     5         5
+    [Get-Command]                           6         16
+    [7z]                                    18        19
+    [-]                                     21        21
+    [ErrorAction:]                          22        33
+    [SilentlyContinue]                      34        49
+    [)]                                     50        50
+    [-]                                     52        52
+    [eq]                                    53        54
+    [$null]                                 56        60
+    [)]                                     61        61
+L300
+    [{]                                     1         1
+L301
+    [choco]                                 1         5
+    [install]                               7         13
+    [-]                                     15        15
+    [y]                                     16        16
+    [7zip]                                  18        21
+L302
+    [}]                                     1         1
+L303
+    [}]                                     1         1
+L306
+    [function]                              1         8
+    [RemoveCrapware]                        10        23
+L307
+    [{]                                     1         1
+L308
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+    ['The name says it all']                36        57
+    [)]                                     58        58
+    [\]]                                    59        59
+L309
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L311
+    [Write-Verbose]                         1         13
+    ['removing crapware (some exception[    15        62
+L312
+    [$global:ProgressPreference]            1         26
+    [=]                                     28        28
+    ['SilentlyContinue']                    30        47
+L315
+    [Get-AppxPackage]                       1         15
+    [*]                                     17        17
+    [contactsupport]                        18        31
+    [*]                                     32        32
+    [|]                                     34        34
+    [Remove-AppxPackage]                    36        53
+L317
+    [@(]                                    1         2
+    ['3DBuilder']                           3         13
+    [,]                                     14        14
+    ['BingFinance']                         16        28
+    [,]                                     29        29
+    ['BingNews']                            31        40
+    [,]                                     41        41
+    ['BingSports']                          43        54
+    [,]                                     55        55
+    ['BingTranslator']                      57        72
+    [,]                                     73        73
+    ['BingWeather']                         75        87
+    [,]                                     88        88
+L318
+    ['CommsPhone']                          1         12
+    [,]                                     13        13
+    ['Messaging']                           15        25
+    [,]                                     26        26
+    ['Microsoft3DViewer']                   28        46
+    [,]                                     47        47
+    ['MicrosoftOfficeHub']                  49        68
+    [,]                                     69        69
+    ['MicrosoftPowerBIForWindows']          71        98
+    [,]                                     99        99
+L319
+    ['MicrosoftSolitaireCollection']        1         30
+    [,]                                     31        31
+    ['MicrosoftStickyNotes']                33        54
+    [,]                                     55        55
+    ['MinecraftUWP']                        57        70
+    [,]                                     71        71
+    ['NetworkSpeedTest']                    73        90
+    [,]                                     91        91
+L320
+    ['Office.OneNote']                      1         16
+    [,]                                     17        17
+    ['Office.Sway']                         19        31
+    [,]                                     32        32
+    ['OneConnect']                          34        45
+    [,]                                     46        46
+    ['People']                              48        55
+    [,]                                     56        56
+    ['Print3D']                             58        66
+    [,]                                     67        67
+    ['Microsoft.ScreenSketch']              69        92
+    [,]                                     93        93
+L321
+    ['SkypeApp']                            1         10
+    [,]                                     11        11
+    ['Wallet']                              13        20
+    [,]                                     21        21
+    ['WindowsAlarms']                       23        37
+    [,]                                     38        38
+    ['WindowsCamera']                       40        54
+    [,]                                     55        55
+    ['WindowsCommunicationsapps']           57        83
+    [,]                                     84        84
+L322
+    ['WindowsFeedbackHub']                  1         20
+    [,]                                     21        21
+    ['WindowsMaps']                         23        35
+    [,]                                     36        36
+    ['WindowsPhone']                        38        51
+    [,]                                     52        52
+    ['Windows.Photos']                      54        69
+    [,]                                     70        70
+    ['WindowsSoundRecorder']                72        93
+    [,]                                     94        94
+L323
+    ['YourPhone']                           1         11
+    [,]                                     12        12
+    ['ZuneMusic']                           14        24
+    [,]                                     25        25
+    ['ZuneVideo']                           27        37
+    [)]                                     38        38
+    [|]                                     40        40
+    [%]                                     42        42
+L324
+    [{]                                     3         3
+L325
+    [Get-AppxPackage]                       1         15
+    ["]                                     17        17
+    [Microsoft.]                            18        27
+    [$_]                                    28        29
+    ["]                                     30        30
+    [|]                                     32        32
+    [Remove-AppxPackage]                    34        51
+L326
+    [}]                                     1         1
+L329
+    [Get-AppxPackage]                       1         15
+    [Microsoft.MSPaint]                     17        33
+    [|]                                     35        35
+    [Remove-AppxPackage]                    37        54
+L330
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['Registry::HKEY_CLASSES_ROOT\\Syst[    6         57
+L331
+    [@(]                                    1         2
+    ['3mf']                                 3         7
+    [,]                                     8         8
+    ['bmp']                                 10        14
+    [,]                                     15        15
+    ['fbx']                                 17        21
+    [,]                                     22        22
+    ['gif']                                 24        28
+    [,]                                     29        29
+    ['jfif']                                31        36
+    [,]                                     37        37
+    ['jpe']                                 39        43
+    [,]                                     44        44
+    ['jpeg']                                46        51
+    [,]                                     52        52
+    ['jpg']                                 54        58
+    [,]                                     59        59
+    ['png']                                 61        65
+    [,]                                     66        66
+    ['tif']                                 68        72
+    [,]                                     73        73
+    ['tiff']                                75        80
+    [)]                                     81        81
+    [|]                                     83        83
+    [%]                                     85        85
+L332
+    [{]                                     3         3
+L333
+    [$keypath]                              1         8
+    [=]                                     10        10
+    ["]                                     12        12
+    [$0]                                    13        14
+    [\\.]                                   15        16
+    [$_]                                    17        18
+    [\\Shell\\3D Edit]                      19        32
+    ["]                                     33        33
+L334
+    [if]                                    1         2
+    [(]                                     4         4
+    [Test-Path]                             5         13
+    [$keypath]                              15        22
+    [)]                                     23        23
+L335
+    [{]                                     1         1
+L336
+    [Remove-Item]                           1         11
+    [$keypath]                              13        20
+    [-]                                     22        22
+    [Force]                                 23        27
+    [-]                                     29        29
+    [Recurse]                               30        36
+    [-]                                     38        38
+    [Confirm:]                              39        46
+    [$false]                                47        52
+L337
+    [}]                                     1         1
+L338
+    [}]                                     1         1
+L341
+    [@(]                                    1         2
+    ['2414FC7A.Viber']                      3         18
+    [,]                                     19        19
+    ['41038Axilesoft.ACGMediaPlayer']       21        51
+    [,]                                     52        52
+    ['46928bounde.EclipseManager']          54        81
+    [,]                                     82        82
+    ['4DF9E0F8.Netflix']                    84        101
+    [,]                                     102       102
+L342
+    ['64885BlueEdge.OneCalendar']           1         27
+    [,]                                     28        28
+    ['7EE7776C.LinkedInforWindows']         30        58
+    [,]                                     59        59
+    ['828B5831.HiddenCityMysteryofShado[    61        97
+    [,]                                     98        98
+L343
+    ['89006A2E.AutodeskSketchBook']         1         29
+    [,]                                     30        30
+    ['828B5831.HiddenCityMysteryofShado[    32        68
+    [,]                                     69        69
+    ['9E2F88E3.Twitter']                    71        88
+    [,]                                     89        89
+    ['A278AB0D.DisneyMagicKingdoms']        91        120
+    [,]                                     121       121
+L344
+    ['A278AB0D.DragonManiaLegends']         1         29
+    [,]                                     30        30
+    ['A278AB0D.MarchofEmpires']             32        56
+    [,]                                     57        57
+    ['ActiproSoftwareLLC.562882FEEB491']    59        92
+    [,]                                     93        93
+L345
+    ['AdobeSystemsIncorporated.AdobePho[    1         48
+    [,]                                     49        49
+    ['CAF9E577.Plex']                       51        65
+    [,]                                     66        66
+    ['D52A8D61.FarmVille2CountryEscape']    68        101
+    [,]                                     102       102
+L346
+    ['D5EA27B7.Duolingo-LearnLanguagesf[    1         41
+    [,]                                     42        42
+    ['DB6EA5DB.CyberLinkMediaSuiteEssen[    44        83
+    [,]                                     84        84
+L347
+    ['DolbyLaboratories.DolbyAccess']       1         31
+    [,]                                     32        32
+    ['Drawboard.DrawboardPDF']              34        57
+    [,]                                     58        58
+    ['E046963F.LenovoCompanion']            60        85
+    [,]                                     86        86
+    ['Facebook.Facebook']                   88        106
+    [,]                                     107       107
+L348
+    ['flaregamesGmbH.RoyalRevolt2']         1         29
+    [,]                                     30        30
+    ['GAMELOFTSA.Asphalt8Airborne']         32        60
+    [,]                                     61        61
+    ['KeeperSecurityInc.Keeper']            63        88
+    [,]                                     89        89
+    ['king.com.BubbleWitch3Saga']           91        117
+    [,]                                     118       118
+L349
+    ['king.com.CandyCrushSaga']             1         25
+    [,]                                     26        26
+    ['king.com.CandyCrushSodaSaga']         28        56
+    [,]                                     57        57
+    ['LenovoCorporation.LenovoID']          59        86
+    [,]                                     87        87
+    ['LenovoCorporation.LenovoSettings']    89        122
+    [,]                                     123       123
+L350
+    ['Nordcurrent.CookingFever']            1         26
+    [,]                                     27        27
+    ['PandoraMediaInc.29680B314EFC2']       29        59
+    [,]                                     60        60
+    ['SpotifyAB.SpotifyMusic']              62        85
+    [,]                                     86        86
+    ['WinZipComputing.WinZipUniversal']     88        120
+    [,]                                     121       121
+L351
+    ['XINGAG.XING']                         1         13
+    [)]                                     14        14
+    [|]                                     16        16
+    [%]                                     18        18
+L352
+    [{]                                     3         3
+L353
+    [Get-AppxPackage]                       1         15
+    [$_]                                    17        18
+    [|]                                     20        20
+    [Remove-AppxPackage]                    22        39
+L354
+    [}]                                     1         1
+L357
+    [@(]                                    1         2
+    ['XboxApp']                             3         11
+    [,]                                     12        12
+    ['XboxIdentityProvider']                14        35
+    [,]                                     36        36
+    ['XboxSpeechToTextOverlay']             38        62
+    [,]                                     63        63
+    ['XboxGamingOverlay']                   65        83
+    [,]                                     84        84
+    ['Xbox.TCUI']                           86        96
+    [)]                                     97        97
+    [|]                                     99        99
+    [%]                                     101       101
+L358
+    [{]                                     3         3
+L359
+    [Get-AppxPackage]                       1         15
+    ["]                                     17        17
+    [Microsoft.]                            18        27
+    [$_]                                    28        29
+    ["]                                     30        30
+    [|]                                     32        32
+    [Remove-AppxPackage]                    34        51
+L360
+    [}]                                     1         1
+L361
+    [Set-ItemProperty]                      1         16
+    ['HKCU:\\System\\GameConfigStore']      18        47
+    [-]                                     49        49
+    [Name]                                  50        53
+    ['GameDVR_Enabled']                     55        71
+    [-]                                     73        73
+    [Type]                                  74        77
+    [DWord]                                 79        83
+    [-]                                     85        85
+    [Value]                                 86        90
+    [0]                                     92        92
+L362
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    6         56
+L363
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [|]                                     42        42
+    [Out-Null]                              44        51
+    [}]                                     53        53
+L364
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['AllowGameDVR']                        27        40
+    [-]                                     42        42
+    [Type]                                  43        46
+    [DWord]                                 48        52
+    [-]                                     54        54
+    [Value]                                 55        59
+    [0]                                     61        61
+L366
+    [$global:ProgressPreference]            1         26
+    [=]                                     28        28
+    ['Continue']                            30        39
+L377
+    [}]                                     1         1
+L380
+    [function]                              1         8
+    [ScheduleTempCleanup]                   10        28
+L381
+    [{]                                     1         1
+L382
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L383
+    ['Create a scheduled task to clean [    1         55
+    [)]                                     56        56
+    [\]]                                    57        57
+L384
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L387
+    [$trigger]                              1         8
+    [=]                                     10        10
+    [New-ScheduledTaskTrigger]              12        35
+    [-]                                     37        37
+    [Daily]                                 38        42
+    [-]                                     44        44
+    [At]                                    45        46
+    [5am]                                   48        50
+    [;]                                     51        51
+L388
+    [$action]                               1         7
+    [=]                                     9         9
+    [New-ScheduledTaskAction]               11        33
+    [-]                                     35        35
+    [Execute]                               36        42
+    ["]                                     44        44
+    [powershell.exe]                        45        58
+    ["]                                     59        59
+L389
+    [-]                                     4         4
+    [Argument]                              5         12
+    ['-Command "Start-Transcript %USERP[    14        78
+L391
+    [$task]                                 1         5
+    [=]                                     7         7
+    [Get-ScheduledTask]                     9         25
+    [-]                                     27        27
+    [TaskName]                              28        35
+    ['Purge TEMP']                          37        48
+    [-]                                     50        50
+    [ErrorAction:]                          51        62
+    [SilentlyContinue]                      63        78
+L392
+    [if]                                    1         2
+    [(]                                     4         4
+    [$task]                                 5         9
+    [-]                                     11        11
+    [eq]                                    12        13
+    [$null]                                 15        19
+    [)]                                     20        20
+L393
+    [{]                                     1         1
+L394
+    [Register-ScheduledTask]                1         22
+    [-]                                     24        24
+    [Action]                                25        30
+    [$action]                               32        38
+    [-]                                     40        40
+    [Trigger]                               41        47
+    [$trigger]                              49        56
+    [-]                                     58        58
+    [TaskName]                              59        66
+    ["]                                     68        68
+    [Purge TEMP]                            69        78
+    ["]                                     79        79
+    [-]                                     81        81
+    [RunLevel]                              82        89
+    [Highest]                               91        97
+L395
+    [}]                                     1         1
+L396
+    [}]                                     1         1
+L399
+    [function]                              1         8
+    [SetConsoleProperties]                  10        29
+L400
+    [{]                                     1         1
+L401
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L402
+    ['Set Windows Console properties, c[    1         63
+    [)]                                     64        64
+    [\]]                                    65        65
+L403
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L405
+    [Write-Verbose]                         1         13
+    ['setting console properties']          15        42
+L407
+    [Set-Colors]                            1         10
+    [-]                                     12        12
+    [Theme]                                 13        17
+    [ubuntu]                                19        24
+L410
+    [Set-ItemProperty]                      1         16
+    [HKCU:]                                 18        22
+    [\\]                                    23        23
+    [Console]                               24        30
+    [-]                                     32        32
+    [Name]                                  33        36
+    ['FaceName']                            38        47
+    [-]                                     49        49
+    [Value]                                 50        54
+    ['Lucida Console']                      56        71
+    [-]                                     73        73
+    [Force]                                 74        78
+L411
+    [Set-ItemProperty]                      1         16
+    [HKCU:]                                 18        22
+    [\\]                                    23        23
+    [Console]                               24        30
+    [-]                                     32        32
+    [Name]                                  33        36
+    ['FontSize']                            38        47
+    [-]                                     49        49
+    [Value]                                 50        54
+    [0x000c0000]                            56        65
+    [-]                                     67        67
+    [Force]                                 68        72
+L414
+    [Set-ItemProperty]                      1         16
+    [HKCU:]                                 18        22
+    [\\]                                    23        23
+    [Console]                               24        30
+    [-]                                     32        32
+    [Name]                                  33        36
+    ['HistoryBufferSize']                   38        56
+    [-]                                     58        58
+    [Value]                                 59        63
+    [0x64]                                  65        68
+    [-]                                     70        70
+    [Force]                                 71        75
+L415
+    [Set-ItemProperty]                      1         16
+    [HKCU:]                                 18        22
+    [\\]                                    23        23
+    [Console]                               24        30
+    [-]                                     32        32
+    [Name]                                  33        36
+    ['ScreenBufferSize']                    38        55
+    [-]                                     57        57
+    [Value]                                 58        62
+    [0x2329008c]                            64        73
+    [-]                                     75        75
+    [Force]                                 76        80
+L416
+    [}]                                     1         1
+L419
+    [function]                              1         8
+    [SetEdgePreferences]                    10        27
+L420
+    [{]                                     1         1
+L421
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L422
+    ['Customize Edge preferences']          1         28
+    [)]                                     29        29
+    [\]]                                    30        30
+L423
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L425
+    [$0]                                    1         2
+    [=]                                     4         4
+    [Join-Path]                             6         14
+    [$env:LOCALAPPDATA]                     16        32
+    ['Microsoft\\Edge\\User Data\\Defau[    34        79
+L426
+    [if]                                    1         2
+    [(]                                     4         4
+    [Test-path]                             5         13
+    [$0]                                    15        16
+    [)]                                     17        17
+L427
+    [{]                                     1         1
+L428
+    [$preferences]                          1         12
+    [=]                                     14        14
+    [Get-Content]                           16        26
+    [$0]                                    28        29
+    [|]                                     31        31
+    [ConvertFrom-Json]                      33        48
+L441
+    [if]                                    1         2
+    [(]                                     4         4
+    [$preferences]                          5         16
+    [.]                                     17        17
+    [edge_quick_search]                     18        34
+    [-]                                     36        36
+    [ne]                                    37        38
+    [$null]                                 40        44
+    [)]                                     45        45
+L442
+    [{]                                     1         1
+L443
+    [if]                                    1         2
+    [(]                                     4         4
+    [$preferences]                          5         16
+    [.]                                     17        17
+    [edge_quick_search.show_mini_menu]      18        49
+    [-]                                     51        51
+    [eq]                                    52        53
+    ['true']                                55        60
+    [)]                                     61        61
+L444
+    [{]                                     1         1
+L445
+    [$preferences]                          1         12
+    [.]                                     13        13
+    [edge_quick_search.show_mini_menu]      14        45
+    [=]                                     47        47
+    ['false']                               49        55
+L446
+    [$preferences]                          1         12
+    [|]                                     14        14
+    [ConvertTo-Json]                        16        29
+    [-]                                     31        31
+    [Compress]                              32        39
+    [|]                                     41        41
+    [Out-File]                              43        50
+    [$0]                                    52        53
+L447
+    [}]                                     1         1
+L448
+    [}]                                     1         1
+L449
+    [}]                                     1         1
+L450
+    [}]                                     1         1
+L453
+    [function]                              1         8
+    [SetExplorerProperties]                 10        30
+L454
+    [{]                                     1         1
+L455
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L456
+    ['Customize Explorer visualizations[    1         49
+    [)]                                     50        50
+    [\]]                                    51        51
+L457
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L459
+    [Write-Verbose]                         1         13
+    ['setting explorer properties']         15        43
+L462
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\Software\\Microsoft\\Windo[    6         60
+L463
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['IconSize']                            27        36
+    [-]                                     38        38
+    [Value]                                 39        43
+    [32]                                    45        46
+    [-]                                     48        48
+    [Type]                                  49        52
+    [DWord]                                 54        58
+L464
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['Mode']                                27        32
+    [-]                                     34        34
+    [Value]                                 35        39
+    [1]                                     41        41
+    [-]                                     43        43
+    [Type]                                  44        47
+    [DWord]                                 49        53
+L465
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['LogicalViewMode']                     27        43
+    [-]                                     45        45
+    [Value]                                 46        50
+    [3]                                     52        52
+    [-]                                     54        54
+    [Type]                                  55        58
+    [DWord]                                 60        64
+L468
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         61
+L469
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SearchboxTaskbarMode']                27        48
+    [-]                                     50        50
+    [Type]                                  51        54
+    [DWord]                                 56        60
+    [-]                                     62        62
+    [Value]                                 63        67
+    [1]                                     69        69
+L472
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         79
+L473
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [|]                                     42        42
+    [Out-Null]                              44        51
+    [}]                                     53        53
+L474
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['PeopleBand']                          27        38
+    [-]                                     40        40
+    [Type]                                  41        44
+    [DWord]                                 46        50
+    [-]                                     52        52
+    [Value]                                 53        57
+    [0]                                     59        59
+L476
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\Software\\Microsoft\\Windo[    6         72
+L478
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['TaskbarDa']                           27        37
+    [-]                                     39        39
+    [Value]                                 40        44
+    [0]                                     46        46
+    [-]                                     48        48
+    [Type]                                  49        52
+    [DWord]                                 54        58
+L480
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['TaskbarMn']                           27        37
+    [-]                                     39        39
+    [Value]                                 40        44
+    [0]                                     46        46
+    [-]                                     48        48
+    [Type]                                  49        52
+    [DWord]                                 54        58
+L482
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [IsWindows11]                           7         17
+    [)]                                     18        18
+    [)]                                     19        19
+L483
+    [{]                                     1         1
+L485
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['TaskbarSmallIcons']                   27        45
+    [-]                                     47        47
+    [Value]                                 48        52
+    [1]                                     54        54
+    [-]                                     56        56
+    [Type]                                  57        60
+    [DWord]                                 62        66
+L486
+    [}]                                     1         1
+L489
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['AutoCheckSelect']                     27        43
+    [-]                                     45        45
+    [Value]                                 46        50
+    [0]                                     52        52
+    [-]                                     54        54
+    [Type]                                  55        58
+    [DWord]                                 60        64
+L491
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['DontUsePowerShellOnWinX']             27        51
+    [-]                                     53        53
+    [Value]                                 54        58
+    [0]                                     60        60
+    [-]                                     62        62
+    [Type]                                  63        66
+    [DWord]                                 68        72
+L493
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['HideFileExt']                         27        39
+    [-]                                     41        41
+    [Type]                                  42        45
+    [DWord]                                 47        51
+    [-]                                     53        53
+    [Value]                                 54        58
+    [0]                                     60        60
+L495
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['Hidden']                              27        34
+    [-]                                     36        36
+    [Type]                                  37        40
+    [DWord]                                 42        46
+    [-]                                     48        48
+    [Value]                                 49        53
+    [1]                                     55        55
+L497
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['LaunchTo']                            27        36
+    [-]                                     38        38
+    [Type]                                  39        42
+    [DWord]                                 44        48
+    [-]                                     50        50
+    [Value]                                 51        55
+    [1]                                     57        57
+L499
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['NavPaneExpandToCurrentFolder']        27        56
+    [-]                                     58        58
+    [Type]                                  59        62
+    [DWord]                                 64        68
+    [-]                                     70        70
+    [Value]                                 71        75
+    [1]                                     77        77
+L501
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['NavPaneShowAllFolders']               27        49
+    [-]                                     51        51
+    [Type]                                  52        55
+    [DWord]                                 57        61
+    [-]                                     63        63
+    [Value]                                 64        68
+    [1]                                     70        70
+L504
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\Software\\Microsoft\\Windo[    6         70
+L505
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [|]                                     42        42
+    [Out-Null]                              44        51
+    [}]                                     53        53
+L506
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['MinimizedStateTabletModeOff']         27        55
+    [-]                                     57        57
+    [Type]                                  58        61
+    [DWord]                                 63        67
+    [-]                                     69        69
+    [Value]                                 70        74
+    [0]                                     76        76
+L509
+    [EnsureHKCRDrive]                       1         15
+L510
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCR:\\CLSID\\{031E4825-7B94-4dc3[    6         57
+L511
+    [Set-RegistryOwner]                     1         17
+    ['HKCR']                                19        24
+    ['CLSID\\{031E4825-7B94-4dc3-B131-E[    26        71
+L512
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SortOrderIndex']                      27        42
+    [-]                                     44        44
+    [Type]                                  45        48
+    [DWord]                                 50        54
+    [-]                                     56        56
+    [Value]                                 57        61
+    [0x42]                                  63        66
+L515
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         63
+L516
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['ShowRecent']                          27        38
+    [-]                                     40        40
+    [Type]                                  41        44
+    [DWord]                                 46        50
+    [-]                                     52        52
+    [Value]                                 53        57
+    [0]                                     59        59
+L517
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['ShowFrequent']                        27        40
+    [-]                                     42        42
+    [Type]                                  43        46
+    [DWord]                                 48        52
+    [-]                                     54        54
+    [Value]                                 55        59
+    [0]                                     61        61
+L519
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['link']                                27        32
+    [-]                                     34        34
+    [Type]                                  35        38
+    [Binary]                                40        45
+    [-]                                     47        47
+    [Value]                                 48        52
+    [(]                                     54        54
+    [\[byte\[\]\]]                          55        62
+    [(]                                     63        63
+    [0]                                     64        64
+    [,]                                     65        65
+    [0]                                     66        66
+    [,]                                     67        67
+    [0]                                     68        68
+    [,]                                     69        69
+    [0]                                     70        70
+    [)]                                     71        71
+    [)]                                     72        72
+L521
+    [HideExplorerNavPaneItems]              1         24
+L524
+    [$k]                                    1         2
+    [=]                                     4         4
+    ['{0DB7E03F-FC29-4DC6-9020-FF41B59E[    6         45
+L525
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['Microsoft\\Windows\\CurrentVersio[    6         69
+L526
+    [if]                                    1         2
+    [(]                                     4         4
+    [Test-Path]                             5         13
+    ["]                                     15        15
+    [HKLM:\\SOFTWARE\\]                     16        30
+    [$0]                                    31        32
+    [\\]                                    33        33
+    [$k]                                    34        35
+    ["]                                     36        36
+    [)]                                     37        37
+L527
+    [{]                                     1         1
+L528
+    [Rename-Item]                           1         11
+    ["]                                     13        13
+    [HKLM:\\SOFTWARE\\]                     14        28
+    [$0]                                    29        30
+    [\\]                                    31        31
+    [$k]                                    32        33
+    ["]                                     34        34
+    [-]                                     36        36
+    [NewName]                               37        43
+    ["]                                     45        45
+    [:]                                     46        46
+    [$k]                                    47        48
+    ["]                                     49        49
+L529
+    [Rename-Item]                           1         11
+    ["]                                     13        13
+    [HKLM:\\SOFTWARE\\WOW6432Node\\]        14        40
+    [$0]                                    41        42
+    [\\]                                    43        43
+    [$k]                                    44        45
+    ["]                                     46        46
+    [-]                                     48        48
+    [NewName]                               49        55
+    ["]                                     57        57
+    [:]                                     58        58
+    [$k]                                    59        60
+    ["]                                     61        61
+L530
+    [}]                                     1         1
+L533
+    [$guid]                                 1         5
+    [=]                                     7         7
+    ['{e88865ea-0e1c-4e20-9aa6-edcd0212[    9         48
+L534
+    [$0]                                    1         2
+    [=]                                     4         4
+    ["]                                     6         6
+    [HKCU:\\Software\\Classes\\CLSID\\]     7         35
+    [$guid]                                 36        40
+    ["]                                     41        41
+L535
+    [if]                                    1         2
+    [(]                                     4         4
+    [Test-Path]                             5         13
+    [$0]                                    15        16
+    [)]                                     17        17
+    [{]                                     19        19
+L536
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['IsPinnedToNameSpaceTree']             27        51
+    [-]                                     53        53
+    [Type]                                  54        57
+    [DWord]                                 59        63
+    [-]                                     65        65
+    [Value]                                 66        70
+    [1]                                     72        72
+L537
+    [}]                                     1         1
+L538
+    [$0]                                    1         2
+    [=]                                     4         4
+    ["]                                     6         6
+    [HKLM:\\SOFTWARE\\Microsoft\\Window[    7         90
+    [$guid]                                 91        95
+    ["]                                     96        96
+L539
+    [if]                                    1         2
+    [(]                                     4         4
+    [Test-Path]                             5         13
+    [$0]                                    15        16
+    [)]                                     17        17
+    [{]                                     19        19
+L540
+    [Remove-Item]                           1         11
+    [-]                                     13        13
+    [Path]                                  14        17
+    [$0]                                    19        20
+    [-]                                     22        22
+    [Force]                                 23        27
+    [-]                                     29        29
+    [Recurse]                               30        36
+    [-]                                     38        38
+    [ErrorAction]                           39        49
+    [SilentlyContinue]                      51        66
+L541
+    [}]                                     1         1
+L547
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         73
+L548
+    [New-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['AppsUseLightTheme']                   27        45
+    [-]                                     47        47
+    [Value]                                 48        52
+    [0]                                     54        54
+    [-]                                     56        56
+    [Type]                                  57        60
+    [dword]                                 62        66
+    [-]                                     68        68
+    [Force]                                 69        73
+    [|]                                     75        75
+    [Out-Null]                              77        84
+L549
+    [New-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SystemUsesLightTheme']                27        48
+    [-]                                     50        50
+    [Value]                                 51        55
+    [0]                                     57        57
+    [-]                                     59        59
+    [Type]                                  60        63
+    [dword]                                 65        69
+    [-]                                     71        71
+    [Force]                                 72        76
+    [|]                                     78        78
+    [Out-Null]                              80        87
+L552
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\Software\\Microsoft\\Windo[    6         43
+L553
+    [New-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['ColorizationColor']                   27        45
+    [-]                                     47        47
+    [Value]                                 48        52
+    [0xc4767676]                            54        63
+    [-]                                     65        65
+    [Type]                                  66        69
+    [dword]                                 71        75
+    [-]                                     77        77
+    [Force]                                 78        82
+    [|]                                     84        84
+    [Out-Null]                              86        93
+L554
+    [New-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['ColorizationAfterglow']               27        49
+    [-]                                     51        51
+    [Value]                                 52        56
+    [0xc4767676]                            58        67
+    [-]                                     69        69
+    [Type]                                  70        73
+    [dword]                                 75        79
+    [-]                                     81        81
+    [Force]                                 82        86
+    [|]                                     88        88
+    [Out-Null]                              90        97
+L555
+    [New-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['AccentColor']                         27        39
+    [-]                                     41        41
+    [Value]                                 42        46
+    [0xff767676]                            48        57
+    [-]                                     59        59
+    [Type]                                  60        63
+    [dword]                                 65        69
+    [-]                                     71        71
+    [Force]                                 72        76
+    [|]                                     78        78
+    [Out-Null]                              80        87
+L558
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         80
+L559
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['DisableAutoplay']                     27        43
+    [-]                                     45        45
+    [Type]                                  46        49
+    [DWord]                                 51        55
+    [-]                                     57        57
+    [Value]                                 58        62
+    [1]                                     64        64
+L562
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Microsoft\\Windo[    6         72
+L563
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [|]                                     42        42
+    [Out-Null]                              44        51
+    [}]                                     53        53
+L564
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['NoDriveTypeAutoRun']                  27        46
+    [-]                                     48        48
+    [Type]                                  49        52
+    [DWord]                                 54        58
+    [-]                                     60        60
+    [Value]                                 61        65
+    [255]                                   67        69
+L570
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    6         57
+L571
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [|]                                     42        42
+    [Out-Null]                              44        51
+    [}]                                     53        53
+L574
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['LockedStartLayout']                   27        45
+    [-]                                     47        47
+    [Type]                                  48        51
+    [DWord]                                 53        57
+    [-]                                     59        59
+    [Value]                                 60        64
+    [0]                                     66        66
+L576
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['HideRecentlyAddedApps']               27        49
+    [-]                                     51        51
+    [Type]                                  52        55
+    [DWord]                                 57        61
+    [-]                                     63        63
+    [Value]                                 64        68
+    [1]                                     70        70
+L579
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SYSTEM\\CurrentControlSet[     6         56
+L580
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['LongPathsEnabled']                    27        44
+    [-]                                     46        46
+    [Type]                                  47        50
+    [DWord]                                 52        56
+    [-]                                     58        58
+    [Value]                                 59        63
+    [1]                                     65        65
+L582
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [IsWindows11]                           7         17
+    [)]                                     18        18
+    [)]                                     19        19
+L583
+    [{]                                     1         1
+L586
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\Software\\Microsoft\\Windo[    6         66
+L587
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['StartUpTab']                          27        38
+    [-]                                     40        40
+    [Type]                                  41        44
+    [DWord]                                 46        50
+    [-]                                     52        52
+    [Value]                                 53        57
+    [5]                                     59        59
+L588
+    [}]                                     1         1
+L591
+    [Stop-Process]                          1         12
+    [-]                                     14        14
+    [Name]                                  15        18
+    [explorer]                              20        27
+L592
+    [}]                                     1         1
+L595
+    [function]                              1         8
+    [HideExplorerNavPaneItems]              10        33
+L596
+    [{]                                     1         1
+L597
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L598
+    ['Hide duplicate items from Explore[    1         52
+    [)]                                     53        53
+    [\]]                                    54        54
+L599
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L602
+    [$shapp]                                1         6
+    [=]                                     8         8
+    [New-Object]                            10        19
+    [-]                                     21        21
+    [ComObject]                             22        30
+    [shell.application]                     32        48
+L603
+    [$shapp]                                1         6
+    [.]                                     7         7
+    [Namespace]                             8         16
+    [(]                                     17        17
+    ["]                                     18        18
+    [shell:::{679f85cb-0220-4080-b29b-5[    19        64
+    ["]                                     65        65
+    [)]                                     66        66
+    [.]                                     67        67
+    [Items]                                 68        72
+    [(]                                     73        73
+    [)]                                     74        74
+    [|]                                     76        76
+    [%]                                     78        78
+    [{]                                     80        80
+    [$_]                                    82        83
+    [.]                                     84        84
+    [InvokeVerb]                            85        94
+    [(]                                     95        95
+    ["]                                     96        96
+    [unpinfromhome]                         97        109
+    ["]                                     110       110
+    [)]                                     111       111
+    [}]                                     113       113
+L606
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Microsoft\\Windo[    6         63
+L607
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['HubMode']                             27        35
+    [-]                                     37        37
+    [Type]                                  38        41
+    [DWord]                                 43        47
+    [-]                                     49        49
+    [Value]                                 50        54
+    [1]                                     56        56
+    [-]                                     58        58
+    [Force]                                 59        63
+    [|]                                     65        65
+    [Out-Null]                              67        74
+L609
+    [$items]                                1         6
+    [=]                                     8         8
+    [@(]                                    10        11
+L610
+    ['{3ADD1653-EB32-4cb0-BBD7-DFA0ABB5[    1         40
+    [,]                                     41        41
+L611
+    ['{A0953C92-50DC-43bf-BE83-3742FED0[    1         40
+    [,]                                     41        41
+L612
+    ['{A8CDFF1C-4878-43be-B5FD-F8091C1C[    1         40
+    [,]                                     41        41
+L613
+    ['{B4BFCC3A-DB2C-424C-B029-7FE99A87[    1         40
+    [,]                                     41        41
+L614
+    ['{f86fa3ab-70d2-4fc7-9c99-fcbf0546[    1         40
+    [,]                                     41        41
+L615
+    ['{f874310e-b6b7-47dc-bc84-b9e6b38f[    1         40
+L616
+    [)]                                     1         1
+L618
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Microsoft\\Windo[    6         84
+L619
+    [$items]                                1         6
+    [|]                                     8         8
+    [foreach]                               10        16
+    [{]                                     18        18
+    [if]                                    20        21
+    [(]                                     23        23
+    [Test-Path]                             24        32
+    ["]                                     34        34
+    [$0]                                    35        36
+    [\\]                                    37        37
+    [$_]                                    38        39
+    ["]                                     40        40
+    [)]                                     41        41
+    [{]                                     43        43
+    [Rename-Item]                           45        55
+    ["]                                     57        57
+    [$0]                                    58        59
+    [\\]                                    60        60
+    [$_]                                    61        62
+    ["]                                     63        63
+    [-]                                     65        65
+    [NewName]                               66        72
+    ["]                                     74        74
+    [:]                                     75        75
+    [$_]                                    76        77
+    ["]                                     78        78
+    [}]                                     80        80
+    [}]                                     82        82
+L621
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\WOW6432Node\\Mic[    6         96
+L622
+    [$items]                                1         6
+    [|]                                     8         8
+    [foreach]                               10        16
+    [{]                                     18        18
+    [if]                                    20        21
+    [(]                                     23        23
+    [Test-Path]                             24        32
+    ["]                                     34        34
+    [$0]                                    35        36
+    [\\]                                    37        37
+    [$_]                                    38        39
+    ["]                                     40        40
+    [)]                                     41        41
+    [{]                                     43        43
+    [Rename-Item]                           45        55
+    ["]                                     57        57
+    [$0]                                    58        59
+    [\\]                                    60        60
+    [$_]                                    61        62
+    ["]                                     63        63
+    [-]                                     65        65
+    [NewName]                               66        72
+    ["]                                     74        74
+    [:]                                     75        75
+    [$_]                                    76        77
+    ["]                                     78        78
+    [}]                                     80        80
+    [}]                                     82        82
+L624
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Microsoft\\Windo[    6         90
+L625
+    [$items]                                1         6
+    [|]                                     8         8
+    [foreach]                               10        16
+    [{]                                     18        18
+    [if]                                    20        21
+    [(]                                     23        23
+    [Test-Path]                             24        32
+    ["]                                     34        34
+    [$0]                                    35        36
+    [\\]                                    37        37
+    [$_]                                    38        39
+    ["]                                     40        40
+    [)]                                     41        41
+    [{]                                     43        43
+    [Rename-Item]                           45        55
+    ["]                                     57        57
+    [$0]                                    58        59
+    [\\]                                    60        60
+    [$_]                                    61        62
+    ["]                                     63        63
+    [-]                                     65        65
+    [NewName]                               66        72
+    ["]                                     74        74
+    [:]                                     75        75
+    [$_]                                    76        77
+    ["]                                     78        78
+    [}]                                     80        80
+    [}]                                     82        82
+L627
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\WOW6432Node\\Mic[    6         102
+L628
+    [$items]                                1         6
+    [|]                                     8         8
+    [foreach]                               10        16
+    [{]                                     18        18
+    [if]                                    20        21
+    [(]                                     23        23
+    [Test-Path]                             24        32
+    ["]                                     34        34
+    [$0]                                    35        36
+    [\\]                                    37        37
+    [$_]                                    38        39
+    ["]                                     40        40
+    [)]                                     41        41
+    [{]                                     43        43
+    [Rename-Item]                           45        55
+    ["]                                     57        57
+    [$0]                                    58        59
+    [\\]                                    60        60
+    [$_]                                    61        62
+    ["]                                     63        63
+    [-]                                     65        65
+    [NewName]                               66        72
+    ["]                                     74        74
+    [:]                                     75        75
+    [$_]                                    76        77
+    ["]                                     78        78
+    [}]                                     80        80
+    [}]                                     82        82
+L629
+    [}]                                     1         1
+L632
+    [function]                              1         8
+    [SetExtras]                             10        18
+L633
+    [{]                                     1         1
+L634
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L635
+    ['Configure Windows, disabling all [    1         73
+    [)]                                     74        74
+    [\]]                                    75        75
+L636
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L639
+    [Write-Verbose]                         1         13
+    ['disabling application suggestions[    15        49
+L640
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         77
+L641
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['ContentDeliveryAllowed']              27        50
+    [-]                                     52        52
+    [Type]                                  53        56
+    [DWord]                                 58        62
+    [-]                                     64        64
+    [Value]                                 65        69
+    [0]                                     71        71
+L642
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['OemPreInstalledAppsEnabled']          27        54
+    [-]                                     56        56
+    [Type]                                  57        60
+    [DWord]                                 62        66
+    [-]                                     68        68
+    [Value]                                 69        73
+    [0]                                     75        75
+L643
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['PreInstalledAppsEnabled']             27        51
+    [-]                                     53        53
+    [Type]                                  54        57
+    [DWord]                                 59        63
+    [-]                                     65        65
+    [Value]                                 66        70
+    [0]                                     72        72
+L644
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['PreInstalledAppsEverEnabled']         27        55
+    [-]                                     57        57
+    [Type]                                  58        61
+    [DWord]                                 63        67
+    [-]                                     69        69
+    [Value]                                 70        74
+    [0]                                     76        76
+L645
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SilentInstalledAppsEnabled']          27        54
+    [-]                                     56        56
+    [Type]                                  57        60
+    [DWord]                                 62        66
+    [-]                                     68        68
+    [Value]                                 69        73
+    [0]                                     75        75
+L646
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SubscribedContent-338387Enabled']     27        59
+    [-]                                     61        61
+    [Type]                                  62        65
+    [DWord]                                 67        71
+    [-]                                     73        73
+    [Value]                                 74        78
+    [0]                                     80        80
+L647
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SubscribedContent-338388Enabled']     27        59
+    [-]                                     61        61
+    [Type]                                  62        65
+    [DWord]                                 67        71
+    [-]                                     73        73
+    [Value]                                 74        78
+    [0]                                     80        80
+L648
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SubscribedContent-338389Enabled']     27        59
+    [-]                                     61        61
+    [Type]                                  62        65
+    [DWord]                                 67        71
+    [-]                                     73        73
+    [Value]                                 74        78
+    [0]                                     80        80
+L649
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SubscribedContent-338393Enabled']     27        59
+    [-]                                     61        61
+    [Type]                                  62        65
+    [DWord]                                 67        71
+    [-]                                     73        73
+    [Value]                                 74        78
+    [0]                                     80        80
+L650
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SubscribedContent-353698Enabled']     27        59
+    [-]                                     61        61
+    [Type]                                  62        65
+    [DWord]                                 67        71
+    [-]                                     73        73
+    [Value]                                 74        78
+    [0]                                     80        80
+L651
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['SystemPaneSuggestionsEnabled']        27        56
+    [-]                                     58        58
+    [Type]                                  59        62
+    [DWord]                                 64        68
+    [-]                                     70        70
+    [Value]                                 71        75
+    [0]                                     77        77
+L652
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         72
+L653
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['Start_TrackProgs']                    27        44
+    [-]                                     46        46
+    [Type]                                  47        50
+    [DWord]                                 52        56
+    [-]                                     58        58
+    [Value]                                 59        63
+    [0]                                     65        65
+L654
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    6         61
+L655
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [-]                                     42        42
+    [Force]                                 43        47
+    [|]                                     49        49
+    [Out-Null]                              51        58
+    [}]                                     60        60
+L656
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['DisableWindowsConsumerFeatures']      27        58
+    [-]                                     60        60
+    [Type]                                  61        64
+    [DWord]                                 66        70
+    [-]                                     72        72
+    [Value]                                 73        77
+    [1]                                     79        79
+L659
+    [Write-Verbose]                         1         13
+    ['disabling activity history']          15        42
+L660
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    6         55
+L661
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ["]                                     27        27
+    [EnableActivityFeed]                    28        45
+    ["]                                     46        46
+    [-]                                     48        48
+    [Type]                                  49        52
+    [DWord]                                 54        58
+    [-]                                     60        60
+    [Value]                                 61        65
+    [0]                                     67        67
+L662
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ["]                                     27        27
+    [PublishUserActivities]                 28        48
+    ["]                                     49        49
+    [-]                                     51        51
+    [Type]                                  52        55
+    [DWord]                                 57        61
+    [-]                                     63        63
+    [Value]                                 64        68
+    [0]                                     70        70
+L663
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ["]                                     27        27
+    [UploadUserActivities]                  28        47
+    ["]                                     48        48
+    [-]                                     50        50
+    [Type]                                  51        54
+    [DWord]                                 56        60
+    [-]                                     62        62
+    [Value]                                 63        67
+    [0]                                     69        69
+L666
+    [Write-Verbose]                         1         13
+    ['disabling location tracking']         15        43
+L667
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Microsoft\\Windo[    6         100
+L668
+    [If]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [-]                                     42        42
+    [Force]                                 43        47
+    [|]                                     49        49
+    [Out-Null]                              51        58
+    [}]                                     60        60
+L669
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['Value']                               27        33
+    [-]                                     35        35
+    [Type]                                  36        39
+    [String]                                41        46
+    [-]                                     48        48
+    [Value]                                 49        53
+    ['Deny']                                55        60
+L670
+    [Set-ItemProperty]                      1         16
+    ['HKLM:\\SOFTWARE\\Microsoft\\Windo[    18        125
+    [-]                                     127       127
+    [Name]                                  128       131
+    ['SensorPermissionState']               133       155
+    [-]                                     157       157
+    [Type]                                  158       161
+    [DWord]                                 163       167
+    [-]                                     169       169
+    [Value]                                 170       174
+    [0]                                     176       176
+L671
+    [Set-ItemProperty]                      1         16
+    ['HKLM:\\SYSTEM\\CurrentControlSet[     18        86
+    [-]                                     88        88
+    [Name]                                  89        92
+    ['Status']                              94        101
+    [-]                                     103       103
+    [Type]                                  104       107
+    [DWord]                                 109       113
+    [-]                                     115       115
+    [Value]                                 116       120
+    [0]                                     122       122
+L674
+    [Write-Verbose]                         1         13
+    ['disabling feedback']                  15        34
+L675
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Siuf[     6         42
+    [;]                                     43        43
+L676
+    [If]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [-]                                     42        42
+    [Force]                                 43        47
+    [|]                                     49        49
+    [Out-Null]                              51        58
+    [}]                                     60        60
+    [;]                                     61        61
+L677
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['NumberOfSIUFInPeriod']                27        48
+    [-]                                     50        50
+    [Type]                                  51        54
+    [DWord]                                 56        60
+    [-]                                     62        62
+    [Value]                                 63        67
+    [0]                                     69        69
+    [;]                                     70        70
+L678
+    [Set-ItemProperty]                      1         16
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    18        75
+    [-]                                     77        77
+    [Name]                                  78        81
+    ['DoNotShowFeedbackNotifications']      83        114
+    [-]                                     116       116
+    [Type]                                  117       120
+    [DWord]                                 122       126
+    [-]                                     128       128
+    [Value]                                 129       133
+    [1]                                     135       135
+    [;]                                     136       136
+L679
+    [Set-ItemProperty]                      1         16
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    18        75
+    [-]                                     77        77
+    [Name]                                  78        81
+    ['Allow Telemetry']                     83        99
+    [-]                                     101       101
+    [Type]                                  102       105
+    [DWord]                                 107       111
+    [-]                                     113       113
+    [Value]                                 114       118
+    [0]                                     120       120
+    [;]                                     121       121
+L680
+    [Disable-ScheduledTask]                 1         21
+    [-]                                     23        23
+    [TaskName]                              24        31
+    ['Microsoft\\Windows\\Feedback\\Siu[    33        74
+    [-]                                     76        76
+    [ErrorAction]                           77        87
+    [SilentlyContinue]                      89        104
+    [|]                                     106       106
+    [Out-Null]                              108       115
+    [;]                                     116       116
+L681
+    [Disable-ScheduledTask]                 1         21
+    [-]                                     23        23
+    [TaskName]                              24        31
+    ['Microsoft\\Windows\\Feedback\\Siu[    33        92
+    [-]                                     94        94
+    [ErrorAction]                           95        105
+    [SilentlyContinue]                      107       122
+    [|]                                     124       124
+    [Out-Null]                              126       133
+    [;]                                     134       134
+L682
+    [Disable-ScheduledTask]                 1         21
+    [-]                                     23        23
+    [TaskName]                              24        31
+    ['Microsoft\\Windows\\Application E[    33        108
+    [-]                                     110       110
+    [ErrorAction]                           111       121
+    [SilentlyContinue]                      123       138
+    [|]                                     140       140
+    [Out-Null]                              142       149
+    [;]                                     150       150
+L685
+    [Write-Verbose]                         1         13
+    ['disabling tailored experiences']      15        46
+L686
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Policies\\Micros[    6         61
+L687
+    [If]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [-]                                     42        42
+    [Force]                                 43        47
+    [|]                                     49        49
+    [Out-Null]                              51        58
+    [}]                                     60        60
+L688
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['DisableTailoredExperiencesWithDia[    27        72
+    [-]                                     74        74
+    [Type]                                  75        78
+    [DWord]                                 80        84
+    [-]                                     86        86
+    [Value]                                 87        91
+    [1]                                     93        93
+L691
+    [Write-Verbose]                         1         13
+    ['disabling advertising ID']            15        40
+L692
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    6         64
+L693
+    [If]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [|]                                     42        42
+    [Out-Null]                              44        51
+    [}]                                     53        53
+L694
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['DisabledByGroupPolicy']               27        49
+    [-]                                     51        51
+    [Type]                                  52        55
+    [DWord]                                 57        61
+    [-]                                     63        63
+    [Value]                                 64        68
+    [1]                                     70        70
+L697
+    [Write-Verbose]                         1         13
+    ['disabling Bing Search in Start me[    15        51
+L698
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         61
+L699
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['BingSearchEnabled']                   27        45
+    [-]                                     47        47
+    [Type]                                  48        51
+    [DWord]                                 53        57
+    [-]                                     59        59
+    [Value]                                 60        64
+    [0]                                     66        66
+L700
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['CortanaConsent']                      27        42
+    [-]                                     44        44
+    [Type]                                  45        48
+    [DWord]                                 50        54
+    [-]                                     56        56
+    [Value]                                 57        61
+    [0]                                     63        63
+L703
+    [if]                                    1         2
+    [(]                                     4         4
+    [IsWindows11]                           5         15
+    [)]                                     16        16
+L704
+    [{]                                     1         1
+L705
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Windo[    6         72
+L706
+    [if]                                    1         2
+    [(]                                     4         4
+    [Test-Path]                             5         13
+    [$0]                                    15        16
+    [)]                                     17        17
+    [{]                                     19        19
+    [Set-ItemProperty]                      21        36
+    [$0]                                    38        39
+    [-]                                     41        41
+    [Name]                                  42        45
+    ['TaskbarDa']                           47        57
+    [-]                                     59        59
+    [Type]                                  60        63
+    [DWord]                                 65        69
+    [-]                                     71        71
+    [Value]                                 72        76
+    [0]                                     78        78
+    [}]                                     80        80
+L707
+    [}]                                     1         1
+L710
+    [Write-Verbose]                         1         13
+    ["]                                     15        15
+    [Limiting Cortana...]                   16        34
+    ["]                                     35        35
+L711
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Perso[    6         56
+L712
+    [If]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [-]                                     42        42
+    [Force]                                 43        47
+    [|]                                     49        49
+    [Out-Null]                              51        58
+    [}]                                     60        60
+L713
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['AcceptedPrivacyPolicy']               27        49
+    [-]                                     51        51
+    [Type]                                  52        55
+    [DWord]                                 57        61
+    [-]                                     63        63
+    [Value]                                 64        68
+    [0]                                     70        70
+L714
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Input[    6         52
+L715
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [-]                                     42        42
+    [Force]                                 43        47
+    [|]                                     49        49
+    [Out-Null]                              51        58
+    [}]                                     60        60
+L716
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['RestrictImplicitTextCollection']      27        58
+    [-]                                     60        60
+    [Type]                                  61        64
+    [DWord]                                 66        70
+    [-]                                     72        72
+    [Value]                                 73        77
+    [1]                                     79        79
+L717
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['RestrictImplicitInkCollection']       27        57
+    [-]                                     59        59
+    [Type]                                  60        63
+    [DWord]                                 65        69
+    [-]                                     71        71
+    [Value]                                 72        76
+    [1]                                     78        78
+L718
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\SOFTWARE\\Microsoft\\Input[    6         69
+L719
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [-]                                     42        42
+    [Force]                                 43        47
+    [|]                                     49        49
+    [Out-Null]                              51        58
+    [}]                                     60        60
+L720
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['HarvestContacts']                     27        43
+    [-]                                     45        45
+    [Type]                                  46        49
+    [DWord]                                 51        55
+    [-]                                     57        57
+    [Value]                                 58        62
+    [0]                                     64        64
+L723
+    [Write-Verbose]                         1         13
+    ['enabling hibernate option']           15        41
+L724
+    [powercfg]                              1         8
+    [/]                                     10        10
+    [h]                                     11        11
+    [on]                                    13        14
+L725
+    [}]                                     1         1
+L728
+    [function]                              1         8
+    [DisableCortana]                        10        23
+L729
+    [{]                                     1         1
+L730
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+    ['Disable Cortana search preserving[    36        84
+    [)]                                     85        85
+    [\]]                                    86        86
+L731
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L733
+    [Write-Verbose]                         1         13
+    ["]                                     15        15
+    [Disabling Cortana...]                  16        35
+    ["]                                     36        36
+L734
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SOFTWARE\\Policies\\Micros[    6         63
+L735
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+    [)]                                     20        20
+    [{]                                     22        22
+    [New-Item]                              24        31
+    [-]                                     33        33
+    [Path]                                  34        37
+    [$0]                                    39        40
+    [-]                                     42        42
+    [Force]                                 43        47
+    [|]                                     49        49
+    [Out-Null]                              51        58
+    [}]                                     60        60
+L736
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['AllowCortana']                        27        40
+    [-]                                     42        42
+    [Type]                                  43        46
+    [DWord]                                 48        52
+    [-]                                     54        54
+    [Value]                                 55        59
+    [0]                                     61        61
+L739
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['C:\\Windows\\SystemApps\\Microsof[    6         68
+L740
+    [if]                                    1         2
+    [(]                                     4         4
+    [Test-Path]                             5         13
+    ["]                                     15        15
+    [$0]                                    16        17
+    [\\SearchUI.exe]                        18        30
+    ["]                                     31        31
+    [)]                                     32        32
+L741
+    [{]                                     1         1
+L742
+    [Stop-Process]                          1         12
+    [-]                                     14        14
+    [Name]                                  15        18
+    ['SearchUI']                            20        29
+    [;]                                     30        30
+L743
+    [Set-ItemOwner]                         1         13
+    ["]                                     15        15
+    [$0]                                    16        17
+    [\\SearchUI.exe]                        18        30
+    ["]                                     31        31
+L744
+    [Rename-Item]                           1         11
+    ["]                                     13        13
+    [$0]                                    14        15
+    [\\SearchUI.exe]                        16        28
+    ["]                                     29        29
+    ["]                                     31        31
+    [$0]                                    32        33
+    [\\SearchUI.exe_BLOCK]                  34        52
+    ["]                                     53        53
+L745
+    [}]                                     1         1
+L746
+    [}]                                     1         1
+L749
+    [function]                              1         8
+    [SetKeyboardProperties]                 10        30
+L750
+    [{]                                     1         1
+L751
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L752
+    ['Adjust keyboard settings to fix s[    1         62
+    [)]                                     63        63
+    [\]]                                    64        64
+L753
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L757
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKCU:\\Control Panel\\Keyboard']      6         35
+L758
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['KeyboardDelay']                       27        41
+    [-]                                     43        43
+    [Value]                                 44        48
+    ['1']                                   50        52
+    [-]                                     54        54
+    [Force]                                 55        59
+L759
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['KeyboardSpeed']                       27        41
+    [-]                                     43        43
+    [Value]                                 44        48
+    ['28']                                  50        53
+    [-]                                     55        55
+    [Force]                                 56        60
+L760
+    [}]                                     1         1
+L763
+    [function]                              1         8
+    [SecurePagefile]                        10        23
+L764
+    [{]                                     1         1
+L765
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L766
+    ['Configure Windows to delete pagef[    1         64
+    [)]                                     65        65
+    [\]]                                    66        66
+L767
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L770
+    [$0]                                    1         2
+    [=]                                     4         4
+    ['HKLM:\\SYSTEM\\CurrentControlSet[     6         79
+L771
+    [Set-ItemProperty]                      1         16
+    [$0]                                    18        19
+    [-]                                     21        21
+    [Name]                                  22        25
+    ['ClearPageFileAtShutdown']             27        51
+    [-]                                     53        53
+    [value]                                 54        58
+    [1]                                     60        60
+    [-]                                     62        62
+    [Type]                                  63        66
+    [DWord]                                 68        72
+L772
+    [}]                                     1         1
+L775
+    [function]                              1         8
+    [SetTimeZone]                           10        20
+L776
+    [{]                                     1         1
+L777
+    [\[]                                    1         1
+    [System.ComponentModel.Description]     2         34
+    [(]                                     35        35
+L778
+    ['Set the Clock time zone to EST, g[    1         63
+    [)]                                     64        64
+    [\]]                                    65        65
+L779
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [HelpURI]                               16        22
+    [=]                                     23        23
+    ['cmd']                                 24        28
+    [)]                                     29        29
+    [\]]                                    30        30
+    [param]                                 32        36
+    [(]                                     37        37
+    [)]                                     38        38
+L781
+    [Write-Verbose]                         1         13
+    ['setting time zone']                   15        33
+L782
+    [tzutil]                                1         6
+    [/]                                     8         8
+    [s]                                     9         9
+    ['Eastern Standard Time']               11        33
+L783
+    [}]                                     1         1
+L784
+    [}]                                     1         1
+L785
+    [Process]                               1         7
+L786
+    [{]                                     1         1
+L787
+    [if]                                    1         2
+    [(]                                     4         4
+    [$ListCommands]                         5         17
+    [)]                                     18        18
+L788
+    [{]                                     1         1
+L789
+    [GetCommandList]                        1         14
+L790
+    [return]                                1         6
+L791
+    [}]                                     1         1
+L793
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [IsElevated]                            7         16
+    [)]                                     17        17
+    [)]                                     18        18
+L794
+    [{]                                     1         1
+L795
+    [return]                                1         6
+L796
+    [}]                                     1         1
+L798
+    [if]                                    1         2
+    [(]                                     4         4
+    [!]                                     5         5
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    ["]                                     17        17
+    [$home]                                 18        22
+    [\\Documents\\]                         23        33
+    [$shell]                                34        39
+    [\\Modules\\Scripts\\]                  40        56
+    ["]                                     57        57
+    [)]                                     58        58
+    [)]                                     59        59
+L799
+    [{]                                     1         1
+L800
+    [Write-Host]                            1         10
+L801
+    [WriteWarn]                             1         9
+    ['... Could not find $home\\Documen[    11        72
+L802
+    [WriteWarn]                             1         9
+    ['... If your profile is on OneDriv[    11        79
+L803
+    [WriteWarn]                             1         9
+    ['... DOS> mklink /j WindowsPowerSh[    11        91
+L804
+    [return]                                1         6
+L805
+    [}]                                     1         1
+L807
+    [if]                                    1         2
+    [(]                                     4         4
+    [$command]                              5         12
+    [)]                                     13        13
+L808
+    [{]                                     1         1
+L809
+    [InvokeCommand]                         1         13
+    [$command]                              15        22
+L810
+    [return]                                1         6
+L811
+    [}]                                     1         1
+L814
+    [InstallTools]                          1         12
+L817
+    [GetPowerShellProfile]                  1         20
+L819
+    [SetTimeZone]                           1         11
+L820
+    [SetExplorerProperties]                 1         21
+L821
+    [SetKeyboardProperties]                 1         21
+L822
+    [SetExtras]                             1         9
+L823
+    [EnableHyperVEnhancedMode]              1         24
+L824
+    [DisableHomeGroups]                     1         17
+L825
+    [EnablePhotoViewer]                     1         17
+L826
+    [EnableRemoteDesktop]                   1         19
+L827
+    [RemoveCrapware]                        1         14
+L828
+    [SecurePagefile]                        1         14
+L829
+    [ScheduleTempCleanup]                   1         19
+L832
+    [DisableZipFolders]                     1         17
+L834
+    [GetYellowCursors]                      1         16
+L835
+    [SetConsoleProperties]                  1         20
+L837
+    [CreateHeadlessPowerPlan]               1         23
+L838
+    [FixAirpodConnectivity]                 1         21
+L840
+    [$line]                                 1         5
+    [=]                                     7         7
+    [New-Object]                            9         18
+    [String]                                20        25
+    [(]                                     26        26
+    ['*']                                   27        29
+    [,]                                     30        30
+    [80]                                    31        32
+    [)]                                     33        33
+L841
+    [Write-Host]                            1         10
+L842
+    [Write-Host]                            1         10
+    [$line]                                 12        16
+    [-]                                     18        18
+    [ForegroundColor]                       19        33
+    [Cyan]                                  35        38
+L843
+    [Write-Host]                            1         10
+    [' Reminders ...']                      12        27
+    [-]                                     29        29
+    [ForegroundColor]                       30        44
+    [Cyan]                                  46        49
+L844
+    [Write-Host]                            1         10
+    [$line]                                 12        16
+    [-]                                     18        18
+    [ForegroundColor]                       19        33
+    [Cyan]                                  35        38
+L845
+    [Write-Host]                            1         10
+L846
+    [Write-Host]                            1         10
+    [@']                                    12        13
+    [\n- Customize Startup items by loo[    14        46
+L850
+    [\n'@]                                  47        2
+L851
+    [-]                                     4         4
+    [ForegroundColor]                       5         19
+    [Cyan]                                  21        24
+L853
+    [Write-Host]                            1         10
+L854
+    [Write-Host]                            1         10
+    ['Initialization complete']             12        36
+    [-]                                     38        38
+    [ForegroundColor]                       39        53
+    [Yellow]                                55        60
+L855
+    [}]                                     1         1
+EOF

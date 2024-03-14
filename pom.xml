@@ -1176,7 +1176,7 @@
         <module>pmd-lua</module>
         <module>pmd-java</module>
         <module>pmd-jsp</module>
-	<module>pmd-julia</module>
+        <module>pmd-julia</module>
         <module>pmd-kotlin</module>
         <module>pmd-matlab</module>
         <module>pmd-modelica</module>
@@ -1184,6 +1184,7 @@
         <module>pmd-perl</module>
         <module>pmd-php</module>
         <module>pmd-plsql</module>
+        <module>pmd-powershell</module>
         <module>pmd-python</module>
         <module>pmd-ruby</module>
         <module>pmd-swift</module>

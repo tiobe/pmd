@@ -1,0 +1,650 @@
+    [Image] or [Truncated image[            Bcol      Ecol
+L24
+    [\[]                                    1         1
+    [CmdletBinding]                         2         14
+    [(]                                     15        15
+    [SupportsShouldProcess]                 16        36
+    [=]                                     38        38
+    [$true]                                 40        44
+    [,]                                     45        45
+    [DefaultParameterSetName]               47        69
+    [=]                                     70        70
+    ['pr']                                  71        74
+    [)]                                     75        75
+    [\]]                                    76        76
+L26
+    [param]                                 1         5
+    [(]                                     7         7
+L27
+    [\[]                                    2         2
+    [Parameter]                             3         11
+    [(]                                     12        12
+    [ParameterSetName]                      13        28
+    [=]                                     29        29
+    ['cd']                                  30        33
+    [,]                                     34        34
+    [Mandatory]                             36        44
+    [=]                                     45        45
+    [$false]                                46        51
+    [)]                                     52        52
+    [\]]                                    53        53
+    [\[switch\]]                            55        62
+    [$Code]                                 64        68
+    [,]                                     69        69
+L28
+    [\[]                                    2         2
+    [Parameter]                             3         11
+    [(]                                     12        12
+    [ParameterSetName]                      13        28
+    [=]                                     29        29
+    ['pr']                                  30        33
+    [,]                                     34        34
+    [Mandatory]                             36        44
+    [=]                                     45        45
+    [$false]                                46        51
+    [)]                                     52        52
+    [\]]                                    53        53
+    [\[switch\]]                            55        62
+    [$Professional]                         64        76
+    [,]                                     77        77
+L29
+    [\[]                                    2         2
+    [Parameter]                             3         11
+    [(]                                     12        12
+    [ParameterSetName]                      13        28
+    [=]                                     29        29
+    ['en']                                  30        33
+    [,]                                     34        34
+    [Mandatory]                             36        44
+    [=]                                     45        45
+    [$false]                                46        51
+    [)]                                     52        52
+    [\]]                                    53        53
+    [\[switch\]]                            55        62
+    [$Enterprise]                           64        74
+    [,]                                     75        75
+L30
+    [\[]                                    2         2
+    [Parameter]                             3         11
+    [(]                                     12        12
+    [ParameterSetName]                      13        28
+    [=]                                     29        29
+    ['cm']                                  30        33
+    [,]                                     34        34
+    [Mandatory]                             36        44
+    [=]                                     45        45
+    [$false]                                46        51
+    [)]                                     52        52
+    [\]]                                    53        53
+    [\[switch\]]                            55        62
+    [$Community]                            64        73
+    [,]                                     74        74
+L31
+    [\[]                                    2         2
+    [Parameter]                             3         11
+    [(]                                     12        12
+    [ParameterSetName]                      13        28
+    [=]                                     29        29
+    ['ex']                                  30        33
+    [,]                                     34        34
+    [Mandatory]                             36        44
+    [=]                                     45        45
+    [$false]                                46        51
+    [)]                                     52        52
+    [\]]                                    53        53
+    [\[switch\]]                            55        62
+    [$Extensions]                           64        74
+L32
+    [)]                                     1         1
+L34
+    [Begin]                                 1         5
+L35
+    [{]                                     1         1
+L36
+    [.]                                     2         2
+    [$PSScriptRoot]                         4         16
+    [\\]                                    17        17
+    [common.ps1]                            18        27
+L38
+    [$Year]                                 2         6
+    [=]                                     8         8
+    ['2022']                                10        15
+L39
+    [$Version]                              2         9
+    [=]                                     11        11
+    ['17.4']                                13        18
+L42
+    [function]                              2         9
+    [InstallVSCode]                         11        23
+L43
+    [{]                                     2         2
+L44
+    [if]                                    3         4
+    [(]                                     6         6
+    [Chocolatized]                          7         18
+    ['vscode']                              20        27
+    [)]                                     28        28
+L45
+    [{]                                     3         3
+L46
+    [WriteOK]                               4         10
+    ['VSCode is already installed']         12        40
+L47
+    [return]                                4         9
+L48
+    [}]                                     3         3
+L50
+    [Chocolatize]                           3         13
+    ['vscode']                              15        22
+L52
+    [$0]                                    3         4
+    [=]                                     6         6
+    ['C:\\Program Files\\Microsoft VS C[    8         47
+L53
+    [if]                                    3         4
+    [(]                                     6         6
+    [Test-Path]                             7         15
+    [$0]                                    17        18
+    [)]                                     19        19
+L54
+    [{]                                     3         3
+L57
+    [$env:PATH]                             4         12
+    [=]                                     14        14
+    [(]                                     16        16
+    [(]                                     17        17
+    [$env:PATH]                             18        26
+    [-]                                     28        28
+    [split]                                 29        33
+    [';']                                   35        37
+    [)]                                     38        38
+    [-]                                     40        40
+    [join]                                  41        44
+    [';']                                   46        48
+    [)]                                     49        49
+    [+]                                     51        51
+    ["]                                     53        53
+    [;]                                     54        54
+    [$0]                                    55        56
+    ["]                                     57        57
+L59
+    [Highlight]                             4         12
+    ['Adding VSCode extensions...']         14        42
+L60
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [alexkrechik.cucumberautocomplete]      29        60
+L61
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [anseki.vscode]                         29        41
+    [-]                                     42        42
+    [color]                                 43        47
+L62
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [eg2.tslint]                            29        38
+L63
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [hediet.vscode]                         29        41
+    [-]                                     42        42
+    [drawio]                                43        48
+L64
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [ionutvmi.reg]                          29        40
+L65
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [AykutSarac.jsoncrack]                  29        48
+    [-]                                     49        49
+    [vscode]                                50        55
+L66
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [mikeburgh.xml]                         29        41
+    [-]                                     42        42
+    [format]                                43        48
+L67
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [ms-azuretools]                         29        41
+    [.]                                     42        42
+    [vscode-docker]                         43        55
+L68
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [ms-python]                             29        37
+    [.]                                     38        38
+    [python]                                39        44
+L69
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [ms-vscode-remote]                      29        44
+    [.]                                     45        45
+    [remote-wsl]                            46        55
+L70
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [ms-dotnettools]                        29        42
+    [.]                                     43        43
+    [csharp]                                44        49
+L71
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [ms-vscode]                             29        37
+    [.]                                     38        38
+    [powershell]                            39        48
+L72
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [jebbs.plantuml]                        29        42
+L73
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [sonarsource.sonarlint]                 29        49
+    [-]                                     50        50
+    [vscode]                                51        56
+L74
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [vscode-icons-team]                     29        45
+    [.]                                     46        46
+    [vscode-icons]                          47        58
+L75
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [snyk-security]                         29        41
+    [.]                                     42        42
+    [vscode-vuln-cost]                      43        58
+L77
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [donjayamanne.githistory]               29        51
+L78
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [GitHub.vscode]                         29        41
+    [-]                                     42        42
+    [pull-request-github]                   43        61
+L80
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [Arjun.swagger]                         29        41
+    [-]                                     42        42
+    [viewer]                                43        48
+L81
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [42Crunch.vscode]                       29        43
+    [-]                                     44        44
+    [openapi]                               45        51
+L82
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [mermade.openapi]                       29        43
+    [-]                                     44        44
+    [lint]                                  45        48
+L84
+    [code]                                  4         7
+    [--]                                    9         10
+    [install-extension]                     11        27
+    [rangav.vscode]                         29        41
+    [-]                                     42        42
+    [thunder-client]                        43        56
+L85
+    [}]                                     3         3
+L86
+    [}]                                     2         2
+L88
+    [function]                              2         9
+    [InstallVisualStudio]                   11        29
+L89
+    [{]                                     2         2
+L90
+    [$0]                                    3         4
+    [=]                                     6         6
+    ["]                                     8         8
+    [C:\\Program Files\\Microsoft Visua[    9         49
+    [$Year]                                 50        54
+    ["]                                     55        55
+L91
+    [$cmn]                                  3         6
+    [=]                                     8         8
+    [Test-Path]                             10        18
+    [(]                                     20        20
+    [Join-Path]                             21        29
+    [$0]                                    31        32
+    ['Community\\Common7\\IDE\\devenv.e[    34        67
+    [)]                                     68        68
+L92
+    [$pro]                                  3         6
+    [=]                                     8         8
+    [Test-Path]                             10        18
+    [(]                                     20        20
+    [Join-Path]                             21        29
+    [$0]                                    31        32
+    ['Professional\\Common7\\IDE\\deven[    34        70
+    [)]                                     71        71
+L93
+    [$ent]                                  3         6
+    [=]                                     8         8
+    [Test-Path]                             10        18
+    [(]                                     20        20
+    [Join-Path]                             21        29
+    [$0]                                    31        32
+    ['Enterprise\\Common7\\IDE\\devenv.[    34        68
+    [)]                                     69        69
+L94
+    [if]                                    3         4
+    [(]                                     6         6
+    [$cmn]                                  7         10
+    [-or]                                   12        14
+    [$pro]                                  16        19
+    [-or]                                   21        23
+    [$ent]                                  25        28
+    [)]                                     29        29
+L95
+    [{]                                     3         3
+L96
+    [WriteOK]                               4         10
+    ["]                                     12        12
+    [Visual Studio ]                        13        26
+    [$Year]                                 27        31
+    [ is already installed]                 32        52
+    ["]                                     53        53
+L97
+    [return]                                4         9
+L98
+    [}]                                     3         3
+L100
+    [$sku]                                  3         6
+    [=]                                     8         8
+    ['professional']                        10        23
+L101
+    [if]                                    3         4
+    [(]                                     6         6
+    [$Enterprise]                           7         17
+    [)]                                     18        18
+    [{]                                     20        20
+    [$sku]                                  22        25
+    [=]                                     27        27
+    ['enterprise']                          29        40
+    [}]                                     42        42
+L102
+    [elseif]                                3         8
+    [(]                                     10        10
+    [$Community]                            11        20
+    [)]                                     21        21
+    [{]                                     23        23
+    [$sku]                                  25        28
+    [=]                                     30        30
+    ['community']                           32        42
+    [}]                                     44        44
+L104
+    [HighTitle]                             3         11
+    ["]                                     13        13
+    [Visual Studio ]                        14        27
+    [$Year]                                 28        32
+    [ (]                                    33        34
+    [$sku]                                  35        38
+    [)]                                     39        39
+    ["]                                     40        40
+L105
+    [Highlight]                             3         11
+    ['... This will take a few minutes']    13        46
+L108
+    [$bits]                                 3         7
+    [=]                                     9         9
+    ["]                                     11        11
+    [vs_]                                   12        14
+    [$sku]                                  15        18
+    [`_]                                    19        20
+    [$Year]                                 21        25
+    [`_]                                    26        27
+    [$Version]                              28        35
+    ["]                                     36        36
+L109
+    [DownloadBootstrap]                     3         19
+    ["]                                     21        21
+    [$bits]                                 22        26
+    [`.zip]                                 27        31
+    ["]                                     32        32
+    [$env:TEMP]                             34        42
+L112
+    [&]                                     3         3
+    ["]                                     5         5
+    [$(]                                    6         7
+    [$env:TEMP]                             8         16
+    [)]                                     17        17
+    [\\]                                    18        18
+    [$bits]                                 19        23
+    [`.exe]                                 24        28
+    ["]                                     29        29
+    [--]                                    31        32
+    [passive]                               33        39
+    [--]                                    41        42
+    [config]                                43        48
+    ["]                                     50        50
+    [$(]                                    51        52
+    [$env:TEMP]                             53        61
+    [)]                                     62        62
+    [\\vs_]                                 63        66
+    [$sku]                                  67        70
+    [`.vsconfig]                            71        80
+    ["]                                     81        81
+L114
+    [Write-host]                            3         12
+    ['... Please wait for the installat[    14        63
+    [-]                                     65        65
+    [Fore]                                  66        69
+    [Cyan]                                  71        74
+L115
+    [Write-Host]                            3         12
+    ['... When complete, rerun this scr[    14        83
+    [-]                                     85        85
+    [Fore]                                  86        89
+    [Cyan]                                  91        94
+L116
+    [}]                                     2         2
+L119
+    [function]                              2         9
+    [InstallVSExtensions]                   11        29
+L120
+    [{]                                     2         2
+L121
+    [HighTitle]                             3         11
+    ['Visual Studio Extensions']            13        38
+L129
+    [DownloadBootstrap]                     3         19
+    ["]                                     21        21
+    [vs_extensions_]                        22        35
+    [$Year]                                 36        40
+    [.zip]                                  41        44
+    ["]                                     45        45
+    [$env:TEMP]                             47        55
+L131
+    [$root]                                 3         7
+    [=]                                     9         9
+    [&]                                     11        11
+    ["]                                     13        13
+    [${env:ProgramFiles(x86)}]              14        37
+    [\\Microsoft Visual Studio\\Install[    38        83
+    ["]                                     84        84
+    [-]                                     86        86
+    [latest]                                87        92
+    [-]                                     94        94
+    [property]                              95        102
+    [installationPath]                      104       119
+L132
+    [$installer]                            3         12
+    [=]                                     14        14
+    ["]                                     16        16
+    [$root]                                 17        21
+    [\\Common7\\IDE\\vsixinstaller.exe]     22        51
+    ["]                                     52        52
+L134
+    [InstallVsix]                           3         13
+    [$installer]                            15        24
+    ['EditorGuidelines']                    26        43
+L135
+    [InstallVsix]                           3         13
+    [$installer]                            15        24
+    ['InstallerProjects']                   26        44
+L136
+    [InstallVsix]                           3         13
+    [$installer]                            15        24
+    ['MarkdownEditor']                      26        41
+L137
+    [InstallVsix]                           3         13
+    [$installer]                            15        24
+    ['SonarLint']                           26        36
+L138
+    [InstallVsix]                           3         13
+    [$installer]                            15        24
+    ['SpecFlow']                            26        35
+L139
+    [InstallVsix]                           3         13
+    [$installer]                            15        24
+    ['VSColorOutput']                       26        40
+L140
+    [InstallVsix]                           3         13
+    [$installer]                            15        24
+    ['VSTextMacros-1.18']                   26        44
+L142
+    [Write-Host]                            3         12
+L143
+    [WriteWarn]                             3         11
+    ['... Wait a couple of minutes for [    13        105
+L144
+    [WriteWarn]                             3         11
+    ['... These can be monitored in Tas[    13        83
+L145
+    [}]                                     2         2
+L148
+    [function]                              2         9
+    [InstallVsix]                           11        21
+L149
+    [{]                                     2         2
+L150
+    [param]                                 3         7
+    [(]                                     8         8
+    [$installer]                            9         18
+    [,]                                     19        19
+    [$name]                                 21        25
+    [)]                                     26        26
+L151
+    [WriteWarn]                             3         11
+    ["]                                     13        13
+    [... installing ]                       14        28
+    [$name]                                 29        33
+    [ extension in the background]          34        61
+    ["]                                     62        62
+L152
+    [$vsix]                                 3         7
+    [=]                                     9         9
+    ["]                                     11        11
+    [$(]                                    12        13
+    [$env:TEMP]                             14        22
+    [)]                                     23        23
+    [\\]                                    24        24
+    [$name]                                 25        29
+    [`.vsix]                                30        35
+    ["]                                     36        36
+L153
+    [&]                                     3         3
+    [$installer]                            5         14
+    [/]                                     16        16
+    [quiet]                                 17        21
+    [/]                                     23        23
+    [norepair]                              24        31
+    [$vsix]                                 33        37
+L154
+    [}]                                     2         2
+L155
+    [}]                                     1         1
+L156
+    [Process]                               1         7
+L157
+    [{]                                     1         1
+L158
+    [if]                                    2         3
+    [(]                                     5         5
+    [$Code]                                 6         10
+    [)]                                     11        11
+L159
+    [{]                                     2         2
+L160
+    [InstallVSCode]                         3         15
+L161
+    [}]                                     2         2
+L162
+    [elseif]                                2         7
+    [(]                                     9         9
+    [$Extensions]                           10        20
+    [)]                                     21        21
+L163
+    [{]                                     2         2
+L164
+    [InstallVSExtensions]                   3         21
+L165
+    [}]                                     2         2
+L166
+    [else]                                  2         5
+L167
+    [{]                                     2         2
+L168
+    [Write-Host]                            3         12
+    ['*** It is highly recommend that y[    14        95
+L169
+    [Read-Host]                             3         11
+    ['*** Press Enter to continue']         13        41
+L171
+    [Write-Host]                            3         12
+    ['... clearing the %TEMP% folder']      14        45
+L172
+    [Remove-Item]                           3         13
+    [-]                                     15        15
+    [Path]                                  16        19
+    ["]                                     21        21
+    [$env:TEMP]                             22        30
+    [\\*]                                   31        32
+    ["]                                     33        33
+    [-]                                     35        35
+    [Force]                                 36        40
+    [-]                                     42        42
+    [Recurse]                               43        49
+    [-]                                     51        51
+    [ErrorAction:]                          52        63
+    [SilentlyContinue]                      64        79
+L174
+    [InstallCurl]                           3         13
+L175
+    [InstallVisualStudio]                   3         21
+L176
+    [}]                                     2         2
+L177
+    [}]                                     1         1
+EOF

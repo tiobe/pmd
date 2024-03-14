@@ -150,7 +150,7 @@ function build() {
 #
 function pmd_ci_build_setup_bundler() {
     pmd_ci_log_info "Installing bundler..."
-    gem install bundler
+    gem install bundler -v 2.4.22
 }
 
 #
