@@ -372,6 +372,7 @@ fragment LF
 
 NL
    : (CR ~ ('\u000A') | LF | CR LF)
+   -> channel(HIDDEN)
    ;
 
 // B.1.2 Comments
@@ -408,11 +409,13 @@ SIGNATUREBLOCK
 
 WHITESPACE
    : (Zs | Zl | Zp | '\t' | '\u000b' | '\u000c' | '`' NL)+
+   -> channel(HIDDEN)
    ;
 
 WHITESPACE_OR_NL
-   : WHITESPACE
-   | NL
+   : (WHITESPACE
+   | NL)+
+   -> channel(HIDDEN)
    ;
 
 // Operators

@@ -1,34 +1,21 @@
     [Image] or [Truncated image[            Bcol      Ecol
-L21
-    [\n]                                    3         3
-L22
-    [\n]                                    1         1
 L24
     [\[]                                    1         1
     [CmdletBinding]                         2         14
     [(]                                     15        15
     [SupportsShouldProcess]                 16        36
-    [ ]                                     37        37
     [=]                                     38        38
-    [ ]                                     39        39
     [$true]                                 40        44
     [,]                                     45        45
-    [ ]                                     46        46
     [DefaultParameterSetName]               47        69
     [=]                                     70        70
     ['pr']                                  71        74
     [)]                                     75        75
     [\]]                                    76        76
-    [\n]                                    77        77
-L25
-    [\n]                                    1         1
 L26
     [param]                                 1         5
-    [ ]                                     6         6
     [(]                                     7         7
-    [\n]                                    8         8
 L27
-    [\t]                                    1         1
     [\[]                                    2         2
     [Parameter]                             3         11
     [(]                                     12        12
@@ -36,20 +23,15 @@ L27
     [=]                                     29        29
     ['cd']                                  30        33
     [,]                                     34        34
-    [ ]                                     35        35
     [Mandatory]                             36        44
     [=]                                     45        45
     [$false]                                46        51
     [)]                                     52        52
     [\]]                                    53        53
-    [ ]                                     54        54
     [\[switch\]]                            55        62
-    [ ]                                     63        63
     [$Code]                                 64        68
     [,]                                     69        69
-    [\n]                                    70        70
 L28
-    [\t]                                    1         1
     [\[]                                    2         2
     [Parameter]                             3         11
     [(]                                     12        12
@@ -57,20 +39,15 @@ L28
     [=]                                     29        29
     ['pr']                                  30        33
     [,]                                     34        34
-    [ ]                                     35        35
     [Mandatory]                             36        44
     [=]                                     45        45
     [$false]                                46        51
     [)]                                     52        52
     [\]]                                    53        53
-    [ ]                                     54        54
     [\[switch\]]                            55        62
-    [ ]                                     63        63
     [$Professional]                         64        76
     [,]                                     77        77
-    [\n]                                    78        78
 L29
-    [\t]                                    1         1
     [\[]                                    2         2
     [Parameter]                             3         11
     [(]                                     12        12
@@ -78,20 +55,15 @@ L29
     [=]                                     29        29
     ['en']                                  30        33
     [,]                                     34        34
-    [ ]                                     35        35
     [Mandatory]                             36        44
     [=]                                     45        45
     [$false]                                46        51
     [)]                                     52        52
     [\]]                                    53        53
-    [ ]                                     54        54
     [\[switch\]]                            55        62
-    [ ]                                     63        63
     [$Enterprise]                           64        74
     [,]                                     75        75
-    [\n]                                    76        76
 L30
-    [\t]                                    1         1
     [\[]                                    2         2
     [Parameter]                             3         11
     [(]                                     12        12
@@ -99,20 +71,15 @@ L30
     [=]                                     29        29
     ['cm']                                  30        33
     [,]                                     34        34
-    [ ]                                     35        35
     [Mandatory]                             36        44
     [=]                                     45        45
     [$false]                                46        51
     [)]                                     52        52
     [\]]                                    53        53
-    [ ]                                     54        54
     [\[switch\]]                            55        62
-    [ ]                                     63        63
     [$Community]                            64        73
     [,]                                     74        74
-    [\n]                                    75        75
 L31
-    [\t]                                    1         1
     [\[]                                    2         2
     [Parameter]                             3         11
     [(]                                     12        12
@@ -120,579 +87,324 @@ L31
     [=]                                     29        29
     ['ex']                                  30        33
     [,]                                     34        34
-    [ ]                                     35        35
     [Mandatory]                             36        44
     [=]                                     45        45
     [$false]                                46        51
     [)]                                     52        52
     [\]]                                    53        53
-    [ ]                                     54        54
     [\[switch\]]                            55        62
-    [ ]                                     63        63
     [$Extensions]                           64        74
-    [\n]                                    75        75
 L32
     [)]                                     1         1
-    [\n]                                    2         2
-L33
-    [\n]                                    1         1
 L34
     [Begin]                                 1         5
-    [\n]                                    6         6
 L35
     [{]                                     1         1
-    [\n]                                    2         2
 L36
-    [\t]                                    1         1
     [.]                                     2         2
-    [ ]                                     3         3
     [$PSScriptRoot]                         4         16
     [\\]                                    17        17
     [common.ps1]                            18        27
-    [\n]                                    28        28
-L37
-    [\n]                                    1         1
 L38
-    [\t]                                    1         1
     [$Year]                                 2         6
-    [ ]                                     7         7
     [=]                                     8         8
-    [ ]                                     9         9
     ['2022']                                10        15
-    [\n]                                    16        16
 L39
-    [\t]                                    1         1
     [$Version]                              2         9
-    [ ]                                     10        10
     [=]                                     11        11
-    [ ]                                     12        12
     ['17.4']                                13        18
-    [\n]                                    19        19
-L40
-    [\n]                                    1         1
-L41
-    [\n]                                    1         1
 L42
-    [\t]                                    1         1
     [function]                              2         9
-    [ ]                                     10        10
     [InstallVSCode]                         11        23
-    [\n]                                    24        24
 L43
-    [\t]                                    1         1
     [{]                                     2         2
-    [\n]                                    3         3
 L44
-    [\t\t]                                  1         2
     [if]                                    3         4
-    [ ]                                     5         5
     [(]                                     6         6
     [Chocolatized]                          7         18
-    [ ]                                     19        19
     ['vscode']                              20        27
     [)]                                     28        28
-    [\n]                                    29        29
 L45
-    [\t\t]                                  1         2
     [{]                                     3         3
-    [\n]                                    4         4
 L46
-    [\t\t\t]                                1         3
     [WriteOK]                               4         10
-    [ ]                                     11        11
     ['VSCode is already installed']         12        40
-    [\n]                                    41        41
 L47
-    [\t\t\t]                                1         3
     [return]                                4         9
-    [\n]                                    10        10
 L48
-    [\t\t]                                  1         2
     [}]                                     3         3
-    [\n]                                    4         4
-L49
-    [\n]                                    1         1
 L50
-    [\t\t]                                  1         2
     [Chocolatize]                           3         13
-    [ ]                                     14        14
     ['vscode']                              15        22
-    [\n]                                    23        23
-L51
-    [\n]                                    1         1
 L52
-    [\t\t]                                  1         2
     [$0]                                    3         4
-    [ ]                                     5         5
     [=]                                     6         6
-    [ ]                                     7         7
     ['C:\\Program Files\\Microsoft VS C[    8         47
-    [\n]                                    48        48
 L53
-    [\t\t]                                  1         2
     [if]                                    3         4
-    [ ]                                     5         5
     [(]                                     6         6
     [Test-Path]                             7         15
-    [ ]                                     16        16
     [$0]                                    17        18
     [)]                                     19        19
-    [\n]                                    20        20
 L54
-    [\t\t]                                  1         2
     [{]                                     3         3
-    [\n]                                    4         4
-L55
-    [\t\t\t]                                1         3
-L56
-    [\t\t\t]                                1         3
 L57
-    [\t\t\t]                                1         3
     [$env:PATH]                             4         12
-    [ ]                                     13        13
     [=]                                     14        14
-    [ ]                                     15        15
     [(]                                     16        16
     [(]                                     17        17
     [$env:PATH]                             18        26
-    [ ]                                     27        27
     [-]                                     28        28
     [split]                                 29        33
-    [ ]                                     34        34
     [';']                                   35        37
     [)]                                     38        38
-    [ ]                                     39        39
     [-]                                     40        40
     [join]                                  41        44
-    [ ]                                     45        45
     [';']                                   46        48
     [)]                                     49        49
-    [ ]                                     50        50
     [+]                                     51        51
-    [ ]                                     52        52
     ["]                                     53        53
     [;]                                     54        54
     [$0]                                    55        56
     ["]                                     57        57
-    [\n]                                    58        58
-L58
-    [\n]                                    1         1
 L59
-    [\t\t\t]                                1         3
     [Highlight]                             4         12
-    [ ]                                     13        13
     ['Adding VSCode extensions...']         14        42
-    [\n]                                    43        43
 L60
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [alexkrechik.cucumberautocomplete]      29        60
-    [\n]                                    61        61
 L61
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [anseki.vscode]                         29        41
     [-]                                     42        42
     [color]                                 43        47
-    [\n]                                    48        48
 L62
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [eg2.tslint]                            29        38
-    [\n]                                    39        39
 L63
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [hediet.vscode]                         29        41
     [-]                                     42        42
     [drawio]                                43        48
-    [\n]                                    49        49
 L64
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [ionutvmi.reg]                          29        40
-    [\n]                                    41        41
 L65
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [AykutSarac.jsoncrack]                  29        48
     [-]                                     49        49
     [vscode]                                50        55
-    [\n]                                    56        56
 L66
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [mikeburgh.xml]                         29        41
     [-]                                     42        42
     [format]                                43        48
-    [\n]                                    49        49
 L67
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [ms-azuretools]                         29        41
     [.]                                     42        42
     [vscode-docker]                         43        55
-    [\n]                                    56        56
 L68
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [ms-python]                             29        37
     [.]                                     38        38
     [python]                                39        44
-    [\n]                                    45        45
 L69
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [ms-vscode-remote]                      29        44
     [.]                                     45        45
     [remote-wsl]                            46        55
-    [\n]                                    56        56
 L70
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [ms-dotnettools]                        29        42
     [.]                                     43        43
     [csharp]                                44        49
-    [\n]                                    50        50
 L71
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [ms-vscode]                             29        37
     [.]                                     38        38
     [powershell]                            39        48
-    [\n]                                    49        49
 L72
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [jebbs.plantuml]                        29        42
-    [\n]                                    43        43
 L73
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [sonarsource.sonarlint]                 29        49
     [-]                                     50        50
     [vscode]                                51        56
-    [\n]                                    57        57
 L74
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [vscode-icons-team]                     29        45
     [.]                                     46        46
     [vscode-icons]                          47        58
-    [\n]                                    59        59
 L75
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [snyk-security]                         29        41
     [.]                                     42        42
     [vscode-vuln-cost]                      43        58
-    [\t]                                    59        59
-    [\n]                                    60        60
-L76
-    [\t\t\t]                                1         3
 L77
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [donjayamanne.githistory]               29        51
-    [\n]                                    52        52
 L78
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [GitHub.vscode]                         29        41
     [-]                                     42        42
     [pull-request-github]                   43        61
-    [\n]                                    62        62
-L79
-    [\t\t\t]                                1         3
 L80
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [Arjun.swagger]                         29        41
     [-]                                     42        42
     [viewer]                                43        48
-    [\n]                                    49        49
 L81
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [42Crunch.vscode]                       29        43
     [-]                                     44        44
     [openapi]                               45        51
-    [\n]                                    52        52
 L82
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [mermade.openapi]                       29        43
     [-]                                     44        44
     [lint]                                  45        48
-    [\n]                                    49        49
-L83
-    [\t\t\t]                                1         3
 L84
-    [\t\t\t]                                1         3
     [code]                                  4         7
-    [ ]                                     8         8
     [--]                                    9         10
     [install-extension]                     11        27
-    [ ]                                     28        28
     [rangav.vscode]                         29        41
     [-]                                     42        42
     [thunder-client]                        43        56
-    [\t\t\t]                                57        59
-    [\n]                                    60        60
 L85
-    [\t\t]                                  1         2
     [}]                                     3         3
-    [\n]                                    4         4
 L86
-    [\t]                                    1         1
     [}]                                     2         2
-    [\n]                                    3         3
-L87
-    [\t]                                    1         1
-    [\n]                                    2         2
 L88
-    [\t]                                    1         1
     [function]                              2         9
-    [ ]                                     10        10
     [InstallVisualStudio]                   11        29
-    [\n]                                    30        30
 L89
-    [\t]                                    1         1
     [{]                                     2         2
-    [\n]                                    3         3
 L90
-    [\t\t]                                  1         2
     [$0]                                    3         4
-    [ ]                                     5         5
     [=]                                     6         6
-    [ ]                                     7         7
     ["]                                     8         8
     [C:\\Program Files\\Microsoft Visua[    9         49
     [$Year]                                 50        54
     ["]                                     55        55
-    [\n]                                    56        56
 L91
-    [\t\t]                                  1         2
     [$cmn]                                  3         6
-    [ ]                                     7         7
     [=]                                     8         8
-    [ ]                                     9         9
     [Test-Path]                             10        18
-    [ ]                                     19        19
     [(]                                     20        20
     [Join-Path]                             21        29
-    [ ]                                     30        30
     [$0]                                    31        32
-    [ ]                                     33        33
     ['Community\\Common7\\IDE\\devenv.e[    34        67
     [)]                                     68        68
-    [\n]                                    69        69
 L92
-    [\t\t]                                  1         2
     [$pro]                                  3         6
-    [ ]                                     7         7
     [=]                                     8         8
-    [ ]                                     9         9
     [Test-Path]                             10        18
-    [ ]                                     19        19
     [(]                                     20        20
     [Join-Path]                             21        29
-    [ ]                                     30        30
     [$0]                                    31        32
-    [ ]                                     33        33
     ['Professional\\Common7\\IDE\\deven[    34        70
     [)]                                     71        71
-    [\n]                                    72        72
 L93
-    [\t\t]                                  1         2
     [$ent]                                  3         6
-    [ ]                                     7         7
     [=]                                     8         8
-    [ ]                                     9         9
     [Test-Path]                             10        18
-    [ ]                                     19        19
     [(]                                     20        20
     [Join-Path]                             21        29
-    [ ]                                     30        30
     [$0]                                    31        32
-    [ ]                                     33        33
     ['Enterprise\\Common7\\IDE\\devenv.[    34        68
     [)]                                     69        69
-    [\n]                                    70        70
 L94
-    [\t\t]                                  1         2
     [if]                                    3         4
-    [ ]                                     5         5
     [(]                                     6         6
     [$cmn]                                  7         10
-    [ ]                                     11        11
     [-or]                                   12        14
-    [ ]                                     15        15
     [$pro]                                  16        19
-    [ ]                                     20        20
     [-or]                                   21        23
-    [ ]                                     24        24
     [$ent]                                  25        28
     [)]                                     29        29
-    [\n]                                    30        30
 L95
-    [\t\t]                                  1         2
     [{]                                     3         3
-    [\n]                                    4         4
 L96
-    [\t\t\t]                                1         3
     [WriteOK]                               4         10
-    [ ]                                     11        11
     ["]                                     12        12
     [Visual Studio ]                        13        26
     [$Year]                                 27        31
     [ is already installed]                 32        52
     ["]                                     53        53
-    [\n]                                    54        54
 L97
-    [\t\t\t]                                1         3
     [return]                                4         9
-    [\n]                                    10        10
 L98
-    [\t\t]                                  1         2
     [}]                                     3         3
-    [\n]                                    4         4
-L99
-    [\n]                                    1         1
 L100
-    [\t\t]                                  1         2
     [$sku]                                  3         6
-    [ ]                                     7         7
     [=]                                     8         8
-    [ ]                                     9         9
     ['professional']                        10        23
-    [\n]                                    24        24
 L101
-    [\t\t]                                  1         2
     [if]                                    3         4
-    [ ]                                     5         5
     [(]                                     6         6
     [$Enterprise]                           7         17
     [)]                                     18        18
-    [ ]                                     19        19
     [{]                                     20        20
-    [ ]                                     21        21
     [$sku]                                  22        25
-    [ ]                                     26        26
     [=]                                     27        27
-    [ ]                                     28        28
     ['enterprise']                          29        40
-    [ ]                                     41        41
     [}]                                     42        42
-    [\n]                                    43        43
 L102
-    [\t\t]                                  1         2
     [elseif]                                3         8
-    [ ]                                     9         9
     [(]                                     10        10
     [$Community]                            11        20
     [)]                                     21        21
-    [ ]                                     22        22
     [{]                                     23        23
-    [ ]                                     24        24
     [$sku]                                  25        28
-    [ ]                                     29        29
     [=]                                     30        30
-    [ ]                                     31        31
     ['community']                           32        42
-    [ ]                                     43        43
     [}]                                     44        44
-    [\n]                                    45        45
-L103
-    [\n]                                    1         1
 L104
-    [\t\t]                                  1         2
     [HighTitle]                             3         11
-    [ ]                                     12        12
     ["]                                     13        13
     [Visual Studio ]                        14        27
     [$Year]                                 28        32
@@ -700,23 +412,12 @@ L104
     [$sku]                                  35        38
     [)]                                     39        39
     ["]                                     40        40
-    [\n]                                    41        41
 L105
-    [\t\t]                                  1         2
     [Highlight]                             3         11
-    [ ]                                     12        12
     ['... This will take a few minutes']    13        46
-    [\n]                                    47        47
-L106
-    [\n]                                    1         1
-L107
-    [\t\t]                                  1         2
 L108
-    [\t\t]                                  1         2
     [$bits]                                 3         7
-    [ ]                                     8         8
     [=]                                     9         9
-    [ ]                                     10        10
     ["]                                     11        11
     [vs_]                                   12        14
     [$sku]                                  15        18
@@ -725,26 +426,15 @@ L108
     [`_]                                    26        27
     [$Version]                              28        35
     ["]                                     36        36
-    [\n]                                    37        37
 L109
-    [\t\t]                                  1         2
     [DownloadBootstrap]                     3         19
-    [ ]                                     20        20
     ["]                                     21        21
     [$bits]                                 22        26
     [`.zip]                                 27        31
     ["]                                     32        32
-    [ ]                                     33        33
     [$env:TEMP]                             34        42
-    [\n]                                    43        43
-L110
-    [\n]                                    1         1
-L111
-    [\t\t]                                  1         2
 L112
-    [\t\t]                                  1         2
     [&]                                     3         3
-    [ ]                                     4         4
     ["]                                     5         5
     [$(]                                    6         7
     [$env:TEMP]                             8         16
@@ -753,13 +443,10 @@ L112
     [$bits]                                 19        23
     [`.exe]                                 24        28
     ["]                                     29        29
-    [ ]                                     30        30
     [--]                                    31        32
     [passive]                               33        39
-    [ ]                                     40        40
     [--]                                    41        42
     [config]                                43        48
-    [ ]                                     49        49
     ["]                                     50        50
     [$(]                                    51        52
     [$env:TEMP]                             53        61
@@ -768,235 +455,116 @@ L112
     [$sku]                                  67        70
     [`.vsconfig]                            71        80
     ["]                                     81        81
-    [\n]                                    82        82
-L113
-    [\n]                                    1         1
 L114
-    [\t\t]                                  1         2
     [Write-host]                            3         12
-    [ ]                                     13        13
     ['... Please wait for the installat[    14        63
-    [ ]                                     64        64
     [-]                                     65        65
     [Fore]                                  66        69
-    [ ]                                     70        70
     [Cyan]                                  71        74
-    [\n]                                    75        75
 L115
-    [\t\t]                                  1         2
     [Write-Host]                            3         12
-    [ ]                                     13        13
     ['... When complete, rerun this scr[    14        83
-    [ ]                                     84        84
     [-]                                     85        85
     [Fore]                                  86        89
-    [ ]                                     90        90
     [Cyan]                                  91        94
-    [\n]                                    95        95
 L116
-    [\t]                                    1         1
     [}]                                     2         2
-    [\n]                                    3         3
-L117
-    [\n]                                    1         1
-L118
-    [\n]                                    1         1
 L119
-    [\t]                                    1         1
     [function]                              2         9
-    [ ]                                     10        10
     [InstallVSExtensions]                   11        29
-    [\n]                                    30        30
 L120
-    [\t]                                    1         1
     [{]                                     2         2
-    [\n]                                    3         3
 L121
-    [\t\t]                                  1         2
     [HighTitle]                             3         11
-    [ ]                                     12        12
     ['Visual Studio Extensions']            13        38
-    [\n]                                    39        39
-L122
-    [\n]                                    1         1
-L123
-    [\t\t]                                  1         2
-L124
-    [\n]                                    1         1
-L125
-    [\t\t]                                  1         2
-L126
-    [\t\t]                                  1         2
-L127
-    [\t\t]                                  1         2
-L128
-    [\n]                                    1         1
 L129
-    [\t\t]                                  1         2
     [DownloadBootstrap]                     3         19
-    [ ]                                     20        20
     ["]                                     21        21
     [vs_extensions_]                        22        35
     [$Year]                                 36        40
     [.zip]                                  41        44
     ["]                                     45        45
-    [ ]                                     46        46
     [$env:TEMP]                             47        55
-    [\n]                                    56        56
-L130
-    [\n]                                    1         1
 L131
-    [\t\t]                                  1         2
     [$root]                                 3         7
-    [ ]                                     8         8
     [=]                                     9         9
-    [ ]                                     10        10
     [&]                                     11        11
-    [ ]                                     12        12
     ["]                                     13        13
     [${env:ProgramFiles(x86)}]              14        37
     [\\Microsoft Visual Studio\\Install[    38        83
     ["]                                     84        84
-    [ ]                                     85        85
     [-]                                     86        86
     [latest]                                87        92
-    [ ]                                     93        93
     [-]                                     94        94
     [property]                              95        102
-    [ ]                                     103       103
     [installationPath]                      104       119
-    [\n]                                    120       120
 L132
-    [\t\t]                                  1         2
     [$installer]                            3         12
-    [ ]                                     13        13
     [=]                                     14        14
-    [ ]                                     15        15
     ["]                                     16        16
     [$root]                                 17        21
     [\\Common7\\IDE\\vsixinstaller.exe]     22        51
     ["]                                     52        52
-    [\n]                                    53        53
-L133
-    [\n]                                    1         1
 L134
-    [\t\t]                                  1         2
     [InstallVsix]                           3         13
-    [ ]                                     14        14
     [$installer]                            15        24
-    [ ]                                     25        25
     ['EditorGuidelines']                    26        43
-    [ \t]                                   44        45
 L135
-    [\t\t]                                  1         2
     [InstallVsix]                           3         13
-    [ ]                                     14        14
     [$installer]                            15        24
-    [ ]                                     25        25
     ['InstallerProjects']                   26        44
-    [ \t]                                   45        46
 L136
-    [\t\t]                                  1         2
     [InstallVsix]                           3         13
-    [ ]                                     14        14
     [$installer]                            15        24
-    [ ]                                     25        25
     ['MarkdownEditor']                      26        41
-    [ \t]                                   42        43
 L137
-    [\t\t]                                  1         2
     [InstallVsix]                           3         13
-    [ ]                                     14        14
     [$installer]                            15        24
-    [ ]                                     25        25
     ['SonarLint']                           26        36
-    [ \t\t\t]                               37        40
 L138
-    [\t\t]                                  1         2
     [InstallVsix]                           3         13
-    [ ]                                     14        14
     [$installer]                            15        24
-    [ ]                                     25        25
     ['SpecFlow']                            26        35
-    [\t\t\t]                                36        38
 L139
-    [\t\t]                                  1         2
     [InstallVsix]                           3         13
-    [ ]                                     14        14
     [$installer]                            15        24
-    [ ]                                     25        25
     ['VSColorOutput']                       26        40
-    [\t\t]                                  41        42
 L140
-    [\t\t]                                  1         2
     [InstallVsix]                           3         13
-    [ ]                                     14        14
     [$installer]                            15        24
-    [ ]                                     25        25
     ['VSTextMacros-1.18']                   26        44
-    [\t]                                    45        45
-L141
-    [\n]                                    1         1
 L142
-    [\t\t]                                  1         2
     [Write-Host]                            3         12
-    [\n]                                    13        13
 L143
-    [\t\t]                                  1         2
     [WriteWarn]                             3         11
-    [ ]                                     12        12
     ['... Wait a couple of minutes for [    13        105
-    [\n]                                    106       106
 L144
-    [\t\t]                                  1         2
     [WriteWarn]                             3         11
-    [ ]                                     12        12
     ['... These can be monitored in Tas[    13        83
-    [\n]                                    84        84
 L145
-    [\t]                                    1         1
     [}]                                     2         2
-    [\n]                                    3         3
-L146
-    [\n]                                    1         1
-L147
-    [\n]                                    1         1
 L148
-    [\t]                                    1         1
     [function]                              2         9
-    [ ]                                     10        10
     [InstallVsix]                           11        21
-    [\n]                                    22        22
 L149
-    [\t]                                    1         1
     [{]                                     2         2
-    [\n]                                    3         3
 L150
-    [\t\t]                                  1         2
     [param]                                 3         7
     [(]                                     8         8
     [$installer]                            9         18
     [,]                                     19        19
-    [ ]                                     20        20
     [$name]                                 21        25
     [)]                                     26        26
-    [\n]                                    27        27
 L151
-    [\t\t]                                  1         2
     [WriteWarn]                             3         11
-    [ ]                                     12        12
     ["]                                     13        13
     [... installing ]                       14        28
     [$name]                                 29        33
     [ extension in the background]          34        61
     ["]                                     62        62
-    [\n]                                    63        63
 L152
-    [\t\t]                                  1         2
     [$vsix]                                 3         7
-    [ ]                                     8         8
     [=]                                     9         9
-    [ ]                                     10        10
     ["]                                     11        11
     [$(]                                    12        13
     [$env:TEMP]                             14        22
@@ -1005,139 +573,78 @@ L152
     [$name]                                 25        29
     [`.vsix]                                30        35
     ["]                                     36        36
-    [\n]                                    37        37
 L153
-    [\t\t]                                  1         2
     [&]                                     3         3
-    [ ]                                     4         4
     [$installer]                            5         14
-    [ ]                                     15        15
     [/]                                     16        16
     [quiet]                                 17        21
-    [ ]                                     22        22
     [/]                                     23        23
     [norepair]                              24        31
-    [ ]                                     32        32
     [$vsix]                                 33        37
-    [\n]                                    38        38
 L154
-    [\t]                                    1         1
     [}]                                     2         2
-    [\n]                                    3         3
 L155
     [}]                                     1         1
-    [\n]                                    2         2
 L156
     [Process]                               1         7
-    [\n]                                    8         8
 L157
     [{]                                     1         1
-    [\n]                                    2         2
 L158
-    [\t]                                    1         1
     [if]                                    2         3
-    [ ]                                     4         4
     [(]                                     5         5
     [$Code]                                 6         10
     [)]                                     11        11
-    [\n]                                    12        12
 L159
-    [\t]                                    1         1
     [{]                                     2         2
-    [\n]                                    3         3
 L160
-    [\t\t]                                  1         2
     [InstallVSCode]                         3         15
-    [\n]                                    16        16
 L161
-    [\t]                                    1         1
     [}]                                     2         2
-    [\n]                                    3         3
 L162
-    [\t]                                    1         1
     [elseif]                                2         7
-    [ ]                                     8         8
     [(]                                     9         9
     [$Extensions]                           10        20
     [)]                                     21        21
-    [\n]                                    22        22
 L163
-    [\t]                                    1         1
     [{]                                     2         2
-    [\n]                                    3         3
 L164
-    [\t\t]                                  1         2
     [InstallVSExtensions]                   3         21
-    [\n]                                    22        22
 L165
-    [\t]                                    1         1
     [}]                                     2         2
-    [\n]                                    3         3
 L166
-    [\t]                                    1         1
     [else]                                  2         5
-    [\n]                                    6         6
 L167
-    [\t]                                    1         1
     [{]                                     2         2
-    [\n]                                    3         3
 L168
-    [\t\t]                                  1         2
     [Write-Host]                            3         12
-    [ ]                                     13        13
     ['*** It is highly recommend that y[    14        95
-    [\n]                                    96        96
 L169
-    [\t\t]                                  1         2
     [Read-Host]                             3         11
-    [ ]                                     12        12
     ['*** Press Enter to continue']         13        41
-    [\n]                                    42        42
-L170
-    [\n]                                    1         1
 L171
-    [\t\t]                                  1         2
     [Write-Host]                            3         12
-    [ ]                                     13        13
     ['... clearing the %TEMP% folder']      14        45
-    [\n]                                    46        46
 L172
-    [\t\t]                                  1         2
     [Remove-Item]                           3         13
-    [ ]                                     14        14
     [-]                                     15        15
     [Path]                                  16        19
-    [ ]                                     20        20
     ["]                                     21        21
     [$env:TEMP]                             22        30
     [\\*]                                   31        32
     ["]                                     33        33
-    [ ]                                     34        34
     [-]                                     35        35
     [Force]                                 36        40
-    [ ]                                     41        41
     [-]                                     42        42
     [Recurse]                               43        49
-    [ ]                                     50        50
     [-]                                     51        51
     [ErrorAction:]                          52        63
     [SilentlyContinue]                      64        79
-    [\n]                                    80        80
-L173
-    [\n]                                    1         1
 L174
-    [\t\t]                                  1         2
     [InstallCurl]                           3         13
-    [\n]                                    14        14
 L175
-    [\t\t]                                  1         2
     [InstallVisualStudio]                   3         21
-    [\n]                                    22        22
 L176
-    [\t]                                    1         1
     [}]                                     2         2
-    [\n]                                    3         3
 L177
     [}]                                     1         1
-    [\n]                                    2         2
 EOF
