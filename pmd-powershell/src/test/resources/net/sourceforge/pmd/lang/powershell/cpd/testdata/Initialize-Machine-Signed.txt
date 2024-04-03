@@ -3958,10 +3958,9 @@ L845
 L846
     [Write-Host]                            1         10
     [@']                                    12        13
-    [\n- Customize Startup items by loo[    14        46
-L850
-    [\n'@]                                  47        2
+    [\n- Customize Startup items by loo[    14        47
 L851
+    ['@]                                    1         2
     [-]                                     4         4
     [ForegroundColor]                       5         19
     [Cyan]                                  21        24

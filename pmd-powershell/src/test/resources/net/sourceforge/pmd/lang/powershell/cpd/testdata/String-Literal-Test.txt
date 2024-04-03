@@ -34,13 +34,14 @@ L3
     [)]                                     148       148
     ["]                                     149       149
     [)]                                     150       150
-    [ which has more variables"]            151       176
-    [\n"@]                                  177       2
+    [ which has more variables"\n]          151       177
+L4
+    ["@]                                    1         2
 L5
     ['This string contains a subexpress[    1         152
 L6
     [@']                                    1         2
-    [\nThis here-string contains double[    3         176
-L7
-    [\n'@]                                  177       2
+    [\nThis here-string contains double[    3         177
+L8
+    ['@]                                    1         2
 EOF
