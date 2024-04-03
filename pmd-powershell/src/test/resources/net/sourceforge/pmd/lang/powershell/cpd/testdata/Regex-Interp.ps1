@@ -17,3 +17,8 @@ $RegexExample = @"
 ^\sExpandableHereString with a $var and some .* regex$
 and another line
 "@;
+
+$multSring = "
+^\sExpandableHereString with a $var and some .* regex$
+and another line
+"

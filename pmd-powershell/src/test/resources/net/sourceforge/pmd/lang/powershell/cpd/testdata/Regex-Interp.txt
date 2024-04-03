@@ -60,4 +60,14 @@ L17
 L19
     ["@]                                    1         2
     [;]                                     3         3
+L21
+    [$multSring]                            1         10
+    [=]                                     12        12
+    ["]                                     14        14
+    [\n^\\sExpandableHereString with a ]    15        31
+L22
+    [$var]                                  32        35
+    [ and some .* regex$\nand another l[    36        17
+L24
+    ["]                                     1         1
 EOF

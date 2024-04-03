@@ -595,9 +595,9 @@ fragment EXPANDABLE_STRING_LITERAL_PART
    | EXPANDABLE_STRING_TRAILING_DOLLAR
    ;
 
-// Dollar as the last character of the string does not need to be escaped
+// Dollar as the last character of the string (or a line in a multiline string) does not need to be escaped
 fragment EXPANDABLE_STRING_TRAILING_DOLLAR
-   : DOLLAR { _input.LA(1) == '"' }?
+   : DOLLAR { _input.LA(1) == '"' || _input.LA(1) == '\n' || _input.LA(1) == '\r' }?
    ;
 
 SUBEXPR_START
@@ -635,7 +635,7 @@ fragment EXPANDABLE_HERE_STRING_PART
    ;
 
 fragment EXPANDABLE_HERE_STRING_TRAILING_DOLLAR
-   : DOLLAR { _input.LA(1) == '\n' }? // Dollars at the end of a line do not need to be escaped
+   : DOLLAR { _input.LA(1) == '\n' || _input.LA(1) == '\r'}? // Dollars at the end of a line do not need to be escaped
    ;
 
 MODE_EXPANDABLE_HERE_STRING_END
