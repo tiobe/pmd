@@ -307,7 +307,7 @@ EXPANDABLE_STRING_START
    ;
 
 EXPANDABLE_HERE_STRING_END
-   : DOUBLE_QUOTE '@' { _input.LA(-3) == '\n' }?
+   : DOUBLE_QUOTE '@' { _input.LA(-3) == '\n' || _input.LA(-3) == '\r' }?
    ;
 
 VERBATIM_HERE_STRING_START
@@ -577,7 +577,7 @@ VERBATIM_HERE_STRING_SECTION
    ;
 
 VERBATIM_HERE_STRING_END
-   : SINGLE_QUOTE '@' { _input.LA(-3) == '\n' }?
+   : SINGLE_QUOTE '@' { _input.LA(-3) == '\n' || _input.LA(-3) == '\r' }?
    -> popMode
    ;
 
