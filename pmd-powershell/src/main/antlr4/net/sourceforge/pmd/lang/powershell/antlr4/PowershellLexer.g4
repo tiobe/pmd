@@ -303,11 +303,11 @@ fragment DOUBLE_QUOTE
 
 EXPANDABLE_STRING_START
    : DOUBLE_QUOTE
-   {_input.LA(1) != '@'}? -> pushMode(EXPANDABLE_STRING_MODE)
+   { _input.LA(1) != '@' }? -> pushMode(EXPANDABLE_STRING_MODE)
    ;
 
 EXPANDABLE_HERE_STRING_END
-   : DOUBLE_QUOTE '@'
+   : DOUBLE_QUOTE '@' { _input.LA(-3) == '\n' || _input.LA(-3) == '\r' }?
    ;
 
 VERBATIM_HERE_STRING_START
@@ -323,7 +323,7 @@ VERBATIM_STRING
    ;
 
 fragment VERBATIM_STRING_PART
-   : ~ ('\u0027' | '\u2018' | '\u2019' | '\u201A' | '\u201B') // not SINGLE_QUOTE, cannot use SINGLE_QUOTE (https://github.com/antlr/antlr4/issues/70)
+   : ~ ('\u0027' | '\u2018' | '\u2019' | '\u201A' | '\u201B') // == ~(SINGLE_QUOTE), cannot use lexer rule for negation (https://github.com/antlr/antlr4/issues/70)
    | SINGLE_QUOTE SINGLE_QUOTE
    | NL
    ;
@@ -548,7 +548,7 @@ fragment Zs: [\p{Zs}];
 
 mode VERBATIM_STRING_MODE;
 fragment VERBATIM_MODE_STRING_PART
-   : ~ ('\u0027' | '\u2018' | '\u2019' | '\u201A' | '\u201B') // not SINGLE_QUOTE, cannot use SINGLE_QUOTE (https://github.com/antlr/antlr4/issues/70)
+   : ~ ('\u0027' | '\u2018' | '\u2019' | '\u201A' | '\u201B') // == ~(SINGLE_QUOTE), cannot use SINGLE_QUOTE (https://github.com/antlr/antlr4/issues/70)
    | SINGLE_QUOTE SINGLE_QUOTE
    ;
 
@@ -569,6 +569,7 @@ VERBATIM_HERE_STRING_PART
    // Single quote not preceded by NL
    | ~ ('\r' | '\n') SINGLE_QUOTE
    | NL SINGLE_QUOTE ~ ('@')
+   | NL
    ;
 
 VERBATIM_HERE_STRING_SECTION
@@ -576,7 +577,8 @@ VERBATIM_HERE_STRING_SECTION
    ;
 
 VERBATIM_HERE_STRING_END
-   : NL SINGLE_QUOTE '@' -> popMode
+   : SINGLE_QUOTE '@' { _input.LA(-3) == '\n' || _input.LA(-3) == '\r' }?
+   -> popMode
    ;
 
 mode EXPANDABLE_STRING_MODE;
@@ -590,6 +592,12 @@ fragment EXPANDABLE_STRING_LITERAL_PART
    | DOLLAR ESCAPED_CHARACTER
    | ESCAPED_CHARACTER
    | DOUBLE_QUOTE DOUBLE_QUOTE
+   | EXPANDABLE_STRING_TRAILING_DOLLAR
+   ;
+
+// Dollar as the last character of the string (or a line in a multiline string) does not need to be escaped
+fragment EXPANDABLE_STRING_TRAILING_DOLLAR
+   : DOLLAR { _input.LA(1) == '"' || _input.LA(1) == '\n' || _input.LA(1) == '\r' }?
    ;
 
 SUBEXPR_START
@@ -621,14 +629,15 @@ EXPANDABLE_HERE_STRING_VARIABLE
 
 fragment EXPANDABLE_HERE_STRING_PART
    : ~('\r' | '\n' | '$' | '@' | '"' | '\u201C' | '\u201D' | '\u201E')+
-   | DOLLAR NL ~ ('"') // Any Unicode character except double-quote-char
-   | NL ~ ('"' | '\u201C' // Left double quotation mark
-   | '\u201D' // Right double quotation mark
-   | '\u201E' | '@' | '\r' | '\n') // Any Unicode character except double-quote-char
+   | EXPANDABLE_HERE_STRING_TRAILING_DOLLAR
    | ~ ('\r' | '\n') DOUBLE_QUOTE
-   | NL DOUBLE_QUOTE ~ ('@') // Any Unicode character except @
+   | NL
+   ;
+
+fragment EXPANDABLE_HERE_STRING_TRAILING_DOLLAR
+   : DOLLAR { _input.LA(1) == '\n' || _input.LA(1) == '\r'}? // Dollars at the end of a line do not need to be escaped
    ;
 
 MODE_EXPANDABLE_HERE_STRING_END
-   : NL EXPANDABLE_HERE_STRING_END -> popMode, type(EXPANDABLE_HERE_STRING_END)
+   : EXPANDABLE_HERE_STRING_END -> popMode, type(EXPANDABLE_HERE_STRING_END)
    ;

@@ -39,4 +39,9 @@ public class PowershellTokenizerTest extends CpdTextComparisonTest {
     public void testStringLiterals() {
         doTest("String-Literal-Test");
     }
+
+    @Test
+    public void testExpStringDollarEnd() {
+        doTest("Regex-Interp");
+    }
 }
