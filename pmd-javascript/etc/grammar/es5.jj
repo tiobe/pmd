@@ -36,12 +36,12 @@ SKIP :
 |   < BOM:    "\uFEFF" >
 |   < SURROGATESEQ:    (["\uD800"-"\uDB7F"])+ ["\uDC00"-"\uDFFF"] >
 |   < GENPUNCTUATION:  ["\u2000"-"\u206F"] >
+|   < BOXDRAWING:      ["\u2500"-"\u257F"] >
 |   < USP: 
       [
         "\u00af", /* MACRON */
         "\u1680", /* OGHAM SPACE MARK */
-        "\u180E", /* MONGOLIAN VOWEL SEPARATOR */
-        "\u2514", /* BOX DRAWINGS LIGHT UP AND RIGHT */        
+        "\u180E", /* MONGOLIAN VOWEL SEPARATOR */      
         "\u3000"  /* IDEOGRAPHIC SPACE */
       ]
     >
