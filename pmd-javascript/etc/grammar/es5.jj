@@ -36,6 +36,7 @@ SKIP :
 |   < BOM:    "\uFEFF" >
 |   < USP: 
       [
+        "\u00af", /* MACRON */
         "\u1680", /* OGHAM SPACE MARK */
         "\u180E", /* MONGOLIAN VOWEL SEPARATOR */
         "\u2000", /* EN QUAD */
@@ -49,9 +50,13 @@ SKIP :
         "\u2008", /* PUNCTUATION SPACE */
         "\u2009", /* THIN SPACE */
         "\u200A", /* HAIR SPACE */
+        "\u2014", /* EM DASH */        
+        "\u201c", /* LEFT DOUBLE QUOTATION MARK */        
         "\u202F", /* NARROW NO-BREAK SPACE */
         "\u205F", /* MEDIUM MATHEMATICAL SPACE */
-        "\u3000"  /* IDEOGRAPHIC SPACE */
+        "\u2514", /* BOX DRAWINGS LIGHT UP AND RIGHT */        
+        "\u3000", /* IDEOGRAPHIC SPACE */
+        "\ud83c"  /* SURROGATE CODE POINT */
       ]
     >
 }
