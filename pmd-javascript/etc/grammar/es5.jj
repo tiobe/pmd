@@ -34,6 +34,7 @@ SKIP :
 |   < SP:     "\u0020" >
 |   < NBSP:   "\u00A0" >
 |   < BOM:    "\uFEFF" >
+|   < SHRUG:  "¯\_(" "\u30C4" ")_/¯" >
 |   < SURROGATESEQ:    (["\uD800"-"\uDB7F"])+ ["\uDC00"-"\uDFFF"] >
 |   < GENPUNCTUATION:  ["\u2000"-"\u206F"] >
 |   < BOXDRAWING:      ["\u2500"-"\u257F"] >
